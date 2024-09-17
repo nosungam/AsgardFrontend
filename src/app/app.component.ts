@@ -8,6 +8,4 @@ import { LoginComponent } from './components/login/login.component';
   imports: [RouterOutlet, LoginComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'productos';
-}
+export class AppComponent {}
