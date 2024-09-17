@@ -1,8 +1,12 @@
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
 		<script src="https://unpkg.com/unlazy@0.11.3/dist/unlazy.with-hashing.iife.js" defer init></script>
 		<script type="text/javascript">
 			window.tailwind.config = {
@@ -48,7 +52,7 @@
 				}
 			}
 		</script>
-    <link rel="stylesheet" href="../../../output.css">
+    <link rel="stylesheet" href="./output.css">
 		<style type="text/tailwindcss">
 			@layer base {
 				:root {
@@ -96,38 +100,8 @@
 				}
 			}
 		</style>
-  </head>
-  <body>
-    
-
-<div class="flex items-center justify-center min-h-screen bg-background">
-  <div class="bg-blue-100 p-8 rounded-lg shadow-md w-96">
-    <h2 class="text-2xl font-bold text-center mb-6">Sign in</h2>
-    <form>
-        <!--form-username-->
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-zinc-700">Email</label>
-        <input type="email" id="email" class="mt-1 block w-full p-2 border border-zinc-300 rounded-md focus:ring focus:ring-primary" placeholder="you@example.com" required />
-      </div>
-      <!--form-password-->
-      <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-zinc-700">Password</label>
-        <div class="relative">
-          <input type="password" id="password" class="mt-1 block w-full p-2 border border-zinc-300 rounded-md focus:ring focus:ring-primary" placeholder="********" required />
-          <button type="button" class="absolute right-2 top-2 text-blue-500">Show</button>
-        </div>
-      </div>
-      <!--forget password-->
-      <a href="#" class="text-sm text-blue-500 hover:underline">Forgot password?</a>
-      <!--continue button-->
-      <button type="submit" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600">Continue</button>
-
-    </form>
-    <!--redirect to sign up-->
-    <p class="mt-4 text-center text-sm text-zinc-500">New to "Application"? <a href="#" class="text-blue-500 hover:underline">Join now</a></p>
-  </div>
-</div>
-
-
-  </body>
+</head>
+<body>
+  <app-root></app-root>
+</body>
 </html>
