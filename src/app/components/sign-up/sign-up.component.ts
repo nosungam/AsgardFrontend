@@ -47,7 +47,7 @@ export class SignUpComponent {
   }
 
     async signUp(){
-      try {
+      return new Promise((resolve, reject) => {
         const signUpData = {
           firstName: this.form.value.firstName!,
           lastName: this.form.value.lastName!,
@@ -55,12 +55,14 @@ export class SignUpComponent {
           email: this.form.value.email!
         };
         
-        this.authService.signUp(signUpData);
+        this.authService.signUp(signUpData).then(() => {
         this.router.navigate(['/home']);
-      } catch (error) {
+        resolve(true);
+      }).catch((error)=>{
         console.log(error);
-      }
-    }
+        reject(error);
+      })
+    })}
 
 
     showHidePassword(){
