@@ -103,7 +103,7 @@ describe('SignUpComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 
-  it('should log error if signUp fails', () => {
+  it('should log error if signUp fails', async () => {
     spyOn(authService, 'signUp').and.returnValue(Promise.reject('error'));
     spyOn(console, 'log');
 
@@ -113,9 +113,13 @@ describe('SignUpComponent', () => {
     component.form.controls['password'].setValue('123456');
     component.form.controls['confirmPassword'].setValue('123456');
 
-    component.signUp();
-
-    expect(console.log).toHaveBeenCalledWith('error');
+    
+    try {
+      await component.signUp();
+    } catch (error) {
+      expect(console.log).toHaveBeenCalledWith('error');
+    }
+    expect(router.navigate).not.toHaveBeenCalledWith(['/home']);
   });
 
   it('should toggle password visibility', () => {

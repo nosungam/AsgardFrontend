@@ -27,16 +27,20 @@ export class LoginComponent {
   }
 
   async login(){
-    try {
+    return new Promise((resolve, reject) => {
       const loginData: LogIn = {
         password: this.form.value.password!,
         email: this.form.value.email!
       };
-      this.authService.login(loginData);
-      this.router.navigate(['/home']);
-    } catch (error) {
-      console.log(error);
-    }
+      this.authService.login(loginData)
+      .then(() => {
+        this.router.navigate(['/home']);
+        resolve(true);
+      })
+      .catch((error)=>{ 
+        console.log(error);
+        reject(error);
+      })})
   }
 
   showHidePassword(){
