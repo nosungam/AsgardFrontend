@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<app-sidebar
+  [isSidebarCollapsed]="isSidebarCollapsed()"
+  (changeIsSidebarCollapsed)="changeIsSidebarCollapsed($event)"
+/>
+
+<app-home
+  [isSidebarCollapsed]="isSidebarCollapsed()"
+/>

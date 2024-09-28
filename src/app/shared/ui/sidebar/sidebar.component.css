@@ -1,0 +1,155 @@
+.sidenav {
+    transition: all 0.3s ease;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 16.5625rem;
+    height: 100vh;
+  }
+  .sidenav-collapsed {
+    width: 5rem;
+  }
+  .sidenav .logo-container {
+    display: flex;
+    align-items: center;
+    padding: 0.938rem 0.938rem 0 0.938rem;
+    width: 100%;
+  }
+  .sidenav .logo-container .logo {
+    text-align: center;
+    width: 3rem;
+    min-width: 3rem;
+    border-radius: 0.313rem;
+    
+    font-size: 24px;
+    font-weight: 900;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .username {
+    font-size: 1.35rem;
+  }
+  .logo-subtittle {
+    color: rgb(150, 150, 150);
+  }
+
+  .sidenav .logo-container .logo-text {
+    margin-left: 1.5rem;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .sidenav .logo-container .btn-close {
+    margin-left: auto;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+  }
+  .sidenav .logo-container .btn-close .fa-times {
+    color: #fff;
+    font-size: 24px;
+  }
+  .layout-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height:95vh;
+  }
+  .sidenav-nav {
+    list-style: none;
+    padding: 0.938rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 3.65rem);
+    cursor: pointer;
+  }
+  .sidenav-nav .sidenav-nav-item {
+    width: 100%;
+    margin-bottom: 0.625rem;
+  }
+  .sidenav-nav .sidenav-nav-item .sidenav-nav-link {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    color: #f3f3f3;
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: all 0.3s ease;
+  }
+  .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon {
+    font-size: 22px;
+    width: 2rem;
+    min-width: 2rem;
+    text-align: center;
+    padding: 12px;
+  }
+  .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
+    margin-left: 1.5rem;
+  }
+  .sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .active {
+    background-color: #acacac;
+  }
+  .active .sidenav-link-icon,
+  .active .sidenav-link-text {
+    color: #000;
+  }
+  .add-workspace-btn {
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9999px;
+    height: 40px;
+    background-color: #359eff;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 1em 100%;
+    min-width: 3rem;
+    width: 85%;
+    padding: 8px ;
+  }
+  .truncate {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  .sidenav-link-text {
+      font-size: small;
+      white-space: nowrap;
+  }
+  .sidenav-link-icon, .sidenav-link-text {
+      color: #585858;
+  }
+  .add-btn-logo {
+    color: #fff;
+  }
+  .logo {
+    margin-right: 10px;
+    width: 33px;
+    height: 33px;
+     /* Color de fondo si la imagen no carga */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  }
+  .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Hace que la imagen se ajuste bien dentro del contenedor redondeado */
+    border-radius: 50%;
+  }
+

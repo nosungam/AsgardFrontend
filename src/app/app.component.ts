@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { HomeComponent } from './routes/home/home.component';
+import { SidebarComponent } from './shared/ui/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoginComponent],
+  imports: [HomeComponent, SidebarComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {}
+export class AppComponent{
+  isSidebarCollapsed = signal<boolean>(false);
+  
+
+  changeIsSidebarCollapsed(isSidebarCollapsed: boolean): void {
+    this.isSidebarCollapsed.set(isSidebarCollapsed);
+  }
+}
