@@ -1,45 +1,44 @@
 <div class="sidenav shadow" [ngClass]="isSidebarCollapsed() ? 'sidenav-collapsed' : ''">
   <div class="layout-content-container">
     <div>
-    <div class="logo-container">
-      <button class="logo" 
-        (click)="toggleCollapse()">
-        <img src={{image}} alt="">
-      </button>
-      @if (!isSidebarCollapsed()) {
+      <div class="logo-container">
+        <button class="logo" (click)="toggleCollapse()">
+          <img src={{image}} alt="">
+        </button>
+        @if (!isSidebarCollapsed()) {
         <div class="flex flex-col">
           <h3 class="username">{{username}}</h3>
-          <p class="logo-subtittle text-sm">{{currentWorkspace}}</p></div>
-          <button class="btn-close" (click)="closeSidenav()">
-            <i class="bi bi-chevron-double-left"></i>
-          </button>
-        
-      }
-    </div>
+          <p class="logo-subtittle text-sm">{{currentWorkspace}}</p>
+        </div>
+        <button class="btn-close" (click)="closeSidenav()">
+          <i class="bi bi-chevron-double-left"></i>
+        </button>
 
-    <ul class="sidenav-nav">
-      @for (item of items; track $index) {
+        }
+      </div>
+
+      <ul class="sidenav-nav">
+        @for (item of items; track $index) {
         <li class="sidenav-nav-item">
-          <a
-            class="sidenav-nav-link"
-            [routerLink]="item.routeLink"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <i class="sidenav-link-icon" [class]="item.icon"></i>
+          <a class="sidenav-nav-link" [routerLink]="item.routeLink" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
             @if (!isSidebarCollapsed()) {
+              <i class="sidenav-link-icon" [class]="item.icon"></i>
               <span class="sidenav-link-text">{{ item.label }}</span>
+            }
+            @if (isSidebarCollapsed()) {
+              <i class="sidenav-collapsed-link-icon" [class]="item.icon"></i>
             }
           </a>
         </li>
-      }
-    </ul>
-  </div>
+        }
+      </ul>
+    </div>
 
     <button class="add-workspace-btn">
       <i class="bi bi-plus add-btn-logo"></i>
       @if (!isSidebarCollapsed()) {
-        <span class="truncate">Add Workspace</span>
+      <span class="truncate">Add Workspace</span>
       }
     </button>
   </div>
