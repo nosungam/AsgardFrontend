@@ -11,8 +11,7 @@ import { CommonModule } from '@angular/common';
   imports: [HomeComponent, HeaderComponent, SidebarComponent, CommonModule],
   templateUrl: './app.component.html',
 })
-
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   isSidebarCollapsed = signal<boolean>(false);
   showSidebar = true;
   showHeader = true;
@@ -20,11 +19,13 @@ export class AppComponent implements OnInit{
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Escucha los cambios de la ruta para mostrar u ocultar el sidebar
+    // Escucha los cambios de la ruta para mostrar u ocultar el sidebar y header
     this.router.events.subscribe(() => {
-      // Verificar las rutas que no deben mostrar el sidebar
-      this.showSidebar = this.router.url !== '/login';
-      this.showHeader = this.router.url !== '/login';
+      const noSidebarOrHeaderRoutes = ['/login', '/sign-up']; // Rutas sin sidebar ni header
+
+      // Verifica si la ruta actual es una de las que no debe mostrar sidebar o header
+      this.showSidebar = !noSidebarOrHeaderRoutes.includes(this.router.url);
+      this.showHeader = !noSidebarOrHeaderRoutes.includes(this.router.url);
     });
   }
 
