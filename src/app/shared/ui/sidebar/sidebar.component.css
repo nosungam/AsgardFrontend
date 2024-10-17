@@ -11,51 +11,46 @@
   width: 5rem;
 }
 
-.sidenav .logo-container {
+.sidenav .user-img-container {
   display: flex;
   align-items: center;
-  padding: 0.938rem 0.938rem 0 0.938rem;
+  padding: 1rem;
   width: 100%;
 }
 
-.sidenav .logo-container .logo {
-  text-align: center;
-  width: 3rem;
-  min-width: 3rem;
-  border-radius: 0.313rem;
-
-  font-size: 24px;
-  font-weight: 900;
+.user-img {
   cursor: pointer;
-  border: none;
+  margin-right: 2px;
+  height: 3rem;
+  width: 3rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .username {
   font-size: 1.35rem;
 }
 
-.logo-subtittle {
+.user-img-subtittle {
   color: rgb(150, 150, 150);
 }
 
-.sidenav .logo-container .logo-text {
-  margin-left: 1.5rem;
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
+.user-img-text{
+  margin-left: 1rem;
 }
 
-.sidenav .logo-container .btn-close {
-  margin-left: auto;
+.sidenav .user-img-container .btn-close {
+  margin-left: 0.3rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
   background-color: transparent;
   border: none;
 }
 
-.sidenav .logo-container .btn-close .fa-times {
+.sidenav .user-img-container .btn-close .fa-times {
   color: #fff;
   font-size: 24px;
 }
@@ -89,7 +84,6 @@
   height: 3rem;
   color: #f3f3f3;
   text-decoration: none;
-  border-radius: 0.625rem;
   transition: all 0.3s ease;
 }
 
@@ -106,7 +100,7 @@
 }
 
 .sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
-  background-color: #fff;
+  background-color: #f0efef;
   color: #000;
 }
 
@@ -150,31 +144,8 @@
   color: #585858;
 }
 
-.add-btn-logo {
+.add-btn-user-img {
   color: #fff;
-}
-
-.logo {
-  margin-right: 10px;
-  width: 33px;
-  height: 33px;
-  /* Color de fondo si la imagen no carga */
-  border-radius: 50%;
-  /* Hace que el contenedor sea circular */
-  overflow: hidden;
-  /* Asegura que la imagen no se salga del contenedor */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
-
-.logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Hace que la imagen se ajuste bien dentro del contenedor redondeado */
-  border-radius: 50%;
 }
 
 .sidenav-collapsed-link-icon{

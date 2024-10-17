@@ -1,0 +1,40 @@
+.layout{
+    height: 100%;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    padding: 1rem;
+    flex-direction: column;
+}
+
+.icons{
+    justify-content: space-between;
+}
+
+.icon{
+    width: 3rem;
+}
+
+.workspace{
+    align-self: center;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.folders{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 2%;
+}
+
+.folder{
+    width: 30%;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: rgb(216, 231, 245);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}

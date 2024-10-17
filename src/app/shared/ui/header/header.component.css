@@ -64,3 +64,7 @@
 .workspace-buttons button:hover {
     background-color: #e3e3e3;
 }
+
+.button1{
+    background-color: rgb(177, 232, 254) !important;
+}

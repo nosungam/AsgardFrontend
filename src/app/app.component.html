@@ -1,13 +1,16 @@
+<link rel="stylesheet" href="./app.component.css">
+
 <app-header
   *ngIf="showHeader"
 />
+<div class="flex">
+  <app-sidebar 
+    *ngIf="showSidebar"
+    [isSidebarCollapsed]="isSidebarCollapsed()"
+    (changeIsSidebarCollapsed)="changeIsSidebarCollapsed($event)"
+  />
 
-<app-sidebar 
-  *ngIf="showSidebar"
-  [isSidebarCollapsed]="isSidebarCollapsed()"
-  (changeIsSidebarCollapsed)="changeIsSidebarCollapsed($event)"
-/>
-
-<app-home
-  [isSidebarCollapsed]="isSidebarCollapsed()"
-/>
+  <app-home
+    [isSidebarCollapsed]="isSidebarCollapsed()"
+  />
+</div>
