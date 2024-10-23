@@ -1,10 +1,11 @@
 .sidenav {
   transition: all 0.3s ease;
   z-index: 1;
-  top: 0;
+  top: 3rem;
   width: 16.5625rem;
   height: 93vh;
   border-right: 1px solid rgba(0, 0, 0, 0.123);
+  position: sticky;
 }
 
 .sidenav-collapsed {

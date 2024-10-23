@@ -7,10 +7,33 @@
     </div>
     <h1 class="workspace">Workspace x</h1>
     <div class="folders">
-        <button class="button folder">Folder 1</button>
-        <button class="button folder">Folder 2</button>
-        <button class="button folder">Folder 3</button>
-        <button class="button folder">Folder 4</button>
+        @for (folder of folders; track $index) {
+            <button class="button folder">{{folder.name}}</button>
+        }
         <button class="button folder">+</button>
+    </div>
+    <hr class="separator">
+    <div class="notes">
+        <h2 class="note-title">Notes</h2>
+        <i class="bi bi-pencil pencil"></i>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas dolor porro in voluptatem, explicabo aut
+            quas quibusdam corrupti nam provident eaque quasi? Deleniti eligendi inventore quo voluptatem eius corrupti
+            iste.</p>
+    </div>
+    <div class="flashcards">
+        @for (flashcard of flashcards; track $index) {
+        <div class="flashcard max-w-sm rounded overflow-hidden shadow-lg">
+            @if (flashcard.image) {
+            <img class="w-full flashcard-img" src="{{flashcard.image}}" alt="Flashcard image">
+        }
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">{{flashcard.question}}</div>
+                <p class="text-gray-700 text-base">{{flashcard.description}}</p>
+            </div>
+        </div>
+        }
+        <div class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg">
+            <p class="text-gray-700 text-base plus">+</p>
+        </div>
     </div>
 </div>

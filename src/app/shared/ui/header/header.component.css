@@ -5,13 +5,16 @@
 }
 
 .header {
+    position: fixed;
+    top: 0;
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
-    height: 7vh;
-    min-height: 3rem !important; 
+    height: 3rem;
     padding: 0 10px;
     color: rgb(0, 0, 0);
+    background-color: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.123);
 }
 
@@ -26,8 +29,7 @@
 }
 
 .logo img {
-    height: 100%;
-    max-height: 4vh;
+    height: 2rem;
 }
 
 .search-bar {

@@ -1,6 +1,6 @@
 .layout{
     height: 100%;
-    bottom: 0px;
+    margin-top: 3rem;
     right: 0px;
     width: 100%;
     padding: 1rem;
@@ -12,7 +12,8 @@
 }
 
 .icon{
-    width: 3rem;
+    width: 2rem;
+    cursor: pointer;
 }
 
 .workspace{
@@ -26,15 +27,77 @@
 .folders{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     padding-top: 2%;
+    padding: 0 5%;
 }
 
 .folder{
-    width: 30%;
+    width: 7rem;
+    height: 6rem;
     padding: 1rem;
     margin: 1rem;
     background-color: rgb(216, 231, 245);
     border-radius: 5px;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    
+}
+
+.folder:hover {
+    background-color: rgb(191, 217, 242);
+}
+
+.separator{
+    width: 80%;
+    align-self: center;
+    margin: 5% 0%;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.notes{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2% 5%;
+    margin: 0% 10%;
+}
+
+.note-title{
+    font-weight: bold;
+    font-size: larger;
+}
+
+.pencil{
+    padding-left: 0.4rem;
+    margin-top: 0.2rem;
+}
+
+.flashcards{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2% 1%;
+    margin: 1rem 6%;
+    justify-content: center;
+}
+
+.flashcard{
+    margin: 1rem;
+    width: 12rem;
+    min-height: 5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.flashcard:hover{
+    background-color: rgb(236, 236, 236);
+}
+
+.flashcard-more{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.plus{
+    font-size: 2rem;
+    font-weight: bold;
 }
