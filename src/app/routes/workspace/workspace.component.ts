@@ -22,21 +22,21 @@ export class WorkspaceComponent {
   flashcards = [
     {
       image: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg',
-      question: 'What is the capital of Spain?',
-      description: 'This is a description',
+      title: 'What is the capital of Spain?',
+      question: 'This is a question',
       answer: 'Madrid',
     },
     {
       image: '',
-      question: 'What is the capital of France?',
-      description: 'This is a description',
+      title: 'What is the capital of France?',
+      question: 'This is a question',
       answer: 'Paris',
     },
     {
       image: 'https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg',
-      question: 'What is the capital of Italy?',
+      title: 'What is the capital of Italy?',
       answer: 'Rome',
-      description: 'This is a description',
+      question: 'This is a question',
     }
   ];
 }
