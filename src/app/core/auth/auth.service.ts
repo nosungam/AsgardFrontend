@@ -9,11 +9,13 @@ import { LogIn } from '../../../Interface/logIn.dto';
 })
 export class AuthService {
 
+  private urlLogin = 'http://localhost:2999/';
+
   constructor() { }
 
   async login(body: LogIn): Promise<Token> {
     try {
-      const response = (await axios.post(`http://localhost:2999/login`, body)).data;
+      const response = (await axios.post(`${this.urlLogin}login`, body)).data;
       localStorage.setItem('token', JSON.stringify(response));
       return response;
     } catch (error) {
@@ -23,7 +25,7 @@ export class AuthService {
 
   async signUp(body: any): Promise<Token> {
     try {
-      const response = (await axios.post(`http://localhost:2999/sign-up`, body)).data;
+      const response = (await axios.post(`${this.urlLogin}sign-up`, body)).data;
       localStorage.setItem('token', JSON.stringify(response));
       return response;
     } catch (error) {
