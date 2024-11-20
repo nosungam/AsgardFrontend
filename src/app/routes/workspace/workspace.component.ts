@@ -1,42 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.css'
 })
-export class WorkspaceComponent {
-  folders = [
-    {
-      name: 'Folder 1',
-    },
-    {
-      name: 'Folder 2',
-    },
-    {
-      name: 'Folder 3',
-    }
-  ];
-  flashcards = [
-    {
-      image: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg',
-      title: 'What is the capital of Spain?',
-      question: 'This is a question',
-      answer: 'Madrid',
-    },
-    {
-      image: '',
-      title: 'What is the capital of France?',
-      question: 'This is a question',
-      answer: 'Paris',
-    },
-    {
-      image: 'https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg',
-      title: 'What is the capital of Italy?',
-      answer: 'Rome',
-      question: 'This is a question',
-    }
-  ];
+
+export class WorkspaceComponent implements OnInit {
+  folders: any[] = [];
+  flashcards: any[] = [];
+
+  constructor(private notesService: NotesService) {}
+
+  async ngOnInit() {
+    this.folders = await this.notesService.getFolder(1);
+    this.flashcards = await this.notesService.getFlashcards(1);
+    console.log(this.folders);
+    console.log(this.flashcards);
+  }
 }

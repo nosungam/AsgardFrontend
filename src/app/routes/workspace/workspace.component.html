@@ -7,9 +7,7 @@
     </div>
     <h1 class="workspace">Workspace x</h1>
     <div class="folders">
-        @for (folder of folders; track $index) {
-            <button class="button folder">{{folder.name}}</button>
-        }
+        <button *ngFor="let folder of folders; let i = index" class="button folder">{{ folder.name }}</button>
         <button class="button folder">+</button>
     </div>
     <hr class="separator">
@@ -21,17 +19,13 @@
             iste.</p>
     </div>
     <div class="flashcards">
-        @for (flashcard of flashcards; track $index) {
-        <div class="flashcard max-w-sm rounded overflow-hidden shadow-lg">
-            @if (flashcard.image) {
-            <img class="w-full flashcard-img" src="{{flashcard.image}}" alt="Flashcard image">
-        }
+        <div *ngFor="let flashcard of flashcards; let i = index" class="flashcard max-w-sm rounded overflow-hidden shadow-lg">
+            <img *ngIf="flashcard.image" class="w-full flashcard-img" src="{{flashcard.image}}" alt="Flashcard image">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2">{{flashcard.title}}</div>
                 <p class="text-gray-700 text-base">{{flashcard.question}}</p>
             </div>
         </div>
-        }
         <div class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg">
             <p class="text-gray-700 text-base plus">+</p>
         </div>
