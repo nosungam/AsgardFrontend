@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
@@ -6,12 +7,11 @@ import { NotesService } from '../../../../src/app/core/notesConnection/notes.ser
   selector: 'app-workspace',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
-  templateUrl: './workspace.component.html',
-  styleUrl: './workspace.component.css'
+  templateUrl: './workspace.component.html'
 })
-
 export class WorkspaceComponent implements OnInit {
   folders: any[] = [];
   flashcards: any[] = [];
@@ -19,9 +19,21 @@ export class WorkspaceComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
   async ngOnInit() {
-    this.folders = await this.notesService.getFolder(1);
-    this.flashcards = await this.notesService.getFlashcards(1);
-    console.log(this.folders);
-    console.log(this.flashcards);
+    try {
+      this.folders = await this.notesService.getFolders(1);
+      console.log(this.folders);
+
+      this.notesService.getFlashcards(1).subscribe({
+        next: (data) => {
+          this.flashcards = data;
+          console.log(data);
+        },
+        error: (error) => {
+          console.error('Error fetching flashcards:', error);
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching folders:', error);
+    }
   }
 }
