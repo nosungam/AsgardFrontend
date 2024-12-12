@@ -1,15 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './workspace.component.html'
 })
 export class WorkspaceComponent implements OnInit {
@@ -20,17 +17,15 @@ export class WorkspaceComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.folders = await this.notesService.getFolders(1);
-      console.log(this.folders);
+      this.notesService.getWorkspaces().subscribe(folders => {
+        this.folders = folders;
+        
+      });
 
-      this.notesService.getFlashcards(1).subscribe({
-        next: (data) => {
-          this.flashcards = data;
-          console.log(data);
-        },
-        error: (error) => {
-          console.error('Error fetching flashcards:', error);
-        }
+      this.notesService.getFlashcards(1).subscribe(flashcards => {
+        this.flashcards = flashcards;
+        
+
       });
     } catch (error) {
       console.error('Error fetching folders:', error);

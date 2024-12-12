@@ -14,7 +14,7 @@ export class SidebarComponent {
   changeIsSidebarCollapsed = output<boolean>();
   currentWorkspace = 'Workspace 1';
   username= 'Username';
-  image = "https://cdn.usegalileo.ai/stability/ba904aca-0f48-4abd-bd21-f238cd7b2569.png";
+  image = "https://avatar.iran.liara.run/public/44";
   items = [
     {
       routeLink: 'calendar',

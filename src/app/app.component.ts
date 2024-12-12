@@ -4,11 +4,20 @@ import { SidebarComponent } from './shared/ui/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/ui/header/header.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent, HeaderComponent, SidebarComponent, CommonModule],
+  imports: [
+    HomeComponent, 
+    HeaderComponent, 
+    SidebarComponent, 
+    CommonModule,
+    HttpClientModule,
+    
+
+  ],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {

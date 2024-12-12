@@ -5,7 +5,7 @@
   width: 16.5625rem;
   height: 93vh;
   border-right: 1px solid rgba(0, 0, 0, 0.123);
-  position: sticky;
+  position: fixed;
 }
 
 .sidenav-collapsed {
