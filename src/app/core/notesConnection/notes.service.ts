@@ -23,8 +23,8 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    getFolders(parentId: number): Observable<FolderDTO[]> {
-        return this.http.get<FolderDTO[]>(`${urlNotes}/folder/${parentId}`)
+    getFolders(parentId: number): Observable<FolderDTO> {
+        return this.http.get<FolderDTO>(`${urlNotes}/folder/${parentId}`)
             .pipe(catchError(this.handleError));
     }
 

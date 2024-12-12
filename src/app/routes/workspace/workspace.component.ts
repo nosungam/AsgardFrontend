@@ -12,20 +12,16 @@ import { RouterModule } from '@angular/router';
 export class WorkspaceComponent implements OnInit {
   folders: any[] = [];
   flashcards: any[] = [];
+  notes: string = '';
 
   constructor(private notesService: NotesService) {}
 
   async ngOnInit() {
     try {
-      this.notesService.getWorkspaces().subscribe(folders => {
-        this.folders = folders;
-        
-      });
-
-      this.notesService.getFlashcards(1).subscribe(flashcards => {
-        this.flashcards = flashcards;
-        
-
+      this.notesService.getFolders(5).subscribe(currentFolder => { //cambiar lo que devuelve la api
+        this.folders = currentFolder.children;
+        this.notes= currentFolder.note;
+        this.flashcards = currentFolder.flashcard;
       });
     } catch (error) {
       console.error('Error fetching folders:', error);

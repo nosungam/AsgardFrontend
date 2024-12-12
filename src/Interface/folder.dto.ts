@@ -1,3 +1,5 @@
+import { FlashcardDTO } from "./flashcard.dto"
+
 export interface FolderDTO {
     id: number,
     name: string,
@@ -5,4 +7,5 @@ export interface FolderDTO {
     parentId: number,
     note: string,
     children: FolderDTO[]
+    flashcard: FlashcardDTO[]
 }
