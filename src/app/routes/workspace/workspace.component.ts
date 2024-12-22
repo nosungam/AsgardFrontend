@@ -18,7 +18,7 @@ export class WorkspaceComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.notesService.getFolders(5).subscribe(currentFolder => { //cambiar lo que devuelve la api
+      this.notesService.getFolders(2).subscribe(currentFolder => { //cambiar lo que devuelve la api
         this.folders = currentFolder.children;
         this.notes= currentFolder.note;
         this.flashcards = currentFolder.flashcard;

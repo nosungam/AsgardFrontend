@@ -15,10 +15,9 @@ import {HttpClientModule } from '@angular/common/http';
     SidebarComponent, 
     CommonModule,
     HttpClientModule,
-    
-
   ],
   templateUrl: './app.component.html',
+
 })
 export class AppComponent implements OnInit {
   isSidebarCollapsed = signal<boolean>(false);
@@ -38,7 +37,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  changeIsSidebarCollapsed(isSidebarCollapsed: boolean): void {
-    this.isSidebarCollapsed.set(isSidebarCollapsed);
-  }
+  // changeIsSidebarCollapsed(isSidebarCollapsed: boolean): void {
+  //   this.isSidebarCollapsed.set(isSidebarCollapsed);
+  // }
 }
