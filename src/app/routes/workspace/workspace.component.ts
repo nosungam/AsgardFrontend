@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class WorkspaceComponent implements OnInit {
   folders: any[] = [];
   flashcards: any[] = [];
-  notes: string = '';
+  note: string = '';
   workspace = {
     name: 'Workspace 2',
   };
@@ -33,7 +33,6 @@ export class WorkspaceComponent implements OnInit {
         this.workspaceId = paramMap.get("id") ? parseInt(paramMap.get("id")!, 10) : null;
         if (this.workspaceId) {
           this.loadWorkspaceData(this.workspaceId);
-          // this.loadNote();
         }
       });
     } catch (error) {
@@ -41,22 +40,13 @@ export class WorkspaceComponent implements OnInit {
     }
   }
 
-  // private async loadNote(): Promise<void> {
-  //   try {
-  //     const noteData = await this.notesService.getNote();
-  //     this.notes = noteData || '';
-  //   } catch (error) {
-  //     console.error('Error fetching note:', error);
-  //   }
-  // }
-
   saveNote(): void {
     if (!this.workspaceId) {
       console.error('Workspace ID is null. Cannot save note.');
       return;
     }
-
-    this.notesService.updateNote(this.notes).subscribe({
+    this.notesService.updateNote(this.note, this.workspaceId).subscribe({
+      
       next: () => {
         console.log('Note updated successfully.');
       },
@@ -64,13 +54,14 @@ export class WorkspaceComponent implements OnInit {
         console.error('Error updating note:', err);
       }
     });
+    this.loadWorkspaceData(this.workspaceId);
   }
 
   private loadWorkspaceData(workspaceId: number): void {
     this.notesService.getFolders(workspaceId).subscribe(currentFolder => {
       this.workspace.name = currentFolder.name || '';
       this.folders = currentFolder.children || [];
-      this.notes = currentFolder.note || '';
+      this.note = currentFolder.note || '';
       this.flashcards = currentFolder.flashcard || [];
     });
   }

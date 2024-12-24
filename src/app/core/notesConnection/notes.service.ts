@@ -38,23 +38,14 @@ export class NotesService {
         return this.http.post<void>(`${urlNotes}/folder/`, body)
             .pipe(catchError(this.handleError));
     }
+    
+    updateNote(note: string, folderId: number): Observable<FolderDTO> {       
+        return this.http.put<FolderDTO>(`${urlNotes}/folder/${folderId}`, note)
+            .pipe(catchError(this.handleError));
+    }
 
     private handleError(error: HttpErrorResponse) {
         console.error('HTTP Error:', error);
         return throwError(() => error);
-    }
-
-    getNote(): Observable<String> {
-        return this.http.get<string>(`${urlNotes}/note`)
-            .pipe(catchError(this.handleError));
-    }
-
-    // async deleteNote(): Promise<void> {
-    //     return this.http.delete<void>(`${urlNotes}/note`);
-    // }
-
-    updateNote(noteContent: string): Observable<void> {
-        const url = `${urlNotes}/note`;
-        return this.http.put<void>(url, { content: noteContent });
     }
 }
