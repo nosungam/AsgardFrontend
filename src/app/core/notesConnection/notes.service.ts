@@ -19,7 +19,7 @@ export class NotesService {
     }
 
     createFlashcard(body: FlashcardDTO): Observable<void> {
-        return this.http.post<void>(`${urlNotes}/flashcards`, body)
+        return this.http.post<void>(`${urlNotes}/flashcard`, body)
             .pipe(catchError(this.handleError));
     }
 
@@ -31,6 +31,12 @@ export class NotesService {
     getWorkspaces(): Observable<FolderDTO[]> {
         return this.http.get<FolderDTO[]>(`${urlNotes}/folder/`)
             .pipe(catchError(this.handleError));
+        
+    }
+
+    createWorkspace(body: FolderDTO): Observable<void> {
+        return this.http.post<void>(`${urlNotes}/folder/`, body)
+            .pipe(catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse) {
@@ -38,15 +44,17 @@ export class NotesService {
         return throwError(() => error);
     }
 
-    async getNote(): Promise<void> {
-        // todo
+    getNote(): Observable<String> {
+        return this.http.get<string>(`${urlNotes}/note`)
+            .pipe(catchError(this.handleError));
     }
 
-    async deleteNote(): Promise<void> {
-        // todo
-    }
+    // async deleteNote(): Promise<void> {
+    //     return this.http.delete<void>(`${urlNotes}/note`);
+    // }
 
-    async updateNote(): Promise<void> {
-        // todo
+    updateNote(noteContent: string): Observable<void> {
+        const url = `${urlNotes}/note`;
+        return this.http.put<void>(url, { content: noteContent });
     }
 }

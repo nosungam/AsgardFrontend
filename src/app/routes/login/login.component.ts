@@ -30,7 +30,7 @@ export class LoginComponent {
     return new Promise((resolve, reject) => {
       const loginData: LogIn = {
         password: this.form.value.password!,
-        email: this.form.value.email!
+        email: this.form.value.email!,
       };
       this.authService.login(loginData)
       .then(() => {

@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HomeComponent } from './routes/home/home.component';
+import { TemplateComponent } from './shared/ui/template/template.component';
 import { SidebarComponent } from './shared/ui/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/ui/header/header.component';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import {HttpClientModule } from '@angular/common/http';
   selector: 'app-root',
   standalone: true,
   imports: [
-    HomeComponent, 
+    TemplateComponent, 
     HeaderComponent, 
     SidebarComponent, 
     CommonModule,

@@ -1,7 +1,8 @@
 export interface FlashcardDTO {
-    id: number
+    id?: number
     title: string;
     question: string;
     answer: string;
     image?: string;
+    folderId: number;
 }

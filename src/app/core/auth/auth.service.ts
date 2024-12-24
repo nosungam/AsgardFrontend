@@ -37,4 +37,18 @@ export class AuthService {
   logOut(): void {
     localStorage.removeItem('token')
   }
+
+  async getUsername(): Promise<string> {
+    try {
+      const email = JSON.parse(localStorage.getItem('email') || '""');
+      if (!email) {
+        throw new Error('No email found in localStorage');
+      }
+      const response = (await axios.get(`${this.urlLogin}users/${email}`)).data;
+      
+      return response.name;
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
+  }
 }

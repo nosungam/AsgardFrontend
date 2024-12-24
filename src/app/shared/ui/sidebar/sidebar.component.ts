@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,8 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent {
+
+export class SidebarComponent implements OnInit{
   isSidebarCollapsed = input.required<boolean>();
   changeIsSidebarCollapsed = output<boolean>();
   currentWorkspace = 'Workspace 1';
@@ -44,5 +46,23 @@ export class SidebarComponent {
 
   closeSidenav(): void {
     this.changeIsSidebarCollapsed.emit(true);
+  }
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.loadUsername();
+  }
+
+  async loadUsername(): Promise<void> {
+    try {
+      this.username = await this.authService.getUsername();
+      
+      
+    } catch (error) {
+      
+      // console.error('Error fetching username:', error);
+      // this.username = 'Error'; // Manejo de errores
+    }
   }
 }
