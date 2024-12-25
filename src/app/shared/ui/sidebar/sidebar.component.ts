@@ -2,6 +2,7 @@ import { Component, input, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,6 +15,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 export class SidebarComponent implements OnInit{
   isSidebarCollapsed = input.required<boolean>();
   changeIsSidebarCollapsed = output<boolean>();
+  showLogoutText = false;
   currentWorkspace = 'Workspace 1';
   username= 'Username';
   image = "https://avatar.iran.liara.run/public/44";
@@ -37,8 +39,15 @@ export class SidebarComponent implements OnInit{
       routeLink: 'settings',
       icon: 'bi bi-gear',
       label: 'Settings',
-    },
+    }
   ];
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
 
   toggleCollapse(): void {
     this.changeIsSidebarCollapsed.emit(!this.isSidebarCollapsed());
@@ -47,8 +56,6 @@ export class SidebarComponent implements OnInit{
   closeSidenav(): void {
     this.changeIsSidebarCollapsed.emit(true);
   }
-
-  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUsername();
@@ -64,5 +71,9 @@ export class SidebarComponent implements OnInit{
       // console.error('Error fetching username:', error);
       // this.username = 'Error'; // Manejo de errores
     }
+  }
+
+  toggleLogoutText(): void {
+    this.showLogoutText = !this.showLogoutText;
   }
 }

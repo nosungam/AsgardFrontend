@@ -49,12 +49,14 @@ export class WorkspaceComponent implements OnInit {
       
       next: () => {
         console.log('Note updated successfully.');
+        if (this.workspaceId) {
+          this.loadWorkspaceData(this.workspaceId);
+        }
       },
       error: err => {
         console.error('Error updating note:', err);
       }
     });
-    this.loadWorkspaceData(this.workspaceId);
   }
 
   private loadWorkspaceData(workspaceId: number): void {
