@@ -39,8 +39,9 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
     
-    updateNote(note: string, folderId: number): Observable<FolderDTO> {       
-        return this.http.put<FolderDTO>(`${urlNotes}/folder/${folderId}`, note)
+    updateNote(note: string, folderId: number): Observable<FolderDTO> {    
+        const body = { note: note}
+        return this.http.put<FolderDTO>(`${urlNotes}/folder/${folderId}`, body)
             .pipe(catchError(this.handleError));
     }
 
