@@ -5,13 +5,15 @@ import { AuthGuardService } from './core/middleware/auth-guard.service';
 import { WorkspaceComponent } from './routes/workspace/workspace.component';
 import { HomeComponent } from './routes/home/home.component';
 import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service';
+import { StudySessionComponent } from './routes/study-session/study-session.component';
 
 export const routes: Routes = [
     // { path : 'template', component: TemplateComponent},
     { path : 'home', component: HomeComponent, canActivate: [AuthGuardService] },
-    { path : 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]  },
+    { path : 'login', component: LoginComponent, canActivate: [AuthRedirectGuard] },
     { path : 'sign-up', component: SignUpComponent, canActivate: [AuthRedirectGuard] },
     { path : 'workspace/:id', component: WorkspaceComponent, canActivate: [AuthGuardService] },
+    { path : 'session/:id', component: StudySessionComponent, canActivate: [AuthGuardService] },
     { path : '', redirectTo: '/home', pathMatch: 'full'},
     { path : '**', redirectTo: '/home'}
 ];

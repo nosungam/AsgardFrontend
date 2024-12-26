@@ -121,4 +121,8 @@ export class WorkspaceComponent implements OnInit {
   openFolder(folderId: string): void {
     this.router.navigate(['/workspace', folderId]);
   }
+
+  startSession(){
+    this.router.navigate(['/session', this.workspaceId]);
+  }
 }

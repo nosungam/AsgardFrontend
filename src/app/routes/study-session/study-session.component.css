@@ -1,0 +1,18 @@
+.layout{
+    flex-direction: column;
+    height: 100%;
+    margin-top: 3rem;
+    right: 0px;
+    padding: 1rem;
+    margin-left: 16.5625rem;
+    right: 16.5625rem;
+}
+
+.icons{
+    justify-content: space-between;
+}
+
+.icon{
+    width: 2rem;
+    cursor: pointer;
+}
