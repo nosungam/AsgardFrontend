@@ -1,15 +1,26 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HomeComponent } from './routes/home/home.component';
+import { TemplateComponent } from './shared/ui/template/template.component';
 import { SidebarComponent } from './shared/ui/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/ui/header/header.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {HttpClientModule } from '@angular/common/http';
+import { AuthGuardService } from './core/middleware/auth-guard.service';
+import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent, HeaderComponent, SidebarComponent, CommonModule],
+  imports: [
+    TemplateComponent, 
+    HeaderComponent, 
+    SidebarComponent, 
+    CommonModule,
+    HttpClientModule,
+  ],
+  providers: [AuthGuardService, AuthRedirectGuard],
   templateUrl: './app.component.html',
+
 })
 export class AppComponent implements OnInit {
   isSidebarCollapsed = signal<boolean>(false);
@@ -29,7 +40,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  changeIsSidebarCollapsed(isSidebarCollapsed: boolean): void {
-    this.isSidebarCollapsed.set(isSidebarCollapsed);
-  }
+  // changeIsSidebarCollapsed(isSidebarCollapsed: boolean): void {
+  //   this.isSidebarCollapsed.set(isSidebarCollapsed);
+  // }
 }

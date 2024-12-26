@@ -1,6 +1,8 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,12 +11,14 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent {
+
+export class SidebarComponent implements OnInit{
   isSidebarCollapsed = input.required<boolean>();
   changeIsSidebarCollapsed = output<boolean>();
+  showLogoutText = false;
   currentWorkspace = 'Workspace 1';
   username= 'Username';
-  image = "https://cdn.usegalileo.ai/stability/ba904aca-0f48-4abd-bd21-f238cd7b2569.png";
+  image = "https://avatar.iran.liara.run/public/44";
   items = [
     {
       routeLink: 'calendar',
@@ -35,8 +39,15 @@ export class SidebarComponent {
       routeLink: 'settings',
       icon: 'bi bi-gear',
       label: 'Settings',
-    },
+    }
   ];
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
 
   toggleCollapse(): void {
     this.changeIsSidebarCollapsed.emit(!this.isSidebarCollapsed());
@@ -44,5 +55,25 @@ export class SidebarComponent {
 
   closeSidenav(): void {
     this.changeIsSidebarCollapsed.emit(true);
+  }
+
+  ngOnInit(): void {
+    this.loadUsername();
+  }
+
+  async loadUsername(): Promise<void> {
+    try {
+      this.username = await this.authService.getUsername();
+      
+      
+    } catch (error) {
+      
+      // console.error('Error fetching username:', error);
+      // this.username = 'Error'; // Manejo de errores
+    }
+  }
+
+  toggleLogoutText(): void {
+    this.showLogoutText = !this.showLogoutText;
   }
 }

@@ -2,7 +2,7 @@
   <div class="layout-content-container">
     <div>
       <div class="user-img-container">
-        <button class="user-img" (click)="toggleCollapse()">
+        <button class="user-img">
           <img src={{image}} alt="">
         </button>
         @if (!isSidebarCollapsed()) {
@@ -34,12 +34,6 @@
         }
       </ul>
     </div>
-
-    <button class="add-workspace-btn">
-      <i class="bi bi-plus add-btn-user-img"></i>
-      @if (!isSidebarCollapsed()) {
-      <span class="truncate">Add Workspace</span>
-      }
-    </button>
+    <button class="add-workspace-btn" (click)="logout()">Signout</button>
   </div>
 </div>

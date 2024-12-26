@@ -1,3 +1,12 @@
-<div class="body">
-    <router-outlet />
-  </div>
+<div class="layout flex">
+    <h1 class="welcome">Welcome {{username}}!</h1>
+    <p>Please select a workspace or create a new one.</p>
+    <div class="flex workspaces"> 
+        <a (click)="openWorkspace(folder.id)" *ngFor="let folder of folders" class="folder flex">
+            <h2 >{{ folder.name }}</h2>
+        </a>
+        <a href="#" class="createfolder flex" (click)="onCreateWorkspace($event)">
+            <h2>+</h2>
+        </a>
+    </div>
+</div>

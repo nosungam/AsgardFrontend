@@ -23,6 +23,11 @@
     margin-left: 0.5rem;
 }
 
+.buttons{
+    display: flex;
+    align-items: center;
+}
+
 .logo{
     display: flex;
     align-items: center;

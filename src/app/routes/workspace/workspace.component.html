@@ -5,35 +5,31 @@
         <img class="icon" src="flashcard.png" alt="Flashcard">
         <img class="icon" src="informacion.png" alt="Información">
     </div>
-    <h1 class="workspace">Workspace x</h1>
+    <h1 class="workspace">{{workspace.name}}</h1>
     <div class="folders">
-        @for (folder of folders; track $index) {
-            <button class="button folder">{{folder.name}}</button>
-        }
-        <button class="button folder">+</button>
+        <button *ngFor="let folder of folders; let i = index" class="button folder" (click)="openFolder(folder.id)">{{ folder.name }}</button>
+        <button class="button folder" (click)="onCreateFolder($event)">+</button>
     </div>
     <hr class="separator">
-    <div class="notes">
-        <h2 class="note-title">Notes</h2>
-        <i class="bi bi-pencil pencil"></i>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas dolor porro in voluptatem, explicabo aut
-            quas quibusdam corrupti nam provident eaque quasi? Deleniti eligendi inventore quo voluptatem eius corrupti
-            iste.</p>
+    <div class="notes flex">
+        <div class="flex">
+            <h2 class="note-title">Notes</h2>
+            <i class="bi bi-pencil pencil"></i>
+        </div>
+        <textarea [(ngModel)]="note" class="note-editor"></textarea>
+        <button (click)="saveNote()" class="savenote">Save</button>
+        <h1 class="flashcardtitle">Flashcards</h1>
     </div>
     <div class="flashcards">
-        @for (flashcard of flashcards; track $index) {
-        <div class="flashcard max-w-sm rounded overflow-hidden shadow-lg">
-            @if (flashcard.image) {
-            <img class="w-full flashcard-img" src="{{flashcard.image}}" alt="Flashcard image">
-        }
+        <button *ngFor="let flashcard of flashcards; let i = index" class="flashcard max-w-sm rounded overflow-hidden shadow-lg">
+            <img *ngIf="flashcard.image" class="w-full flashcard-img" src="{{flashcard.image}}" alt="Flashcard image">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2">{{flashcard.title}}</div>
                 <p class="text-gray-700 text-base">{{flashcard.question}}</p>
             </div>
-        </div>
-        }
-        <div class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg">
+        </button>
+        <button class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg" (click)="onCreateFlashcard($event)">
             <p class="text-gray-700 text-base plus">+</p>
-        </div>
+        </button>
     </div>
 </div>

@@ -17,6 +17,7 @@ export class AuthService {
     try {
       const response = (await axios.post(`${this.urlLogin}login`, body)).data;
       localStorage.setItem('token', JSON.stringify(response));
+      localStorage.setItem('email', JSON.stringify(body.email));
       return response;
     } catch (error) {
       throw new HttpErrorResponse({ error });
@@ -27,6 +28,7 @@ export class AuthService {
     try {
       const response = (await axios.post(`${this.urlLogin}sign-up`, body)).data;
       localStorage.setItem('token', JSON.stringify(response));
+      localStorage.setItem('email', JSON.stringify(body.email));
       return response;
     } catch (error) {
       throw new HttpErrorResponse({ error });
@@ -35,5 +37,20 @@ export class AuthService {
 
   logOut(): void {
     localStorage.removeItem('token')
+    localStorage.removeItem('email')
+  }
+
+  async getUsername(): Promise<string> {
+    try {
+      const email = JSON.parse(localStorage.getItem('email') || '""');
+      if (!email) {
+        throw new Error('No email found in localStorage');
+      }
+      const response = (await axios.get(`${this.urlLogin}users/${email}`)).data;
+      
+      return response.name;
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
   }
 }
