@@ -1,4 +1,4 @@
-.layout{
+.layout {
     flex-direction: column;
     height: 100%;
     margin-top: 3rem;
@@ -8,11 +8,70 @@
     right: 16.5625rem;
 }
 
-.icons{
+.icons {
     justify-content: space-between;
 }
 
-.icon{
+.icon {
     width: 2rem;
     cursor: pointer;
+}
+
+.flashcard-container {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.flashcard-container h2 {
+    padding-bottom: 1%;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.flashcard-container hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.question-section .label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.question-section .question-text {
+    font-size: 16px;
+    color: #333;
+}
+
+.image-section {
+    margin: 20px 0;
+}
+
+.example-image {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 20px;
+    color: #777;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.show-answer-button {
+    background-color: #d9eaff;
+    color: #007bff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.show-answer-button:hover {
+    background-color: #c2dcff;
 }
