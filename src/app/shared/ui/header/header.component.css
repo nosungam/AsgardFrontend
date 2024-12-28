@@ -18,17 +18,17 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.123);
 }
 
-#asgard{
+#asgard {
     height: 1.2rem;
     margin-left: 0.5rem;
 }
 
-.buttons{
+.buttons {
     display: flex;
     align-items: center;
 }
 
-.logo{
+.logo {
     display: flex;
     align-items: center;
 }
@@ -40,6 +40,7 @@
 .search-bar {
     margin: 0 0 0 20px;
     max-width: 15rem;
+    background-color: red;
 }
 
 .search-bar input {
@@ -72,6 +73,30 @@
     background-color: #e3e3e3;
 }
 
-.button1{
+.button1 {
     background-color: rgb(177, 232, 254) !important;
+}
+
+
+.suggestions-list {
+    background-color: white;
+    position: absolute;
+    top: 100%;
+    left: 16.5626rem;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
 }

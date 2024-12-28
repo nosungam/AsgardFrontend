@@ -1,6 +1,6 @@
 <div class="header">
     <a href="/home" class="logo">
-        <img href="/home" src="logo.png" alt="Logo"/>
+        <img href="/home" src="logo.png" alt="Logo" />
         <img href="/home" src="title.png" alt="Title" id="asgard">
     </a>
     <div class="buttons">
@@ -9,7 +9,19 @@
             <button>Workspace 2</button>
         </div> -->
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearch()" />
+            <ul *ngIf="filteredResults.flashcards.length > 0" class="suggestions-list">
+                <li *ngFor="let suggestion of filteredResults.flashcards" (click)="selectSuggestion(suggestion)">
+                    {{ suggestion.title }} <!-- Asumiendo que el objeto de la flashcard tiene un campo "title" -->
+                </li>
+            </ul>
+
+            <!-- Mostrar resultados de Folders -->
+            <ul *ngIf="filteredResults.folders.length > 0" class="suggestions-list">
+                <li *ngFor="let suggestion of filteredResults.folders" (click)="selectSuggestion(suggestion)">
+                    {{ suggestion.name }} <!-- Asumiendo que el objeto de la carpeta tiene un campo "name" -->
+                </li>
+            </ul>
         </div>
     </div>
 </div>

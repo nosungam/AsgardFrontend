@@ -4,6 +4,7 @@ import { FlashcardDTO } from "../../../Interface/flashcard.dto";
 import { FolderDTO } from "../../../Interface/folder.dto";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { PromptDTO } from "../../../Interface/prompt.dto";
 
 const urlNotes = 'http://localhost:3000';
 
@@ -11,7 +12,7 @@ const urlNotes = 'http://localhost:3000';
     providedIn: 'root'
 })
 export class NotesService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     getFlashcards(folderId: number): Observable<FolderDTO[]> {
         return this.http.get<FolderDTO[]>(`${urlNotes}/flashcard/${folderId}`)
@@ -19,7 +20,7 @@ export class NotesService {
     }
 
     createFlashcard(body: FlashcardDTO): Observable<void> {
-        return this.http.post<void>(`${urlNotes}/flashcard`, body)
+        return this.http.post<void>(`${urlNotes}/flashcard`, { title: body.title, question: body.question, answer: body.answer, image: body.image, folderId: body.folderId })
             .pipe(catchError(this.handleError));
     }
 
@@ -31,17 +32,28 @@ export class NotesService {
     getWorkspaces(): Observable<FolderDTO[]> {
         return this.http.get<FolderDTO[]>(`${urlNotes}/folder/`)
             .pipe(catchError(this.handleError));
-        
+
     }
 
     createWorkspace(body: FolderDTO): Observable<void> {
         return this.http.post<void>(`${urlNotes}/folder/`, body)
             .pipe(catchError(this.handleError));
     }
-    
-    updateNote(note: string, folderId: number): Observable<FolderDTO> {    
-        const body = { note: note}
+
+    updateNote(note: string, folderId: number): Observable<FolderDTO> {
+        const body = { note: note }
         return this.http.put<FolderDTO>(`${urlNotes}/folder/${folderId}`, body)
+            .pipe(catchError(this.handleError));
+    }
+
+    getRandomFlashcard(folderId: number): Observable<FlashcardDTO> {
+        return this.http.get<FlashcardDTO>(`${urlNotes}/study-session/${folderId}`)
+            .pipe(catchError(this.handleError));
+    }
+
+    search(prompt: PromptDTO): Observable<any[]> {
+        const params = { prompt: prompt.prompt };
+        return this.http.get<any[]>(`${urlNotes}/search-engine`, { params })
             .pipe(catchError(this.handleError));
     }
 

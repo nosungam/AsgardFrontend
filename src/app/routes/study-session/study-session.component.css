@@ -20,7 +20,6 @@
 .flashcard-container {
     background-color: white;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: center;
 }
@@ -42,11 +41,13 @@
     font-weight: bold;
     color: #555;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 .question-section .question-text {
     font-size: 16px;
     color: #333;
+    text-align: left;
 }
 
 .image-section {

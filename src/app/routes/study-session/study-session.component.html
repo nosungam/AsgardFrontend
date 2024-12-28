@@ -5,15 +5,14 @@
     </div>
 
     <div class="flashcard-container">
-        <h2>Workspace 1's flashcards</h2>
-        <hr>
+        <h2>{{folderName}}'s flashcards</h2>
         <div class="question-section">
             <p class="label">Question</p>
-            <p class="question-text">question Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor?</p>
+            <hr>
+            <p class="question-text">{{flashcard?.question}}</p>
         </div>
         <div class="image-section">
-            <div class="example-image">Example image</div>
+            <div class="example-image">{{flashcard?.image}}</div>
         </div>
         <button class="show-answer-button">Show Answer</button>
     </div>
