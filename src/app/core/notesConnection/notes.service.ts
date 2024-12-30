@@ -5,6 +5,7 @@ import { FolderDTO } from "../../../Interface/folder.dto";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { PromptDTO } from "../../../Interface/prompt.dto";
+import { AnswerDTO } from "../../../Interface/answer.dto";
 
 const urlNotes = 'http://localhost:3000';
 
@@ -46,6 +47,11 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
+    createStudySession(folderId: number): Observable<{ id: number }> {
+        return this.http.post<{ id: number }>(`${urlNotes}/study-session/create/${folderId}`, {})
+            .pipe(catchError(this.handleError));
+    }
+
     getRandomFlashcard(folderId: number): Observable<FlashcardDTO> {
         return this.http.get<FlashcardDTO>(`${urlNotes}/study-session/${folderId}`)
             .pipe(catchError(this.handleError));
@@ -54,6 +60,11 @@ export class NotesService {
     search(prompt: PromptDTO): Observable<any[]> {
         const params = { prompt: prompt.prompt };
         return this.http.get<any[]>(`${urlNotes}/search-engine`, { params })
+            .pipe(catchError(this.handleError));
+    }
+
+    answerFlashcard(body: AnswerDTO, sessionId:number): Observable<void> {
+        return this.http.post<void>(`${urlNotes}/study-session/${sessionId}`, body, )
             .pipe(catchError(this.handleError));
     }
 

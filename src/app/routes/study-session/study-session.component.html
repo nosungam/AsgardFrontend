@@ -4,16 +4,34 @@
         <img class="icon" src="next.png" alt="Next" (click)="nextQuestion()">
     </div>
 
-    <div class="flashcard-container">
-        <h2>{{folderName}}'s flashcards</h2>
-        <div class="question-section">
-            <p class="label">Question</p>
-            <hr>
-            <p class="question-text">{{flashcard?.question}}</p>
+    @if (answered===false) {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <div class="question-section">
+                <p class="label">Question</p>
+                <hr>
+                <p class="question-text">{{flashcard?.question}}</p>
+            </div>
+            <div class="image-section">
+                <div class="example-image">{{flashcard?.image}}</div>
+            </div>
+            <button class="show-answer-button" (click)="showAnswer()">Show Answer</button>
         </div>
-        <div class="image-section">
-            <div class="example-image">{{flashcard?.image}}</div>
+    }
+
+    @if (answered===true) {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <div class="question-section">
+                <p class="label">Answer</p>
+                <hr>
+                <p class="question-text">{{flashcard?.answer}}</p>
+            </div>
+            <div class="image-section">
+                <div class="example-image">{{flashcard?.image}}</div>
+            </div>
+            <button class="good-button" (click)="correctAnswer()">Good</button>
+            <button class="bad-button" (click)="incorrectAnswer()">Bad</button>
         </div>
-        <button class="show-answer-button">Show Answer</button>
-    </div>
+    }
 </div>
