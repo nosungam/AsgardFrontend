@@ -19,9 +19,8 @@ export class WorkspaceComponent implements OnInit {
   flashcards: any[] = [];
   note: string = '';
   workspace = {
-    name: 'Workspace 2',
+    name: 'Workspace',
   };
-
   workspaceId: number | null = null;
   workspaceData: any;
 
@@ -30,6 +29,7 @@ export class WorkspaceComponent implements OnInit {
   async ngOnInit() {
     try {
       this.route.paramMap.subscribe(paramMap => {
+        localStorage.removeItem('workspaceId');
         this.workspaceId = paramMap.get("id") ? parseInt(paramMap.get("id")!, 10) : null;
         if (this.workspaceId) {
           this.loadWorkspaceData(this.workspaceId);
@@ -65,6 +65,9 @@ export class WorkspaceComponent implements OnInit {
       this.folders = currentFolder.children || [];
       this.note = currentFolder.note || '';
       this.flashcards = currentFolder.flashcard || [];
+      for (let flashcard of this.flashcards) {
+        flashcard.question = this.getQuestion(flashcard.question);
+      }
     });
   }
 
@@ -102,9 +105,9 @@ export class WorkspaceComponent implements OnInit {
       title: "New Flashcard",
       question: "Question",
       answer: "Answer",
-      folderId: this.workspaceId,
-      image: ""
+      folderId: this.workspaceId
     };
+
     this.notesService.createFlashcard(newFlashcard).subscribe({
       next: () => {
         console.log('Flashcard created.');
@@ -124,5 +127,46 @@ export class WorkspaceComponent implements OnInit {
 
   startSession(){
     this.router.navigate(['/session', this.workspaceId]);
+  }
+
+  getQuestion(question: string){
+    let text="";
+    const array=this.divideByIdentifier(question);
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      if (element[0]!=="/"){
+        text+=element;
+      }
+    }
+    return text;
+  }
+
+  private divideByIdentifier(cadena:string) {
+    const regex = /#\$(.*?)\$#/g;
+    const resultado = [];
+    let lastIndex = 0; // Índice de seguimiento para el texto no capturado
+    let match;
+
+    while ((match = regex.exec(cadena)) !== null) {
+        // Agregamos el texto antes del delimitador actual
+        if (match.index > lastIndex) {
+            resultado.push(cadena.slice(lastIndex, match.index));
+        }
+
+        // Agregamos el contenido capturado entre #$ y $#
+        resultado.push(match[1]);
+        lastIndex = regex.lastIndex; // Actualizamos el índice de seguimiento
+    }
+
+    // Agregamos cualquier texto restante después del último delimitador
+    if (lastIndex < cadena.length) {
+        resultado.push(cadena.slice(lastIndex));
+    }
+    return resultado.map(item => item.trim());
+  }
+
+  openFlashcard(flashcardId: number, workspaceId: any): void {
+    localStorage.setItem('workspaceId', workspaceId.toString());
+    this.router.navigate(['/flashcard', flashcardId]);
   }
 }

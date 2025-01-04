@@ -1,37 +1,39 @@
 <div class="layout flex">
     <div class="flex icons">
         <img class="icon" src="boton-cerrar.png" alt="Close" (click)="stopSession()">
-        <img class="icon" src="next.png" alt="Next" (click)="nextQuestion()">
+        <img class="icon" src="next.png" alt="Next" (click)="skipQuestion()">
     </div>
 
     @if (answered===false) {
-        <div class="flashcard-container">
-            <h2>{{folderName}}'s flashcards</h2>
-            <div class="question-section">
-                <p class="label">Question</p>
-                <hr>
-                <p class="question-text">{{flashcard?.question}}</p>
+    <div class="flashcard-container">
+        <h2>{{folderName}}'s flashcards</h2>
+        <div class="question-section">
+            <p class="label">Question</p>
+            <hr>
+            <div *ngFor="let item of questionArray">
+                <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
+                <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                <br><br>
             </div>
-            <div class="image-section">
-                <div class="example-image">{{flashcard?.image}}</div>
-            </div>
-            <button class="show-answer-button" (click)="showAnswer()">Show Answer</button>
         </div>
+        <button class="show-answer-button" (click)="showAnswer()">Show Answer</button>
+    </div>
     }
 
     @if (answered===true) {
-        <div class="flashcard-container">
-            <h2>{{folderName}}'s flashcards</h2>
-            <div class="question-section">
-                <p class="label">Answer</p>
-                <hr>
-                <p class="question-text">{{flashcard?.answer}}</p>
+    <div class="flashcard-container">
+        <h2>{{folderName}}'s flashcards</h2>
+        <div class="question-section">
+            <p class="label">Answer</p>
+            <hr>
+            <div *ngFor="let item of answerArray">
+                <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
+                <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                <br><br>
             </div>
-            <div class="image-section">
-                <div class="example-image">{{flashcard?.image}}</div>
-            </div>
-            <button class="good-button" (click)="correctAnswer()">Good</button>
-            <button class="bad-button" (click)="incorrectAnswer()">Bad</button>
         </div>
+        <button class="good-button" (click)="correctAnswer()">Good</button>
+        <button class="bad-button" (click)="incorrectAnswer()">Bad</button>
+    </div>
     }
 </div>

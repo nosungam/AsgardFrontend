@@ -6,6 +6,8 @@ import { WorkspaceComponent } from './routes/workspace/workspace.component';
 import { HomeComponent } from './routes/home/home.component';
 import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service';
 import { StudySessionComponent } from './routes/study-session/study-session.component';
+import { StatsComponent } from './routes/stats/stats.component';
+import { FlashcardComponent } from './routes/flashcard/flashcard.component';
 
 export const routes: Routes = [
     // { path : 'template', component: TemplateComponent},
@@ -13,7 +15,9 @@ export const routes: Routes = [
     { path : 'login', component: LoginComponent, canActivate: [AuthRedirectGuard] },
     { path : 'sign-up', component: SignUpComponent, canActivate: [AuthRedirectGuard] },
     { path : 'workspace/:id', component: WorkspaceComponent, canActivate: [AuthGuardService] },
+    { path : 'flashcard/:id', component: FlashcardComponent, canActivate: [AuthGuardService] },
     { path : 'session/:id', component: StudySessionComponent, canActivate: [AuthGuardService] },
+    { path : 'stats/:id', component: StatsComponent, canActivate: [AuthGuardService] },
     { path : '', redirectTo: '/home', pathMatch: 'full'},
     { path : '**', redirectTo: '/home'}
 ];

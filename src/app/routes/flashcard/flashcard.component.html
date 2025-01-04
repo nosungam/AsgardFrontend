@@ -1,0 +1,28 @@
+<div class="layout flex">
+    <div class="flex icons">
+        <a href="/workspace/{{workspaceId}}"><img class="icon" src="boton-cerrar.png" alt="Close"></a>
+    </div>
+    <div class="editor flex">
+        <div class="flex editor-title-container">
+            <h2 class="editor-title">Flashcard</h2>
+            <i class="bi bi-pencil pencil"></i>
+        </div>
+        <textarea 
+            [(ngModel)]="flashcard.title" 
+            class="editor-title-area" 
+            placeholder="Enter Title" 
+            rows="1">
+        </textarea>
+        <textarea 
+            [(ngModel)]="flashcard.question" 
+            class="editor-area" 
+            placeholder="Enter Question">
+        </textarea>
+        <textarea 
+            [(ngModel)]="flashcard.answer" 
+            class="editor-area" 
+            placeholder="Enter Answer">
+        </textarea>
+        <button (click)="saveFlashcard()" class="saveflashcard">Save</button>
+    </div>
+</div>

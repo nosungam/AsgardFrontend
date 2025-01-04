@@ -3,6 +3,5 @@ export interface FlashcardDTO {
     title: string;
     question: string;
     answer: string;
-    image?: string;
     folderId: number;
 }

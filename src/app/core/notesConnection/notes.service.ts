@@ -6,6 +6,8 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { PromptDTO } from "../../../Interface/prompt.dto";
 import { AnswerDTO } from "../../../Interface/answer.dto";
+import { StatsDTO } from "../../../Interface/stats.dto";
+import { SkipedDTO } from "../../../Interface/skiped.dto";
 
 const urlNotes = 'http://localhost:3000';
 
@@ -21,7 +23,7 @@ export class NotesService {
     }
 
     createFlashcard(body: FlashcardDTO): Observable<void> {
-        return this.http.post<void>(`${urlNotes}/flashcard`, { title: body.title, question: body.question, answer: body.answer, image: body.image, folderId: body.folderId })
+        return this.http.post<void>(`${urlNotes}/flashcard`, { title: body.title, question: body.question, answer: body.answer, folderId: body.folderId })
             .pipe(catchError(this.handleError));
     }
 
@@ -65,6 +67,26 @@ export class NotesService {
 
     answerFlashcard(body: AnswerDTO, sessionId:number): Observable<void> {
         return this.http.post<void>(`${urlNotes}/study-session/${sessionId}`, body, )
+            .pipe(catchError(this.handleError));
+    }
+
+    getStats(folderId: number): Observable<any> {
+        return this.http.get<StatsDTO>(`${urlNotes}/study-session/stats/${folderId}`)
+            .pipe(catchError(this.handleError));
+    }
+
+    skipFlashcard(body: SkipedDTO): Observable<FlashcardDTO> {
+        return this.http.post<any>(`${urlNotes}/study-session/skip`, body)
+            .pipe(catchError(this.handleError));
+    }
+
+    getFlashcard(flashcardId: number): Observable<FlashcardDTO> {
+        return this.http.get<FlashcardDTO>(`${urlNotes}/flashcard/${flashcardId}`)
+            .pipe(catchError(this.handleError));
+    }
+
+    updateFlashcard(body: FlashcardDTO): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/flashcard/${body.id}`, body)
             .pipe(catchError(this.handleError));
     }
 
