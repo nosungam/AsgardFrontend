@@ -3,23 +3,42 @@
         <a href="/workspace/{{workspaceId}}"><img class="icon" src="boton-cerrar.png" alt="Close"></a>
     </div>
     <h1 class="workspace">{{workspace.name}}'s stats</h1>
-    <div class="flex bg-black">
-        <div class="flex totalFlashcards">
-            <h2>Total Flashcards</h2>
-            <div #chartContainer></div>
-        </div>
-        <div>
-            <div>
-                <div>
-                    
+    <div class="flex charts">
+        <div class="container3">
+            <h1>Scoreboard</h1>
+            <div class="flex container4">
+                <div *ngFor="let day of data; let i = index"
+                    [ngClass]="{'square-printed': day.printed, 'square': !day.printed}"
+                    (mouseenter)="selectDay(day, i, $event)" (mouseleave)="closeOverlay()">
+                    <div *ngIf="selectedDay" class="overlay" 
+                    [style.top.px]="cursorY" 
+                    [style.left.px]="cursorX">
+                        <div class="content">
+                            <h3><strong>Day details</strong></h3>
+                            <p>Date: {{ selectedDay.date }}</p>
+                            <p>Score: {{selectedDay.score}}</p>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-            <div>
-
+        </div>
+        <div class="flex container">
+            <ngx-charts-bar-horizontal [view]="view" [results]="totalFlashcardsData" [gradient]="gradient"
+                [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)" class="totalFlashcards-chart">
+            </ngx-charts-bar-horizontal>
+        </div>
+        <div class="flex subcontainer">
+            <div class="container a">
+                <ngx-charts-pie-grid [view]="viewPie" [results]="daysStudied" (select)="onSelect($event)">
+                </ngx-charts-pie-grid>
             </div>
-            <div>
-
+            <div class="container2">
+                <div class="flex bestStrike-chart">
+                    <p>Best strike</p>
+                    <p>{{bestStrike}}</p>
+                </div>
             </div>
         </div>
     </div>

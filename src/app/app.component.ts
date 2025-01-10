@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import {HttpClientModule } from '@angular/common/http';
 import { AuthGuardService } from './core/middleware/auth-guard.service';
 import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,8 @@ import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service
     SidebarComponent, 
     CommonModule,
     HttpClientModule,
+    NgxChartsModule,
+    FormsModule,
   ],
   providers: [AuthGuardService, AuthRedirectGuard],
   templateUrl: './app.component.html',

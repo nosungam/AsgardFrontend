@@ -1,25 +1,82 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../core/notesConnection/notes.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import * as d3 from 'd3';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FormsModule } from '@angular/forms';
+import { DayDataDTO } from '../../../Interface/dayData.dto';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, NgxChartsModule, FormsModule],
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.css']
 })
+
 export class StatsComponent implements OnInit {
   workspace = {
     name: 'Workspace',
   };
   folders: any[] = [];
   workspaceId: number | null = null;
-  @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef | undefined;
+  bestStrike: number = 0;
+  
+  //chart
 
-  constructor(private notesService: NotesService, private router: Router, private route: ActivatedRoute) {}
+  totalFlashcardsData: any[] = [
+    {
+      name: 'Loading...',
+      value: 100,
+    },
+    {
+      name: 'Loading...',
+      value: 100,
+    }
+  ];
+  view: [number, number] = [700, 400];
+    // options
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  gradient: boolean = false;
+  showLegend: boolean = false;
+  showXAxisLabel: boolean = true;
+  showYAxisLabel: boolean = true;
+  xAxisLabel: string = 'Total flashcards';
+  yAxisLabel: string = 'Total folders';
+
+  //chart 2
+
+  totalDaysStudiedInLastMonth:number=0
+  viewPie: [number, number] = [500, 400];
+  daysStudied: any[] = [
+    {
+      name: 'Loading...',
+      value: 100,
+    }
+  ];
+
+  //chart 3
+
+  year: number = new Date().getFullYear();
+  data: DayDataDTO[] = [];
+
+  selectedDay: any = null;
+  selectedI: number | null = null;
+  printedDay: boolean = false;
+
+  cursorX: number = 0;
+  cursorY: number = 0;
+
+  constructor(private notesService: NotesService, private router: Router, private route: ActivatedRoute) {
+    for (let month = 1; month <= 12; month++) {
+      const daysInMonth = new Date(this.year, month, 0).getDate();
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = `${this.year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        this.data.push({ date, score: 0, printed: false });
+      }
+    }
+  }
 
   async ngOnInit() {
     try {
@@ -29,16 +86,23 @@ export class StatsComponent implements OnInit {
           this.notesService.getFolders(this.workspaceId).subscribe(currentFolder => {
             this.workspace.name = currentFolder.name || '';
             this.folders = currentFolder.children || [];
-            console.log(this.folders);
-            console.log(currentFolder);
-            
-            
           });
           this.notesService.getStats(this.workspaceId).subscribe(stats => {
             console.log('Stats:', stats);
-            // Aquí puedes usar los datos de stats para renderizar el gráfico
+            this.updateScore(stats.scorePerDay, this.data);
+            console.log(this.data);
+            
+            this.totalFlashcardsData = stats.amountsOfFlashcards.map((stat: { folderName: string; amount: number }) => ({
+              name: stat.folderName,
+              value: stat.amount,
+            }));
+            this.bestStrike = stats.bestStrike;
+            this.totalDaysStudiedInLastMonth = stats.daysStudiedInLast30Days;
+            this.daysStudied = [
+              { name: 'Days Studied', value: this.totalDaysStudiedInLastMonth },
+              { name: 'Days Not Studied', value: 30 - this.totalDaysStudiedInLastMonth },
+            ];
           });
-          this.createChart();  // Llamamos a createChart
         }
       });
     } catch (error) {
@@ -46,76 +110,31 @@ export class StatsComponent implements OnInit {
     }
   }
 
-  private createChart(): void {
-    // Datos para el gráfico de flashcards por workspace (hardcodeados)
-    const workspaces = [
-      { name: "Workspace 1", flashcards: 50 },
-      { name: "Workspace 2", flashcards: 50 }
-    ];
+  onSelect(data: any): void {
+    
+  }
 
-    // Parámetros del gráfico
-    const barHeight = 25;
-    const marginTop = 30;
-    const marginRight = 0;
-    const marginBottom = 10;
-    const marginLeft = 100;
-    const width = 928;
-    const height = Math.ceil((workspaces.length + 0.1) * barHeight) + marginTop + marginBottom;
+  updateScore(scorePerDay: any[], data: DayDataDTO[]) {
+    for (const score of scorePerDay) {
+      const dayData = data.find(day => day.date === score.date);
+      if (dayData) {
+        dayData.score = score.score;
+        if (score.score > 0) {
+          dayData.printed = true;
+        }
+      }
+    }
+  }
 
-    // Crear las escalas
-    const x = d3.scaleLinear()
-      .domain([0, d3.max(workspaces, d => d.flashcards) || 0])
-      .range([marginLeft, width - marginRight]);
+  selectDay(day: any, index: number, event: MouseEvent) {
+    this.selectedDay = day;
+    this.selectedI = index;
+    this.cursorX = event.clientX;
+    this.cursorY = event.clientY;
+  }
 
-    const y = d3.scaleBand()
-      .domain(d3.sort(workspaces, d => -d.flashcards).map(d => d.name))
-      .rangeRound([marginTop, height - marginBottom])
-      .padding(0.1);
-
-    // Seleccionar el contenedor para insertar el SVG
-    const svg = d3.select(this.chartContainer?.nativeElement)
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("viewBox", [0, 0, width, height])
-      .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif;");
-
-    // Agregar rectángulos (barras) para cada workspace
-    svg.append("g")
-      .attr("fill", "steelblue")
-      .selectAll()
-      .data(workspaces)
-      .join("rect")
-      .attr("x", x(0))
-      .attr("y", (d) => y(d.name) ?? 0)
-      .attr("width", (d) => x(d.flashcards) - x(0))
-      .attr("height", y.bandwidth());
-
-    // Agregar etiquetas de texto para cada barra
-    svg.append("g")
-      .attr("fill", "white")
-      .attr("text-anchor", "end")
-      .selectAll()
-      .data(workspaces)
-      .join("text")
-      .attr("x", (d) => x(d.flashcards))
-      .attr("y", (d) => (y(d.name)! + y.bandwidth() / 2))
-      .attr("dy", "0.35em")
-      .attr("dx", -4)
-      .text((d) => d.flashcards) // Muestra la cantidad de flashcards
-      .call((text) => text.filter(d => x(d.flashcards) - x(0) < 20) // para barras cortas
-        .attr("dx", +4)
-        .attr("fill", "black")
-        .attr("text-anchor", "start"));
-
-    // Agregar los ejes X y Y
-    svg.append("g")
-      .attr("transform", `translate(0,${marginTop})`)
-      .call(d3.axisTop(x).ticks(width / 80, "%"))
-      .call(g => g.select(".domain").remove());
-
-    svg.append("g")
-      .attr("transform", `translate(${marginLeft},0)`)
-      .call(d3.axisLeft(y).tickSizeOuter(0));
+  closeOverlay() {
+    this.selectedDay = null;
+    this.selectedI = null;
   }
 }
