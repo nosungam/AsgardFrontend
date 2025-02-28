@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit{
   showLogoutText = false;
   currentWorkspace = 'Workspace 1';
   username= 'Username';
-  image = "https://avatar.iran.liara.run/public/44";
+  image = "./avatar.png";
   items = [
     {
       routeLink: 'calendar',
@@ -34,11 +34,6 @@ export class SidebarComponent implements OnInit{
       routeLink: 'recycle-bin',
       icon: 'bi bi-trash',
       label: 'Recycle Bin',
-    },
-    {
-      routeLink: 'settings',
-      icon: 'bi bi-gear',
-      label: 'Settings',
     }
   ];
 

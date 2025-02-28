@@ -60,7 +60,6 @@ export class StudySessionComponent {
         this.flashcard = currentFolder;
         this.questionArray=this.divideByIdentifier(this.flashcard.question);
         this.answerArray=this.divideByIdentifier(this.flashcard.answer);
-        console.log(this.flashcard);
         
         this.flashcard.question = this.getQuestion(this.flashcard.question);
         this.flashcard.answer = this.getQuestion(this.flashcard.answer);
@@ -80,7 +79,6 @@ export class StudySessionComponent {
       this.answerArray=this.divideByIdentifier(this.flashcard.answer);
       this.flashcard.question = this.getQuestion(this.flashcard.question);
       this.flashcard.answer = this.getQuestion(this.flashcard.answer);
-      console.log(this.flashcard);
     });
   }
 

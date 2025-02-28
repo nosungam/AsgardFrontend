@@ -49,8 +49,8 @@ export class SignUpComponent {
     async signUp(){
       return new Promise((resolve, reject) => {
         const signUpData = {
-          firstName: this.form.value.firstName!,
-          lastName: this.form.value.lastName!,
+          name: this.form.value.firstName!,
+          surname: this.form.value.lastName!,
           password: this.form.value.password!,
           email: this.form.value.email!
         };

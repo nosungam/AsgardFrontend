@@ -9,6 +9,7 @@ import { AuthGuardService } from './core/middleware/auth-guard.service';
 import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule } from '@angular/forms';
+import { NgxSimpleTextEditorModule } from 'ngx-simple-text-editor';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     NgxChartsModule,
     FormsModule,
+    NgxSimpleTextEditorModule
   ],
   providers: [AuthGuardService, AuthRedirectGuard],
   templateUrl: './app.component.html',

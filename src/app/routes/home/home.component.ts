@@ -37,7 +37,8 @@ export class HomeComponent implements OnInit {
     const newFolder: FolderDTO = {
       name: 'New Workspace',
       isWorkspace: true,
-      parentId: null
+      parentId: null,
+      user: this.username
     }; // Ajusta según los campos del DTO
     this.notesService.createWorkspace(newFolder).subscribe({
       next: () => {
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit {
         this.notesService.getWorkspaces().subscribe(currentFolder => {
           this.folders = currentFolder;
         });
+        window.location.reload();
       },
       error: err => {
         console.error('Error creando workspace:', err);

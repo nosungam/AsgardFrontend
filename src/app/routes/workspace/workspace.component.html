@@ -3,9 +3,12 @@
 <div class="layout flex">
     <div class="flex icons">
         <img class="icon" src="flashcard.png" alt="Flashcard" (click)="startSession()">
-        <a href="/stats/{{workspaceId}}"><img class="icon" src="informacion.png" alt="About"></a>
+        <div class="flex">
+            <a href="/stats/{{workspaceId}}"><img class="icon" src="informacion.png" alt="About"></a>
+            <a class="ml-1 delete" (click)="deleteFolder()"><img class="icon" src="delete.png" alt="Delete"></a>
+        </div>
     </div>
-    <h1 class="workspace">{{workspace.name}}</h1>
+    <textarea class="workspace-name" [(ngModel)]="workspace.name" (ngModelChange)="saveWorkspaceName()"></textarea>
     <div class="folders">
         <button *ngFor="let folder of folders; let i = index" class="button folder" (click)="openFolder(folder.id)">{{ folder.name }}</button>
         <button class="button folder" (click)="onCreateFolder($event)">+</button>
@@ -16,8 +19,7 @@
             <h2 class="note-title">Notes</h2>
             <i class="bi bi-pencil pencil"></i>
         </div>
-        <textarea [(ngModel)]="note" class="note-editor"></textarea>
-        <button (click)="saveNote()" class="savenote">Save</button>
+        <st-editor [(ngModel)]="note" [config]="config" (ngModelChange)="saveNote()"></st-editor>
         <h1 class="flashcardtitle">Flashcards</h1>
     </div>
     <div class="flashcards">

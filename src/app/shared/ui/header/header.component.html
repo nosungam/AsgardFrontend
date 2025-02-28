@@ -4,22 +4,28 @@
         <img href="/home" src="title.png" alt="Title" id="asgard">
     </a>
     <div class="buttons">
-        <!-- <div class="workspace-buttons">
-            <button class="button1">Workspace 1</button>
-            <button>Workspace 2</button>
-        </div> -->
+        <div>
+            <a class="workspace-button" (click)="openWorkspace(folder.id)" *ngFor="let folder of folders">{{folder.name}}</a>
+        </div>
+        <img class="theme" src="theme.webp" alt="Theme" (click)="changeTheme()"/>
         <div class="search-bar">
             <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearch()" />
             <ul *ngIf="filteredResults.flashcards.length > 0" class="suggestions-list">
-                <li *ngFor="let suggestion of filteredResults.flashcards" (click)="selectSuggestion(suggestion)">
-                    {{ suggestion.title }} <!-- Asumiendo que el objeto de la flashcard tiene un campo "title" -->
+                <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.flashcards" (click)="selectSuggestion(suggestion)">
+                    {{ suggestion.title }} <img class="search-icon" src="/flashcard.png" alt="">
                 </li>
             </ul>
 
             <!-- Mostrar resultados de Folders -->
             <ul *ngIf="filteredResults.folders.length > 0" class="suggestions-list">
-                <li *ngFor="let suggestion of filteredResults.folders" (click)="selectSuggestion(suggestion)">
-                    {{ suggestion.name }} <!-- Asumiendo que el objeto de la carpeta tiene un campo "name" -->
+                <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.folders" (click)="selectSuggestion(suggestion)">
+                    {{ suggestion.name }} <img class="search-icon" src="/folder.png" alt="">
+                </li>
+            </ul>
+            <!-- Mostrar resultados de Notas -->
+            <ul *ngIf="filteredResults.notes.length > 0" class="suggestions-list">
+                <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.notes" (click)="selectSuggestion(suggestion)">
+                    {{ suggestion.name }} <img class="search-icon" src="/avatar.png" alt="">
                 </li>
             </ul>
         </div>

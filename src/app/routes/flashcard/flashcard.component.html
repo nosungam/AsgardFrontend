@@ -3,26 +3,14 @@
         <a href="/workspace/{{workspaceId}}"><img class="icon" src="boton-cerrar.png" alt="Close"></a>
     </div>
     <div class="editor flex">
-        <div class="flex editor-title-container">
-            <h2 class="editor-title">Flashcard</h2>
-            <i class="bi bi-pencil pencil"></i>
-        </div>
         <textarea 
             [(ngModel)]="flashcard.title" 
-            class="editor-title-area" 
+            class="editor-title-area mb-2" 
             placeholder="Enter Title" 
             rows="1">
         </textarea>
-        <textarea 
-            [(ngModel)]="flashcard.question" 
-            class="editor-area" 
-            placeholder="Enter Question">
-        </textarea>
-        <textarea 
-            [(ngModel)]="flashcard.answer" 
-            class="editor-area" 
-            placeholder="Enter Answer">
-        </textarea>
+        <st-editor class="mb-2 st" [(ngModel)]="flashcard.question" [config]="config1"></st-editor>
+        <st-editor class="mb-2 st" [(ngModel)]="flashcard.answer" [config]="config2"></st-editor>
         <button (click)="saveFlashcard()" class="saveflashcard">Save</button>
     </div>
 </div>

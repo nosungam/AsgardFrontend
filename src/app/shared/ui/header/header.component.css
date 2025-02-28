@@ -16,6 +16,12 @@
     color: rgb(0, 0, 0);
     background-color: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.123);
+    z-index: 1000;
+}
+
+.theme{
+    width: 2rem;
+    cursor: pointer;
 }
 
 #asgard {
@@ -38,7 +44,7 @@
 }
 
 .search-bar {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 10px;
     max-width: 15rem;
 }
 
@@ -51,31 +57,6 @@
     border: 1px solid #ccc;
     color: black;
 }
-
-.workspace-buttons {
-    display: flex;
-    align-items: center;
-}
-
-.workspace-buttons button {
-    background-color: #f2f2f2;
-    color: rgb(0, 0, 0);
-    border: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    height: 2rem;
-}
-
-.workspace-buttons button:hover {
-    background-color: #e3e3e3;
-}
-
-.button1 {
-    background-color: rgb(177, 232, 254) !important;
-}
-
 
 .suggestions-list {
     background-color: white;
@@ -98,4 +79,29 @@
 
 .suggestions-list li:hover {
     background-color: #f0f0f0;
+}
+
+.search-icon{
+    width: 1.5rem;
+}
+
+.search-list{
+    flex-direction: column;
+}
+
+.workspace-button{
+    border: 1px solid #ccc;
+    padding: 4px;
+    margin: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    width: 30%;
+    justify-content: center;
+    align-items: center;
+    background-color: #7CAFFA;
+    border-radius: .5rem;
+}
+
+.workspace-button:hover {
+    background-color: rgb(170, 207, 242);
 }

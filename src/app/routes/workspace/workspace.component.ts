@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -6,12 +6,14 @@ import { FolderDTO } from '../../../Interface/folder.dto';
 import { FlashcardDTO } from '../../../Interface/flashcard.dto';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EditorConfig, NgxSimpleTextEditorModule, ST_BUTTONS } from 'ngx-simple-text-editor';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
-  templateUrl: './workspace.component.html'
+  imports: [CommonModule, RouterModule, FormsModule, NgxSimpleTextEditorModule],
+  templateUrl: './workspace.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class WorkspaceComponent implements OnInit {
@@ -23,12 +25,18 @@ export class WorkspaceComponent implements OnInit {
   };
   workspaceId: number | null = null;
   workspaceData: any;
+  config: EditorConfig = {
+    placeholder: 'Type something...',
+    buttons: ST_BUTTONS,
+  };
+  username: string = '';
 
   constructor(private notesService: NotesService, private route:ActivatedRoute, private router:Router) {}
 
   async ngOnInit() {
     try {
       this.route.paramMap.subscribe(paramMap => {
+        this.username = localStorage.getItem('username') || '';
         localStorage.removeItem('workspaceId');
         this.workspaceId = paramMap.get("id") ? parseInt(paramMap.get("id")!, 10) : null;
         if (this.workspaceId) {
@@ -77,7 +85,8 @@ export class WorkspaceComponent implements OnInit {
     const newFolder: FolderDTO = {
       name: 'New Folder',
       isWorkspace: false,
-      parentId: this.workspaceId
+      parentId: this.workspaceId,
+      user: this.username
     };
     
     this.notesService.createWorkspace(newFolder).subscribe({
@@ -86,6 +95,7 @@ export class WorkspaceComponent implements OnInit {
         if (this.workspaceId) {
           this.loadWorkspaceData(this.workspaceId);
         }
+        window.location.reload();
       },
       error: err => {
         console.error('Error creating folder:', err);
@@ -168,5 +178,21 @@ export class WorkspaceComponent implements OnInit {
   openFlashcard(flashcardId: number, workspaceId: any): void {
     localStorage.setItem('workspaceId', workspaceId.toString());
     this.router.navigate(['/flashcard', flashcardId]);
+  }
+
+  saveWorkspaceName(): void {
+    
+  }
+
+  deleteFolder(): void {
+    this.notesService.moveToRecycleBin(this.workspaceId!).subscribe({
+      next: () => {
+        console.log('Folder deleted.');
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        console.error('Error deleting folder:', err);
+      }
+    });
   }
 }

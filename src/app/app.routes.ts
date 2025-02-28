@@ -8,6 +8,7 @@ import { AuthRedirectGuard } from './core/middleware/auth-redirect-guard.service
 import { StudySessionComponent } from './routes/study-session/study-session.component';
 import { StatsComponent } from './routes/stats/stats.component';
 import { FlashcardComponent } from './routes/flashcard/flashcard.component';
+import { CommunityWorkspacesComponent } from './routes/community-workspaces/community-workspaces.component';
 
 export const routes: Routes = [
     // { path : 'template', component: TemplateComponent},
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path : 'flashcard/:id', component: FlashcardComponent, canActivate: [AuthGuardService] },
     { path : 'session/:id', component: StudySessionComponent, canActivate: [AuthGuardService] },
     { path : 'stats/:id', component: StatsComponent, canActivate: [AuthGuardService] },
+    { path : 'community-workspaces', component: CommunityWorkspacesComponent, canActivate: [AuthGuardService] },
     { path : '', redirectTo: '/home', pathMatch: 'full'},
     { path : '**', redirectTo: '/home'}
 ];

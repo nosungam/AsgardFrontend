@@ -20,7 +20,6 @@
 }
 
 .user-img {
-  cursor: pointer;
   margin-right: 2px;
   height: 3rem;
   width: 3rem;
@@ -43,8 +42,7 @@
 }
 
 .sidenav .user-img-container .btn-close {
-  margin-left: 0.3rem;
-  cursor: pointer;
+
   width: 2rem;
   height: 2rem;
   background-color: transparent;
@@ -93,11 +91,11 @@
   width: 2rem;
   min-width: 2rem;
   text-align: center;
-  padding: 12px;
+
 }
 
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 }
 
 .sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {

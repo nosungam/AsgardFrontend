@@ -1,3 +1,4 @@
 export interface PromptDTO {
-    prompt: string
+    prompt: string;
+    username: string;
 }

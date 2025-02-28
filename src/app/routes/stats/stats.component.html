@@ -22,23 +22,25 @@
                 </div>
             </div>
         </div>
-        <div class="flex container">
-            <ngx-charts-bar-horizontal [view]="view" [results]="totalFlashcardsData" [gradient]="gradient"
-                [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                (select)="onSelect($event)" class="totalFlashcards-chart">
-            </ngx-charts-bar-horizontal>
-        </div>
-        <div class="flex subcontainer">
-            <div class="container a">
-                <ngx-charts-pie-grid [view]="viewPie" [results]="daysStudied" (select)="onSelect($event)">
-                </ngx-charts-pie-grid>
+        <div class="flex">
+            <div class="flex container">
+                <ngx-charts-bar-horizontal [view]="view" [results]="totalFlashcardsData" [gradient]="gradient"
+                    [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                    (select)="onSelect($event)" class="totalFlashcards-chart">
+                </ngx-charts-bar-horizontal>
             </div>
             <div class="container2">
                 <div class="flex bestStrike-chart">
                     <p>Best strike</p>
                     <p>{{bestStrike}}</p>
                 </div>
+            </div>
+        </div>
+        <div class="flex subcontainer">
+            <div class="container a">
+                <ngx-charts-pie-grid [view]="viewPie" [results]="daysStudied" (select)="onSelect($event)">
+                </ngx-charts-pie-grid>
             </div>
         </div>
     </div>

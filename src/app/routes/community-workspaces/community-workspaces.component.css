@@ -1,0 +1,10 @@
+.layout {
+    height: 80vh;
+    margin-top: 3rem;
+    right: 0px;
+    padding: 1rem;
+    margin-left: 16.5625rem;
+    right: 16.5625rem;
+    flex-direction: column;
+    justify-content: center;
+}

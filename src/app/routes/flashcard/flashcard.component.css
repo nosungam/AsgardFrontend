@@ -63,3 +63,7 @@
     align-self:last baseline;
     width: 5rem;
 }
+
+.st{
+    z-index: 0;
+}

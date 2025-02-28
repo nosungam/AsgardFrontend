@@ -59,9 +59,8 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    search(prompt: PromptDTO): Observable<any[]> {
-        const params = { prompt: prompt.prompt };
-        return this.http.get<any[]>(`${urlNotes}/search-engine`, { params })
+    search(body: PromptDTO): Observable<any[]> {
+        return this.http.get<any[]>(`${urlNotes}/search-engine`, { params: { prompt: body.prompt, username: body.username } })
             .pipe(catchError(this.handleError));
     }
 
@@ -75,8 +74,9 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    skipFlashcard(body: SkipedDTO): Observable<FlashcardDTO> {
-        return this.http.post<any>(`${urlNotes}/study-session/skip`, body)
+    skipFlashcard(body: SkipedDTO): Observable<any> {
+        const params = { flashcardId: body.flashcardId, folderId: body.folderId };
+        return this.http.get<any>(`${urlNotes}/study-session/skip/${body.folderId}/${body.flashcardId}`)
             .pipe(catchError(this.handleError));
     }
 
@@ -87,6 +87,11 @@ export class NotesService {
 
     updateFlashcard(body: FlashcardDTO): Observable<void> {
         return this.http.put<void>(`${urlNotes}/flashcard/${body.id}`, body)
+            .pipe(catchError(this.handleError));
+    }
+
+    moveToRecycleBin(folderId: number): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/recycle-bin/${folderId}`, {})
             .pipe(catchError(this.handleError));
     }
 

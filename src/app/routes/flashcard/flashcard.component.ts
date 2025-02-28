@@ -1,21 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NotesService } from '../../core/notesConnection/notes.service';
 import { Router } from '@angular/router';
+import { EditorConfig, NgxSimpleTextEditorModule, ST_BUTTONS } from 'ngx-simple-text-editor';
 
 @Component({
   selector: 'app-flashcard',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, NgxSimpleTextEditorModule],
   templateUrl: './flashcard.component.html',
-  styleUrl: './flashcard.component.css'
+  styleUrl: './flashcard.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class FlashcardComponent {
   flashcardId: number | null = null;
   flashcard: any = {};
   workspaceId: number | null = null;
+  config1: EditorConfig = {
+      placeholder: 'Enter Question',
+      buttons: ST_BUTTONS,
+  };
+  config2: EditorConfig = {
+      placeholder: 'Enter Answer',
+      buttons: ST_BUTTONS,
+  };
 
   constructor(private notesService: NotesService, private route:ActivatedRoute, private router:Router) {}
 
