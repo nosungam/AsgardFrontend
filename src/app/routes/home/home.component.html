@@ -1,5 +1,5 @@
 <div class="layout flex">
-    <h1 class="welcome">Welcome {{username}}!</h1>
+    <h1 class="welcome">Welcome {{name}}!</h1>
     <p>Please select a workspace or create a new one.</p>
     <div class="flex workspaces"> 
         <a (click)="openWorkspace(folder.id)" *ngFor="let folder of folders" class="folder flex">

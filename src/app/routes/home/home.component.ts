@@ -16,12 +16,14 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   folders: any[] = [];
   username = 'Username';
+  name = 'Name';
 
   constructor(private notesService: NotesService, private authService: AuthService, private router:Router) { }
 
   async ngOnInit() {
     try {
       this.username = await this.authService.getUsername();
+      this.name = await this.authService.getName();
       this.notesService.getWorkspaces().subscribe(currentFolder => {
         this.folders = currentFolder;
       });

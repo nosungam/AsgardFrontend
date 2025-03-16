@@ -58,8 +58,7 @@ export class SidebarComponent implements OnInit{
 
   async loadUsername(): Promise<void> {
     try {
-      this.username = await this.authService.getUsername();
-      
+      this.username = await this.authService.getName();
       
     } catch (error) {
       

@@ -18,6 +18,7 @@ export class HeaderComponent {
   searchTerm: string = ''; 
   filteredResults: { flashcards: any[], folders: any[], notes: any[] } = { flashcards: [], folders: [], notes: [] };
   username: string = '';
+  name: string = '';
 
   constructor(private notesService: NotesService, private router:Router, private authService: AuthService) {}
 
@@ -39,8 +40,8 @@ export class HeaderComponent {
 
   onSearch(): void {
     if(this.searchTerm) {
-      const prompt:PromptDTO = { prompt: this.searchTerm, username: this.username };
-      this.notesService.search(prompt).subscribe({
+      const body:PromptDTO = { prompt: this.searchTerm, username: this.username };
+      this.notesService.search(body).subscribe({
         next: (results: any) => {
           this.filteredResults = {
             flashcards: results.flashcards,

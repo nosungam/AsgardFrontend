@@ -1,3 +1,12 @@
 <div class="layout">
-    <p>community-workspaces works!</p>
+    <h1 class="title">Community workspaces</h1>
+    <div class="cards-container">
+        <div *ngFor="let folder of folders" class="card">
+            <img [src]="folder.img" alt="Folder Image" class="card-image">
+            <h2 class="card-title">{{ folder.name }}</h2>
+            <p class="card-description">{{ folder.description }}</p>
+            <p class="card-note">{{ folder.note.length > 100 ? folder.note.slice(0, 100) + '...' : folder.note }}</p>
+            <button class="like-button" (click)="setLike(folder.id)">❤</button>
+        </div>
+    </div>
 </div>

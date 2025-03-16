@@ -60,7 +60,7 @@ export class NotesService {
     }
 
     search(body: PromptDTO): Observable<any[]> {
-        return this.http.get<any[]>(`${urlNotes}/search-engine`, { params: { prompt: body.prompt, username: body.username } })
+        return this.http.put<any[]>(`${urlNotes}/search-engine`, { ...body })
             .pipe(catchError(this.handleError));
     }
 
@@ -92,6 +92,36 @@ export class NotesService {
 
     moveToRecycleBin(folderId: number): Observable<void> {
         return this.http.put<void>(`${urlNotes}/recycle-bin/${folderId}`, {})
+            .pipe(catchError(this.handleError));
+    }
+
+    updateFolder(folderId: number,name:string): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/${name}/${folderId}`, {})
+            .pipe(catchError(this.handleError));
+    }
+
+    getCommunityWorkspaces(): Observable<FolderDTO[]> {
+        return this.http.get<FolderDTO[]>(`${urlNotes}/community-workspaces`)
+            .pipe(catchError(this.handleError));
+    }
+
+    getfoldersInRecycleBin(): Observable<FolderDTO[]> {
+        return this.http.get<FolderDTO[]>(`${urlNotes}/recycle-bin`)
+            .pipe(catchError(this.handleError));
+    }
+
+    restoreFolder(folderId: number): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/restore/${folderId}`, {})
+            .pipe(catchError(this.handleError));
+    }
+
+    deleteFolder(folderId: number): Observable<void> {
+        return this.http.delete<void>(`${urlNotes}/folder/${folderId}`)
+            .pipe(catchError(this.handleError));
+    }
+
+    suscribeToCommunityWorkspace(folderId: number): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/community-workspaces`, { id: folderId})
             .pipe(catchError(this.handleError));
     }
 

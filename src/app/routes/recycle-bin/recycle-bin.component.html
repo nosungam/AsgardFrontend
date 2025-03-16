@@ -1,1 +1,15 @@
-<p>recycle-bin works!</p>
+<div class="layout">
+    <h1 class="title">Recycle Bin</h1>
+    <div class="folders-container">
+        <div *ngFor="let folder of folders" class="folder-card">
+            <h2 class="folder-name">{{ folder.name }}</h2>
+            <p><strong>Subfolders:</strong> {{ folder.subfolders }}</p>
+            <p><strong>Flashcards:</strong> {{ folder.flashcards }}</p>
+            <p><strong>Deleted on:</strong> {{ folder.deletedAt | date:'medium' }}</p>
+            <div class="buttons">
+                <button class="restore-button" (click)="restoreFolder(folder.id)">♻️ Restore</button>
+                <button class="delete-button" (click)="deleteFolder(folder.id)">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

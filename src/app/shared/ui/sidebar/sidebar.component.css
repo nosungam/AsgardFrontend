@@ -3,7 +3,7 @@
   z-index: 1;
   top: 3rem;
   width: 16.5625rem;
-  height: 93vh;
+  height: calc(100vh - 3rem);
   border-right: 1px solid rgba(0, 0, 0, 0.123);
   position: fixed;
 }
@@ -42,11 +42,11 @@
 }
 
 .sidenav .user-img-container .btn-close {
-
   width: 2rem;
   height: 2rem;
   background-color: transparent;
   border: none;
+  
 }
 
 .sidenav .user-img-container .btn-close .fa-times {
@@ -60,6 +60,11 @@
   align-items: center;
   justify-content: space-between;
   height: 95%;
+  
+}
+
+.layout-content {
+  width: 90%;
 }
 
 .sidenav-nav {
@@ -70,11 +75,13 @@
   height: calc(100% - 3.65rem);
   cursor: pointer;
   margin-top: 4%;
+  padding: 0 1rem;
 }
 
 .sidenav-nav .sidenav-nav-item {
   width: 100%;
   margin-bottom: 0.625rem;
+  
 }
 
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link {
@@ -104,7 +111,7 @@
 }
 
 .active {
-  background-color: #acacac;
+  background-color: #d6d6d6;
 }
 
 .active .sidenav-link-icon,

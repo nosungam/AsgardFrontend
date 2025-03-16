@@ -9,6 +9,8 @@ import { StudySessionComponent } from './routes/study-session/study-session.comp
 import { StatsComponent } from './routes/stats/stats.component';
 import { FlashcardComponent } from './routes/flashcard/flashcard.component';
 import { CommunityWorkspacesComponent } from './routes/community-workspaces/community-workspaces.component';
+import { RecycleBinComponent } from './routes/recycle-bin/recycle-bin.component';
+import { CalendarComponent } from './routes/calendar/calendar.component';
 
 export const routes: Routes = [
     // { path : 'template', component: TemplateComponent},
@@ -20,6 +22,8 @@ export const routes: Routes = [
     { path : 'session/:id', component: StudySessionComponent, canActivate: [AuthGuardService] },
     { path : 'stats/:id', component: StatsComponent, canActivate: [AuthGuardService] },
     { path : 'community-workspaces', component: CommunityWorkspacesComponent, canActivate: [AuthGuardService] },
+    { path : 'recycle-bin', component: RecycleBinComponent, canActivate: [AuthGuardService] },
+    { path : 'calendar', component: CalendarComponent, canActivate: [AuthGuardService] },
     { path : '', redirectTo: '/home', pathMatch: 'full'},
     { path : '**', redirectTo: '/home'}
 ];

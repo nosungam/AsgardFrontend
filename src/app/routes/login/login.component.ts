@@ -31,6 +31,7 @@ export class LoginComponent {
       const loginData: LogIn = {
         password: this.form.value.password!,
         email: this.form.value.email!,
+        name: ''
       };
       this.authService.login(loginData)
       .then(() => {

@@ -23,7 +23,7 @@ export class WorkspaceComponent implements OnInit {
   workspace = {
     name: 'Workspace',
   };
-  workspaceId: number | null = null;
+  workspaceId: number = -1;
   workspaceData: any;
   config: EditorConfig = {
     placeholder: 'Type something...',
@@ -36,9 +36,9 @@ export class WorkspaceComponent implements OnInit {
   async ngOnInit() {
     try {
       this.route.paramMap.subscribe(paramMap => {
-        this.username = localStorage.getItem('username') || '';
+        this.username = localStorage.getItem('email') || '';
         localStorage.removeItem('workspaceId');
-        this.workspaceId = paramMap.get("id") ? parseInt(paramMap.get("id")!, 10) : null;
+        this.workspaceId = paramMap.get("id") ? parseInt(paramMap.get("id")!, 10) : -1;
         if (this.workspaceId) {
           this.loadWorkspaceData(this.workspaceId);
         }
@@ -86,10 +86,13 @@ export class WorkspaceComponent implements OnInit {
       name: 'New Folder',
       isWorkspace: false,
       parentId: this.workspaceId,
-      user: this.username
+      user: this.username.substring(1, this.username.length - 1)
+
     };
     
+    
     this.notesService.createWorkspace(newFolder).subscribe({
+      
       next: () => {
         console.log('Folder created.');
         if (this.workspaceId) {
@@ -181,7 +184,14 @@ export class WorkspaceComponent implements OnInit {
   }
 
   saveWorkspaceName(): void {
-    
+    this.notesService.updateFolder(this.workspaceId, this.workspace.name).subscribe({
+      next: () => {
+        console.log('Name updated.');
+      },
+      error: err => {
+        console.error('Error updating name:', err);
+      }
+    });
   }
 
   deleteFolder(): void {
