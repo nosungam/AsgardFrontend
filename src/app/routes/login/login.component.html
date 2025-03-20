@@ -16,28 +16,26 @@
           <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
             class="text-red-500 text-xs">
             <label *ngIf="form.get('email')?.errors?.['email']" class="text-red-500 text-xs">Invalid Email</label>
-            <label *ngIf="form.get('email')?.errors?.['required']" class="text-red-500 text-xs">Email is
-              Required</label>
+            <label *ngIf="form.get('email')?.errors?.['required']" class="text-red-500 text-xs">Email is Required</label>
           </div>
         </div>
         <!--form-password-->
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-zinc-700">Password</label>
           <div class="relative">
-
+            
             <input type={{typeShowHide}} id="password"
-              class="mt-1 block w-full p-2 border border-zinc-300 rounded-md focus:ring focus:ring-primary"
-              placeholder="********" formControlName="password" />
+            class="mt-1 block w-full p-2 border border-zinc-300 rounded-md focus:ring focus:ring-primary"
+            placeholder="********" formControlName="password" />
             <button type="button" class="absolute right-3 top-3 text-blue-500 text-sm"
-              (click)="showHidePassword()">{{showHide}}</button>
-
+            (click)="showHidePassword()">{{showHide}}</button>
+            
             <div
-              *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
-              <label *ngIf="form.get('password')?.errors?.['minlength']" class="text-red-500 text-xs">Invalid
-                password</label>
-              <label *ngIf="form.get('password')?.errors?.['required']" class="text-red-500 text-xs">Password is
-                required</label>
-            </div>
+            *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
+            <label *ngIf="form.get('password')?.errors?.['minlength']" class="text-red-500 text-xs">Invalid password</label>
+            <label *ngIf="form.get('password')?.errors?.['required']" class="text-red-500 text-xs">Password is required</label>
+          </div>
+          <label *ngIf="invalidLogin" class="text-red-500 text-xs">Credendtials are invalid</label>
 
           </div>
         </div>

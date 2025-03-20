@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   showHide= 'show';
   typeShowHide = 'password';
+  invalidLogin = false;
 
   form = this.formBuilder.group({
     password: ["", [Validators.required, Validators.minLength(6)]],
@@ -33,12 +34,14 @@ export class LoginComponent {
         email: this.form.value.email!,
         name: ''
       };
+      
       this.authService.login(loginData)
       .then(() => {
         this.router.navigate(['/home']);
         resolve(true);
       })
       .catch((error)=>{ 
+        this.invalidLogin = true;
         console.log(error);
         reject(error);
       })})
