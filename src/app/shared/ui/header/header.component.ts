@@ -25,7 +25,7 @@ export class HeaderComponent {
   async ngOnInit() {
     try {
       this.username = await this.authService.getUsername();
-      this.notesService.getWorkspaces().subscribe(currentFolder => {
+      this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
         this.folders = currentFolder;
       });
       
