@@ -34,8 +34,8 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    getWorkspaces(): Observable<FolderDTO[]> {
-        return this.http.get<FolderDTO[]>(`${urlNotes}/folder/`) // ! no deberia andar
+    getWorkspaces(user:string): Observable<FolderDTO[]> {
+        return this.http.get<FolderDTO[]>(`${urlNotes}/folder/${user}`) 
             .pipe(catchError(this.handleError));
 
     }

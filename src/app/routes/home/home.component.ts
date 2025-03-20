@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     try {
       this.username = await this.authService.getUsername();
       this.name = await this.authService.getName();
-      this.notesService.getWorkspaces().subscribe(currentFolder => {
+      this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
         this.folders = currentFolder;
       });
       
@@ -46,9 +46,9 @@ export class HomeComponent implements OnInit {
       next: () => {
         console.log('Workspace creado exitosamente');
         // Opcionalmente, puedes volver a cargar las carpetas o añadir el nuevo folder a la lista local
-        this.notesService.getWorkspaces().subscribe(currentFolder => {
-          this.folders = currentFolder;
-        });
+        //this.notesService.getWorkspaces().subscribe(currentFolder => {
+          //this.folders = currentFolder;
+        //});
         window.location.reload();
       },
       error: err => {
