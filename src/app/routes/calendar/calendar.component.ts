@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NotesService } from '../../core/notesConnection/notes.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 interface CalendarDay {
   date: Date
@@ -25,6 +27,7 @@ export class CalendarComponent implements OnInit{
   currentMonth: Date = new Date(2025, 0, 1) // January 2025
   selectedDate: Date = new Date(2025, 0, 22) // January 22, 2025
   calendarDays: CalendarDay[] = []
+  username: string = ''
   daysOfWeek: string[] = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
   monthNames: string[] = [
     "Enero",
@@ -41,19 +44,16 @@ export class CalendarComponent implements OnInit{
     "Diciembre",
   ]
 
-  events: Event[] = [
-    { id: "1", title: "Cumple Agos", date: new Date(2024, 11, 31), color: "green" },
-    { id: "2", title: "Fiesta de Fin de Año", date: new Date(2024, 11, 31), color: "blue" },
-    { id: "3", title: "Año Nuevo", date: new Date(2025, 0, 1), color: "blue" },
-    { id: "4", title: "Cumple Nazza", date: new Date(2025, 0, 4), color: "purple" },
-    { id: "5", title: "Cumple Cesano", date: new Date(2025, 0, 8), color: "green" },
-    { id: "6", title: "Cumple Caro S", date: new Date(2025, 0, 23), color: "green" },
-    { id: "7", title: "Cumple Bruno", date: new Date(2025, 0, 30), color: "green" },
-    { id: "8", title: "Cumple Pablo", date: new Date(2025, 1, 2), color: "green" },
-  ]
+  events: Event[] = []
+
+  constructor(private notesService: NotesService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getUsername().then((username) => this.username = username)
     this.generateCalendarDays()
+    this.notesService.getEvents(this.username).subscribe((events) => {
+      this.events = events
+    })
   }
 
   generateCalendarDays(): void {

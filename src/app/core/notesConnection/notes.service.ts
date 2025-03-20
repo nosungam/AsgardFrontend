@@ -8,6 +8,8 @@ import { PromptDTO } from "../../../Interface/prompt.dto";
 import { AnswerDTO } from "../../../Interface/answer.dto";
 import { StatsDTO } from "../../../Interface/stats.dto";
 import { SkipedDTO } from "../../../Interface/skiped.dto";
+import { UpdateEventDTO } from "../../../Interface/updateEvent.dto";
+import { CreateEventDTO } from "../../../Interface/createEvent.dto";
 
 const urlNotes = 'http://localhost:3000';
 
@@ -33,7 +35,7 @@ export class NotesService {
     }
 
     getWorkspaces(): Observable<FolderDTO[]> {
-        return this.http.get<FolderDTO[]>(`${urlNotes}/folder/`)
+        return this.http.get<FolderDTO[]>(`${urlNotes}/folder/`) // ! no deberia andar
             .pipe(catchError(this.handleError));
 
     }
@@ -128,5 +130,25 @@ export class NotesService {
     private handleError(error: HttpErrorResponse) {
         console.error('HTTP Error:', error);
         return throwError(() => error);
+    }
+
+    createEvent(body: CreateEventDTO, user: string): Observable<void> {
+        return this.http.post<void>(`${urlNotes}/calendar/event/${user}`, body)
+            .pipe(catchError(this.handleError));
+    }
+
+    deleteEvent(id: number): Observable<void> {
+        return this.http.delete<void>(`${urlNotes}/calendar/event/${id}`)
+            .pipe(catchError(this.handleError));
+    }
+
+    getEvents(user: string): Observable<any[]> {
+        return this.http.get<any[]>(`${urlNotes}/calendar/events/${user}`)
+            .pipe(catchError(this.handleError));
+    }
+
+    updateEvent(id: number, body: UpdateEventDTO): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/calendar/event/${id}`, body)
+            .pipe(catchError(this.handleError));
     }
 }
