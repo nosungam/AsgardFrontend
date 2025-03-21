@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NotesService } from '../../core/notesConnection/notes.service';
@@ -18,7 +18,14 @@ export class HomeComponent implements OnInit {
   username = 'Username';
   name = 'Name';
 
-  constructor(private notesService: NotesService, private authService: AuthService, private router:Router) { }
+  @Output() workspceUpdate = new EventEmitter();
+
+  constructor(
+     private notesService: NotesService,
+     private authService: AuthService,
+     private router:Router,
+     private changeDetector: ChangeDetectorRef
+    ) { }
 
   async ngOnInit() {
     try {
@@ -27,6 +34,7 @@ export class HomeComponent implements OnInit {
       this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
         this.folders = currentFolder;
       });
+      this.changeDetector.markForCheck();
       
     } catch (error) {
       // console.error('Error fetching folders:', error);
@@ -46,15 +54,15 @@ export class HomeComponent implements OnInit {
       next: () => {
         console.log('Workspace creado exitosamente');
         // Opcionalmente, puedes volver a cargar las carpetas o añadir el nuevo folder a la lista local
-        //this.notesService.getWorkspaces().subscribe(currentFolder => {
-          //this.folders = currentFolder;
-        //});
-        window.location.reload();
+        this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
+          this.folders = currentFolder;
+        });
       },
       error: err => {
         console.error('Error creando workspace:', err);
       }
     });
+    this.workspceUpdate.emit(this.folders);
   }
 
   openWorkspace(folderId: string): void {

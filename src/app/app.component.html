@@ -10,7 +10,7 @@
     
   />
 <!-- (changeIsSidebarCollapsed)="changeIsSidebarCollapsed($event)" -->
-  <app-home
+  <app-home (updateName)="getWorkspaces($event)"
     [isSidebarCollapsed]="isSidebarCollapsed()"
   />
 </div>

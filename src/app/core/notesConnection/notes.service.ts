@@ -35,7 +35,7 @@ export class NotesService {
     }
 
     getWorkspaces(user:string): Observable<FolderDTO[]> {
-        return this.http.get<FolderDTO[]>(`${urlNotes}/folder/${user}`) 
+        return this.http.get<FolderDTO[]>(`${urlNotes}/workspaces/${user}`) 
             .pipe(catchError(this.handleError));
 
     }
@@ -77,7 +77,6 @@ export class NotesService {
     }
 
     skipFlashcard(body: SkipedDTO): Observable<any> {
-        const params = { flashcardId: body.flashcardId, folderId: body.folderId };
         return this.http.get<any>(`${urlNotes}/study-session/skip/${body.folderId}/${body.flashcardId}`)
             .pipe(catchError(this.handleError));
     }

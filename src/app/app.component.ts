@@ -32,8 +32,11 @@ export class AppComponent implements OnInit {
   isSidebarCollapsed = signal<boolean>(false);
   showSidebar = true;
   showHeader = true;
+  call: any; //todo not working
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     // Escucha los cambios de la ruta para mostrar u ocultar el sidebar y header
@@ -44,6 +47,9 @@ export class AppComponent implements OnInit {
       this.showSidebar = !noSidebarOrHeaderRoutes.includes(this.router.url);
       this.showHeader = !noSidebarOrHeaderRoutes.includes(this.router.url);
     });
+  }
+  getWorkspaces(call:any): void {
+    this.call = call; //todo not working
   }
 
   // changeIsSidebarCollapsed(isSidebarCollapsed: boolean): void {

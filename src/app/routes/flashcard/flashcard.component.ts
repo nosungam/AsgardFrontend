@@ -65,4 +65,7 @@ export class FlashcardComponent {
       }
     });
   }
+  close(): void {
+    this.router.navigate(['/workspace', this.workspaceId]);
+  }
 }

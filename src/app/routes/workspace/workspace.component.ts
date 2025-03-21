@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -31,7 +31,12 @@ export class WorkspaceComponent implements OnInit {
   };
   username: string = '';
 
-  constructor(private notesService: NotesService, private route:ActivatedRoute, private router:Router) {}
+  constructor(
+    private notesService: NotesService, 
+    private route:ActivatedRoute, 
+    private router:Router,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   async ngOnInit() {
     try {
@@ -42,6 +47,7 @@ export class WorkspaceComponent implements OnInit {
         if (this.workspaceId) {
           this.loadWorkspaceData(this.workspaceId);
         }
+        this.changeDetector.markForCheck();
       });
     } catch (error) {
       console.error('Error fetching folders:', error);
@@ -98,7 +104,6 @@ export class WorkspaceComponent implements OnInit {
         if (this.workspaceId) {
           this.loadWorkspaceData(this.workspaceId);
         }
-        window.location.reload();
       },
       error: err => {
         console.error('Error creating folder:', err);

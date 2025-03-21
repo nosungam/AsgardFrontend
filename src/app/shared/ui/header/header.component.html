@@ -1,8 +1,8 @@
 <div class="header">
-    <a href="/home" class="logo">
+    <button (click)="home()" class="logo">
         <img href="/home" src="logo.png" alt="Logo" />
         <img href="/home" src="title.png" alt="Title" id="asgard">
-    </a>
+    </button>
     <div class="buttons">
         <div>
             <a class="workspace-button" (click)="openWorkspace(folder.id)" *ngFor="let folder of folders">{{folder.name}}</a>

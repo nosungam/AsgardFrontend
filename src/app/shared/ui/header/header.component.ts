@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NotesService } from '../../../core/notesConnection/notes.service';
 import { PromptDTO } from '../../../../Interface/prompt.dto';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+
+
 
 @Component({
   selector: 'app-header',
@@ -13,14 +15,18 @@ import { AuthService } from '../../../core/auth/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
-  folders: any[] = [];
+export class HeaderComponent implements OnInit {
+  folders: any[] = []; 
   searchTerm: string = ''; 
   filteredResults: { flashcards: any[], folders: any[], notes: any[] } = { flashcards: [], folders: [], notes: [] };
   username: string = '';
   name: string = '';
 
-  constructor(private notesService: NotesService, private router:Router, private authService: AuthService) {}
+  constructor(
+    private notesService: NotesService, 
+    private router:Router, 
+    private authService: AuthService,
+  ) {}
 
   async ngOnInit() {
     try {
@@ -28,7 +34,6 @@ export class HeaderComponent {
       this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
         this.folders = currentFolder;
       });
-      
     } catch (error) {
       // console.error('Error fetching folders:', error);
     }
@@ -73,5 +78,9 @@ export class HeaderComponent {
 
   changeTheme(): void {
     
+  }
+
+  home(): void {
+    this.router.navigate(['/home']);
   }
 }
