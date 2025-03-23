@@ -12,11 +12,13 @@ import { NotesService } from '../../core/notesConnection/notes.service';
 })
 export class RecycleBinComponent {
   folders: any[] = [];
+  username: string = '';
 
   constructor(private notesService: NotesService) {}
 
   async ngOnInit() {
     try {
+      this.username = (localStorage.getItem('email') || '').replace(/^"(.*)"$/, '$1');
       this.loadFolders();
     } catch (error) {
       console.error('Error fetching community workspaces:', error);
@@ -24,7 +26,7 @@ export class RecycleBinComponent {
   }
 
   private loadFolders(): void {
-    this.notesService.getfoldersInRecycleBin().subscribe(currentFolder => {
+    this.notesService.getfoldersInRecycleBin(this.username).subscribe(currentFolder => {
       console.log('Deleted folders', currentFolder);
       this.folders = currentFolder;
     });

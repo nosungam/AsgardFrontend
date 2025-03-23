@@ -35,8 +35,7 @@
             <label *ngIf="form.get('password')?.errors?.['minlength']" class="text-red-500 text-xs">Invalid password</label>
             <label *ngIf="form.get('password')?.errors?.['required']" class="text-red-500 text-xs">Password is required</label>
           </div>
-          <label *ngIf="invalidLogin" class="text-red-500 text-xs">Credendtials are invalid</label>
-
+          <label *ngIf="invalidLogin" class="invalid-credentials">Invalid username or password. Please try again.</label>
           </div>
         </div>
         <!--forget password-->

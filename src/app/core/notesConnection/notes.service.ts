@@ -19,6 +19,11 @@ const urlNotes = 'http://localhost:3000';
 export class NotesService {
     constructor(private http: HttpClient) { }
 
+    private handleError(error: HttpErrorResponse) {
+        console.error('HTTP Error:', error);
+        return throwError(() => error);
+    }
+
     getFlashcards(folderId: number): Observable<FolderDTO[]> {
         return this.http.get<FolderDTO[]>(`${urlNotes}/flashcard/${folderId}`)
             .pipe(catchError(this.handleError));
@@ -106,8 +111,8 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    getfoldersInRecycleBin(): Observable<FolderDTO[]> {
-        return this.http.get<FolderDTO[]>(`${urlNotes}/recycle-bin`)
+    getfoldersInRecycleBin(user: string): Observable<FolderDTO[]> {
+        return this.http.get<FolderDTO[]>(`${urlNotes}/recycle-bin/${user}`) 
             .pipe(catchError(this.handleError));
     }
 
@@ -124,11 +129,6 @@ export class NotesService {
     suscribeToCommunityWorkspace(folderId: number): Observable<void> {
         return this.http.put<void>(`${urlNotes}/community-workspaces`, { id: folderId})
             .pipe(catchError(this.handleError));
-    }
-
-    private handleError(error: HttpErrorResponse) {
-        console.error('HTTP Error:', error);
-        return throwError(() => error);
     }
 
     createEvent(body: CreateEventDTO, user: string): Observable<void> {

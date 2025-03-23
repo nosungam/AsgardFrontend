@@ -55,8 +55,8 @@
 }
 
 .restore-button {
-    background-color: #2ecc71;
-    color: white;
+    background-color: #69ffa8;
+    color: rgb(0, 0, 0);
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
@@ -64,8 +64,8 @@
 }
 
 .delete-button {
-    background-color: #e74c3c;
-    color: white;
+    background-color: #f88b7f;
+    color: rgb(0, 0, 0);
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
@@ -73,9 +73,9 @@
 }
 
 .restore-button:hover {
-    background-color: #27ae60;
+    background-color: #62e498;
 }
 
 .delete-button:hover {
-    background-color: #c0392b;
+    background-color: #f77f71;
 }
