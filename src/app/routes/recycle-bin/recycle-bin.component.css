@@ -16,14 +16,9 @@
     font-size: 2.5rem;
     padding: 10px;
     border: none;
-    /* Sin bordes */
     outline: none;
     resize: none;
-    /* Opcional: desactiva el redimensionado */
-    background-color: #ffffff;
-    /* Fondo blanco */
     border-radius: 8px;
-    /* Bordes redondeados */
     text-align: center;
     width: 100%;
 }

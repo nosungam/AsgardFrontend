@@ -1,4 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+    height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:root {
+    /* General */
+    --background-color: #ffffff;
+    --text-color: #000000;
+
+    /* Header */
+
+    /* Sidebar */
+    --sidebar-bg: #ffffff;
+    --sidebar-text: #585858;
+    --sidebar-hover: #f0efef;
+    --sidebar-active: #d6d6d6;
+    --sidebar-active-text: #000;
+    --sidebar-signout: #000000;
+    --sidebar-signout-bg: #359eff;
+    --sidebar-signout-hover: #2b80cc;
+    --sidebar-signout-light-bg: #e6f2ff;
+    --sidebar-signout-dark-bg: #1a4b80;
+    --transition-speed: 0.3s;
+    --border-radius: 8px;
+}
+
+:root.dark {
+    /* General */
+    --background-color: #121212;
+    --text-color: #ffffff;
+
+    /* Header */
+    --header-bg: #333;
+
+    /* Sidebar */
+    --sidebar-bg: #1e1e1e;
+    --sidebar-text: #e0e0e0;
+    --sidebar-hover: #2c2c2c;
+    --sidebar-active: #3a3a3a;
+    --sidebar-active-text: #ffffff;
+    --sidebar-signout: #ffffff;
+
+    /* Workspace */
+
+}

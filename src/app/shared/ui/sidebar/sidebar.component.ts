@@ -13,8 +13,6 @@ import { Router } from '@angular/router';
 })
 
 export class SidebarComponent implements OnInit{
-  isSidebarCollapsed = input.required<boolean>();
-  changeIsSidebarCollapsed = output<boolean>();
   showLogoutText = false;
   currentWorkspace = 'Workspace 1';
   username= 'Username';
@@ -42,14 +40,6 @@ export class SidebarComponent implements OnInit{
   logout(){
     this.authService.logOut();
     this.router.navigate(['/login']);
-  }
-
-  toggleCollapse(): void {
-    this.changeIsSidebarCollapsed.emit(!this.isSidebarCollapsed());
-  }
-
-  closeSidenav(): void {
-    this.changeIsSidebarCollapsed.emit(true);
   }
 
   ngOnInit(): void {

@@ -12,11 +12,14 @@ import { NotesService } from '../../../../src/app/core/notesConnection/notes.ser
 })
 export class CommunityWorkspacesComponent {
   folders: any[] = [];
+  username: string = '';
+  parent: number = 0;
 
   constructor(private notesService: NotesService) {}
 
   async ngOnInit() {
     try {
+      this.username = (localStorage.getItem('email') || '').replace(/^"(.*)"$/, '$1');
       this.loadCommunityWorkspaces();
     } catch (error) {
       console.error('Error fetching community workspaces:', error);
@@ -25,18 +28,20 @@ export class CommunityWorkspacesComponent {
 
   private loadCommunityWorkspaces(): void {
     this.notesService.getCommunityWorkspaces().subscribe(currentFolder => {
-      console.log('Community workspaces:', currentFolder);
       
       this.folders = currentFolder;
     });
   }
 
-  setLike(folderId: number): void {
-    this.notesService.suscribeToCommunityWorkspace(folderId).subscribe({
-      next: () => {
-        console.log('Folder liked successfully.');
-      }
+  downloadFolder(folderId: number): void {
+    this.notesService.getFolders(folderId).subscribe(currentFolder => {
+      console.log('Folder:', currentFolder);
+      this.parent = currentFolder.id || 0;
+      this.notesService.cloneCommunityWorkspace(folderId, this.username, this.parent).subscribe({
+        next: () => {
+          console.log('Folder downloaded successfully.');
+        }
+      });
     });
   }
-    
 }

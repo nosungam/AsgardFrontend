@@ -6,7 +6,7 @@ export interface FolderDTO {
     isWorkspace: boolean,
     parentId: number | null,
     note?: string,
-    children?: FolderDTO[]
-    flashcard?: FlashcardDTO[]
-    user: string
+    children?: FolderDTO[],
+    flashcard?: FlashcardDTO[],
+    username: string
 }

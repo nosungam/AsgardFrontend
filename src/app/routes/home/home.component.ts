@@ -21,11 +21,11 @@ export class HomeComponent implements OnInit {
   @Output() workspceUpdate = new EventEmitter();
 
   constructor(
-     private notesService: NotesService,
-     private authService: AuthService,
-     private router:Router,
-     private changeDetector: ChangeDetectorRef
-    ) { }
+    private notesService: NotesService,
+    private authService: AuthService,
+    private router: Router,
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
   async ngOnInit() {
     try {
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
         this.folders = currentFolder;
       });
       this.changeDetector.markForCheck();
-      
+
     } catch (error) {
       // console.error('Error fetching folders:', error);
     }
@@ -48,8 +48,10 @@ export class HomeComponent implements OnInit {
       name: 'New Workspace',
       isWorkspace: true,
       parentId: null,
-      user: this.username
+      username: this.username
     }; // Ajusta según los campos del DTO
+    console.log('Creating workspace:', newFolder);
+    
     this.notesService.createWorkspace(newFolder).subscribe({
       next: () => {
         console.log('Workspace creado exitosamente');

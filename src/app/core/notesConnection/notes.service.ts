@@ -150,4 +150,9 @@ export class NotesService {
         return this.http.put<void>(`${urlNotes}/calendar/event/${id}`, body)
             .pipe(catchError(this.handleError));
     }
+
+    cloneCommunityWorkspace(folderId: number, user:string, parent:number): Observable<void> {
+        return this.http.post<void>(`${urlNotes}/community-workspaces`, { id: folderId, user, parent })
+            .pipe(catchError(this.handleError));
+    }
 }

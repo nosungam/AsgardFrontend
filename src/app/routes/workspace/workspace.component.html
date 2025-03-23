@@ -4,6 +4,7 @@
     <div class="flex icons">
         <img class="icon" src="flashcard.png" alt="Flashcard" (click)="startSession()">
         <div class="flex">
+            <a class="upload" (click)="uploadFolder()"><img class="icon" src="upload.png" alt="Upload"></a>
             <a href="/stats/{{workspaceId}}"><img class="icon" src="informacion.png" alt="About"></a>
             <a class="ml-1 delete" (click)="deleteFolder()"><img class="icon" src="delete.png" alt="Delete"></a>
         </div>

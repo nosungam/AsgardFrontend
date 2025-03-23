@@ -22,6 +22,8 @@ export class HeaderComponent implements OnInit {
   username: string = '';
   name: string = '';
 
+  isDarkMode = false
+
   constructor(
     private notesService: NotesService, 
     private router:Router, 
@@ -30,6 +32,15 @@ export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
     try {
+      const savedTheme = localStorage.getItem("theme")
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        this.setDarkMode(true)
+      } else {
+        // Check if dark mode is already enabled in the DOM
+        this.isDarkMode = document.documentElement.classList.contains("dark")
+      }
+
       this.username = await this.authService.getUsername();
       this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
         this.folders = currentFolder;
@@ -76,8 +87,22 @@ export class HeaderComponent implements OnInit {
     this.searchTerm = '';
   }
 
+  private setDarkMode(isDark: boolean): void {
+    this.isDarkMode = isDark
+
+    // Save preference to localStorage
+    localStorage.setItem("theme", isDark ? "dark" : "light")
+
+    // Apply or remove dark class from document
+    if (isDark) {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }
+
   changeTheme(): void {
-    
+    this.setDarkMode(!this.isDarkMode)
   }
 
   home(): void {

@@ -92,7 +92,7 @@ export class WorkspaceComponent implements OnInit {
       name: 'New Folder',
       isWorkspace: false,
       parentId: this.workspaceId,
-      user: this.username.substring(1, this.username.length - 1)
+      username: this.username.substring(1, this.username.length - 1)
 
     };
     
@@ -207,6 +207,17 @@ export class WorkspaceComponent implements OnInit {
       },
       error: err => {
         console.error('Error deleting folder:', err);
+      }
+    });
+  }
+
+  uploadFolder(): void {
+    this.notesService.suscribeToCommunityWorkspace(this.workspaceId).subscribe({
+      next: () => {
+        console.log('Folder uploaded.');
+      },
+      error: err => {
+        console.error('Error uploading folder:', err);
       }
     });
   }

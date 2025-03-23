@@ -23,17 +23,22 @@
     font-weight: bold;
     font-size: 3rem;
     padding: 10px;
-    border: none; /* Sin bordes */
+    border: none;
     outline: none;
-    resize: none; /* Opcional: desactiva el redimensionado */
-    background-color: #ffffff; /* Fondo blanco */
-    border-radius: 8px; /* Bordes redondeados */
+    resize: none;
+    border-radius: 8px; 
     text-align: center;
     width: 80%;
 }
 
 .delete{
     width: 1.83rem;
+}
+
+.upload{
+    width: 1.9rem;
+    margin-top: 1px;
+    margin-right: .3rem;
 }
 
 .folders{

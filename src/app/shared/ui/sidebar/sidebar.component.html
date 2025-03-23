@@ -1,34 +1,41 @@
-<div class="sidenav shadow" [ngClass]="isSidebarCollapsed() ? 'sidenav-collapsed' : ''">
+<div class="sidenav shadow">
   <div class="layout-content-container">
     <div class="layout-content">
+      <!-- Perfil de usuario -->
       <div class="user-img-container">
-        <button class="user-img">
-          <img src={{image}} alt="">
+        <button class="user-img" aria-label="Perfil de usuario">
+          <img [src]="image" alt="Foto de perfil">
         </button>
-        @if (!isSidebarCollapsed()) {
-        <div class="flex flex-col user-img-text">
-          <h3 class="username">{{username}}</h3>
+        <div class="user-info">
+          <h3 class="username truncate">{{username}}</h3>
         </div>
-        }
       </div>
 
+      <!-- Navegación -->
       <ul class="sidenav-nav">
         @for (item of items; track $index) {
         <li class="sidenav-nav-item">
-          <a class="sidenav-nav-link" [routerLink]="item.routeLink" routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-            @if (!isSidebarCollapsed()) {
-              <i class="sidenav-link-icon" [class]="item.icon"></i>
-              <span class="sidenav-link-text">{{ item.label }}</span>
-            }
-            @if (isSidebarCollapsed()) {
-              <i class="sidenav-collapsed-link-icon" [class]="item.icon"></i>
-            }
+          <a class="sidenav-nav-link" 
+             [routerLink]="item.routeLink" 
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }">
+            <i class="sidenav-link-icon" [class]="item.icon"></i>
+            <span class="sidenav-link-text truncate">{{ item.label }}</span>
           </a>
         </li>
         }
       </ul>
     </div>
-    <button class="add-workspace-btn" (click)="logout()">Signout</button>
+    
+    <!-- Botón de cierre de sesión -->
+    <button class="signout-btn" 
+            (click)="logout()" 
+            (mouseenter)="toggleLogoutText()" 
+            (mouseleave)="toggleLogoutText()" 
+            aria-label="Cerrar sesión">
+      <i class="fas fa-sign-out-alt signout-icon"></i>
+      <span class="signout-text" [class.visible]="showLogoutText">Signout</span>
+    </button>
   </div>
 </div>
+

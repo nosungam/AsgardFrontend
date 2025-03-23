@@ -11,5 +11,4 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './template.component.css'
 })
 export class TemplateComponent {
-  isSidebarCollapsed = input.required<boolean>();
 }

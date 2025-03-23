@@ -68,7 +68,7 @@
     color: #363636;
 }
 
-.like-button {
+.download-button {
     color: white;
     border: none;
     padding: 4px 0px;
@@ -82,6 +82,6 @@
     color: black;
 }
 
-.like-button:hover {
+.download-button:hover {
     transform: scale(1.2);
 }
