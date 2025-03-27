@@ -221,4 +221,7 @@ export class WorkspaceComponent implements OnInit {
       }
     });
   }
+  goToStats():void{
+    this.router.navigate(['/stats', this.workspaceId]);
+  }
 }

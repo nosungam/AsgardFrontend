@@ -45,7 +45,7 @@
     justify-content: center;
     text-align: center;
     background-color: #F2F2F2;
-    width: 40%;
+    height: 12.5rem;
     align-items: center;
     margin: 0.5rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -53,16 +53,6 @@
 
 .totalFlashcards-chart {
     margin-right: 2rem;
-}
-
-.subcontainer {
-    flex-direction: row !important;
-}
-
-.bestStrike-chart {
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
 }
 
 .square {

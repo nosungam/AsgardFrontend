@@ -21,6 +21,8 @@ export class StatsComponent implements OnInit {
   folders: any[] = [];
   workspaceId: number | null = null;
   bestStrike: number = 0;
+  totalStudySessions: number = 0;
+
   
   //chart
 
@@ -48,7 +50,8 @@ export class StatsComponent implements OnInit {
   //chart 2
 
   totalDaysStudiedInLastMonth:number=0
-  viewPie: [number, number] = [500, 400];
+  avaregeDailyScore:number=0;
+  avaregeTimePerSession:number=0;
   daysStudied: any[] = [
     {
       name: 'Loading...',
@@ -97,10 +100,15 @@ export class StatsComponent implements OnInit {
               value: stat.amount,
             }));
             this.bestStrike = stats.bestStrike;
+            this.totalStudySessions = stats.totalStudySessions;
             this.totalDaysStudiedInLastMonth = stats.daysStudiedInLast30Days;
+            this.avaregeDailyScore = stats.avarageScore;
+            this.avaregeTimePerSession = stats.avarageTimePerSession;
+            
             this.daysStudied = [
               { name: 'Days Studied', value: this.totalDaysStudiedInLastMonth },
-              { name: 'Days Not Studied', value: 30 - this.totalDaysStudiedInLastMonth },
+              { name: 'Avarege Score Per day', value: this.avaregeDailyScore },
+              { name: 'Avarege Time Per Session', value:this.avaregeTimePerSession}
             ];
           });
         }
@@ -111,7 +119,7 @@ export class StatsComponent implements OnInit {
   }
 
   onSelect(data: any): void {
-    
+    console.log(data);
   }
 
   updateScore(scorePerDay: any[], data: DayDataDTO[]) {
@@ -136,5 +144,9 @@ export class StatsComponent implements OnInit {
   closeOverlay() {
     this.selectedDay = null;
     this.selectedI = null;
+  }
+
+  goToWorkspace():void{
+    this.router.navigate(['/workspace', this.workspaceId]);
   }
 }
