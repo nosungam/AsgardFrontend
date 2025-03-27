@@ -3,37 +3,43 @@
         <img class="icon" src="boton-cerrar.png" alt="Close" (click)="stopSession()">
         <img class="icon" src="next.png" alt="Next" (click)="skipQuestion()">
     </div>
-
-    @if (answered===false) {
-    <div class="flashcard-container">
-        <h2>{{folderName}}'s flashcards</h2>
-        <div class="question-section">
-            <p class="label">Question</p>
-            <hr>
-            <div *ngFor="let item of questionArray">
-                <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
-                <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
-                <br><br>
+    @if (flashcard) {
+        @if (!answered) {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <div class="question-section">
+                <p class="label">Question</p>
+                <hr>
+                <div *ngFor="let item of questionArray">
+                    <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
+                    <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                    <br><br>
+                </div>
             </div>
+            <button class="show-answer-button" (click)="showAnswer()">Show Answer</button>
         </div>
-        <button class="show-answer-button" (click)="showAnswer()">Show Answer</button>
-    </div>
-    }
+        }
 
-    @if (answered===true) {
-    <div class="flashcard-container">
-        <h2>{{folderName}}'s flashcards</h2>
-        <div class="question-section">
-            <p class="label">Answer</p>
-            <hr>
-            <div *ngFor="let item of answerArray">
-                <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
-                <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
-                <br><br>
+        @if (answered) {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <div class="question-section">
+                <p class="label">Answer</p>
+                <hr>
+                <div *ngFor="let item of answerArray">
+                    <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
+                    <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                    <br><br>
+                </div>
             </div>
+            <button class="good-button" (click)="correctAnswer()">Good</button>
+            <button class="bad-button" (click)="incorrectAnswer()">Bad</button>
         </div>
-        <button class="good-button" (click)="correctAnswer()">Good</button>
-        <button class="bad-button" (click)="incorrectAnswer()">Bad</button>
-    </div>
+        }
+    }@else {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <p class="no-flashcards">No flashcards available.</p>
+        </div>
     }
 </div>

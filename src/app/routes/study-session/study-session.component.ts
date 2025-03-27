@@ -57,12 +57,18 @@ export class StudySessionComponent {
     this.answered = false;
     if (this.workspaceId) {
       this.notesService.getRandomFlashcard(this.workspaceId).subscribe(currentFolder => {
-        this.flashcard = currentFolder;
-        this.questionArray=this.divideByIdentifier(this.flashcard.question);
-        this.answerArray=this.divideByIdentifier(this.flashcard.answer);
-        
-        this.flashcard.question = this.getQuestion(this.flashcard.question);
-        this.flashcard.answer = this.getQuestion(this.flashcard.answer);
+        if (currentFolder !== null) {
+          this.flashcard = currentFolder;
+          this.questionArray=this.divideByIdentifier(this.flashcard.question);
+          this.answerArray=this.divideByIdentifier(this.flashcard.answer);
+          
+          this.flashcard.question = this.getQuestion(this.flashcard.question);
+          this.flashcard.answer = this.getQuestion(this.flashcard.answer);
+        }
+        else {
+          console.log("No hay más preguntas disponibles.");
+          this.flashcard = null;
+        }
       });
     }
   }
