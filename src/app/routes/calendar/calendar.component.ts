@@ -106,20 +106,31 @@ export class CalendarComponent implements OnInit{
   }
 
   getEventsForDay(date: Date): CreateEventDTO[] {
-    
+    console.log('entre')
     return this.events.filter((event) => {
       const startDate = new Date(event.startDate);
-      const endDate = event.endDate ? new Date(event.endDate) : new Date(0);
-      return (
-        startDate.getDate() === date.getDate() &&
+      if (!event.endDate) {
+        return (startDate.getDate() === date.getDate() &&
         startDate.getMonth() === date.getMonth() &&
-        startDate.getFullYear() === date.getFullYear()
+        startDate.getFullYear() === date.getFullYear())
+      }
+      const endDate = new Date(event.endDate)
+      return (
+          (startDate.getDate() === date.getDate() &&
+          startDate.getMonth() === date.getMonth() &&
+          startDate.getFullYear() === date.getFullYear())||
+          (endDate.getDate() === date.getDate() &&
+          endDate.getMonth() === date.getMonth() &&
+          endDate.getFullYear() === date.getFullYear())
       );
     });
   }
 
   getEventsForMonth(): CreateEventDTO[] {
-    return this.events.filter((event) => event.startDate.getMonth() === this.currentMonth.getMonth())
+    return this.events.filter((event) => {
+      const startDate = new Date(event.startDate);
+      return startDate.getMonth() === this.currentMonth.getMonth()
+  })
   }
 
   formatDate(date: Date): string {
