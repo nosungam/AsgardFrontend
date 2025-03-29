@@ -19,6 +19,11 @@ export class SidebarComponent implements OnInit{
   image = "./avatar.png";
   items = [
     {
+      routeLink: 'home',
+      icon: 'bi bi-house',
+      label: 'Home',
+    },
+    {
       routeLink: 'calendar',
       icon: 'bi bi-calendar-event',
       label: 'Calendar',
