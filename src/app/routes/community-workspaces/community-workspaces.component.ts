@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
+import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service';
 
 @Component({
   selector: 'app-community-workspaces',
@@ -14,7 +15,7 @@ export class CommunityWorkspacesComponent {
   folders: any[] = [];
   username: string = '';
 
-  constructor(private notesService: NotesService) {}
+  constructor(private notesService: NotesService, private updateWorkspace: UpdateWorkspaceService) {}
 
   async ngOnInit() {
     try {
@@ -38,6 +39,8 @@ export class CommunityWorkspacesComponent {
       this.notesService.cloneCommunityWorkspace(folderId, this.username).subscribe({
         next: () => {
           console.log('Folder downloaded successfully.');
+          this.updateWorkspace.updateFolders(this.username)
+
         }
       });
     });
