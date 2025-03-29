@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotesService } from '../../core/notesConnection/notes.service';
@@ -13,13 +13,12 @@ import { SkipedDTO } from '../../../Interface/skiped.dto';
   templateUrl: './study-session.component.html',
   styleUrl: './study-session.component.css'
 })
-export class StudySessionComponent {
+export class StudySessionComponent implements OnInit {
   folderName: string = '';
   sessionId: number | null = null;
   workspaceId: number | null = null;
   flashcard: any;
   answered: boolean = false;
-  newAnswer: AnswerDTO = { id: 0, correct: false};
   skiped: SkipedDTO = {flashcardId: 0, folderId: 0};
   questionArray: string[] = [];
   answerArray: string[] = [];
@@ -36,14 +35,14 @@ export class StudySessionComponent {
           this.folderName = currentFolder.name || '';
         });
       }
-      this.nextQuestion();
     })
-
+    
     if (this.workspaceId) {
       this.notesService.createStudySession(this.workspaceId).subscribe(response => {
         this.sessionId = response.id;
       });
     }
+    this.nextQuestion();
   }
 
   stopSession(){
@@ -56,9 +55,11 @@ export class StudySessionComponent {
   nextQuestion(){
     this.answered = false;
     if (this.workspaceId) {
-      this.notesService.getRandomFlashcard(this.workspaceId).subscribe(currentFolder => {
-        if (currentFolder !== null) {
-          this.flashcard = currentFolder;
+      this.notesService.getRandomFlashcard(this.workspaceId).subscribe(currentFlashcard => {
+        if (currentFlashcard !== null) {
+          console.log('hay flashcards')
+          console.log(currentFlashcard)
+          this.flashcard = currentFlashcard;
           this.questionArray=this.divideByIdentifier(this.flashcard.question);
           this.answerArray=this.divideByIdentifier(this.flashcard.answer);
           
@@ -132,35 +133,16 @@ export class StudySessionComponent {
     this.answered = true;
   }
 
-  correctAnswer(){
-    this.newAnswer.correct = true
-    this.newAnswer.id = this.flashcard.id;
+  answerFlashcard(correct:boolean){
     if (this.sessionId){
-      this.notesService.answerFlashcard(this.newAnswer, this.sessionId).subscribe({
+      this.notesService.answerFlashcard({id:this.flashcard.id, correct}, this.sessionId).subscribe({
         next: () => {
-          console.log('Flashcard answered.');
+          this.nextQuestion();
         },
         error: err => {
           console.error('Error answering the flashcard:', err);
         }
       });
     }
-    this.nextQuestion();
-  }
-
-  incorrectAnswer(){
-    this.newAnswer.correct = false
-    this.newAnswer.id = this.flashcard.id;
-    if (this.sessionId){
-      this.notesService.answerFlashcard(this.newAnswer, this.sessionId).subscribe({
-        next: () => {
-          console.log('Flashcard answered.');
-        },
-        error: err => {
-          console.error('Error answering the flashcard:', err);
-        }
-      });
-    }
-    this.nextQuestion();
   }
 }
