@@ -7,6 +7,7 @@ import { FlashcardDTO } from '../../../Interface/flashcard.dto';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EditorConfig, NgxSimpleTextEditorModule, ST_BUTTONS } from 'ngx-simple-text-editor';
+import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service';
 
 @Component({
   selector: 'app-workspace',
@@ -35,7 +36,8 @@ export class WorkspaceComponent implements OnInit {
     private notesService: NotesService, 
     private route:ActivatedRoute, 
     private router:Router,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private updateWorkspace: UpdateWorkspaceService
   ) {}
 
   async ngOnInit() {
@@ -192,6 +194,7 @@ export class WorkspaceComponent implements OnInit {
     this.notesService.updateFolder(this.workspaceId, this.workspace.name).subscribe({
       next: () => {
         console.log('Name updated.');
+        this.updateWorkspace.updateName(this.workspaceId, this.workspace.name);
       },
       error: err => {
         console.error('Error updating name:', err);
@@ -200,6 +203,7 @@ export class WorkspaceComponent implements OnInit {
   }
 
   deleteFolder(): void {
+    this.updateWorkspace.deleteFolder(this.workspaceId) 
     this.notesService.moveToRecycleBin(this.workspaceId!).subscribe({
       next: () => {
         console.log('Folder deleted.');

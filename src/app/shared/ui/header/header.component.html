@@ -4,8 +4,13 @@
         <img href="/home" src="title.png" alt="Title" id="asgard">
     </button>
     <div class="buttons">
+        <div *ngIf="updateWorkspaceService.folders.length===0">
+            <a class="workspace-button" (click)="openWorkspace(folder.id)"
+        *ngFor="let folder of folders;">{{folder.name}}</a>
+        </div>
         <a class="workspace-button" (click)="openWorkspace(folder.id)"
-            *ngFor="let folder of folders">{{folder.name}}</a>
+        *ngFor="let folder of updateWorkspaceService.folders;">{{folder.name}}</a>
+        
         <button (click)="changeTheme()" [ngClass]="{'dark-mode': isDarkMode, 'light-mode': !isDarkMode}" class="theme-toggle">
             <div [ngClass]="{'reverse': isDarkMode}" class="toggle-content">
                 <span class="mode-text">{{ isDarkMode ? 'Night mode' : 'Day mode' }}</span>
