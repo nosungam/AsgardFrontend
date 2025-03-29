@@ -127,13 +127,13 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    suscribeToCommunityWorkspace(folderId: number): Observable<void> {
-        return this.http.put<void>(`${urlNotes}/community-workspaces`, { id: folderId})
+    suscribeToCommunityWorkspace(folderId: number, description: string, img: string): Observable<void> {
+        return this.http.put<void>(`${urlNotes}/community-workspaces`, { id: folderId, description, img })
             .pipe(catchError(this.handleError));
     }
 
-    createEvent(body: CreateEventDTO, user: string): Observable<void> {
-        return this.http.post<void>(`${urlNotes}/calendar/event/${user}`, body)
+    createEvent(body: CreateEventDTO, user: string): Observable<CreateEventDTO> {
+        return this.http.post<CreateEventDTO>(`${urlNotes}/calendar/event/${user}`, body)
             .pipe(catchError(this.handleError));
     }
 
@@ -142,8 +142,8 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    getEvents(user: string): Observable<any[]> {
-        return this.http.get<any[]>(`${urlNotes}/calendar/events/${user}`)
+    getEvents(user: string): Observable<CreateEventDTO[]> {
+        return this.http.get<CreateEventDTO[]>(`${urlNotes}/calendar/events/${user}`)
             .pipe(catchError(this.handleError));
     }
 
@@ -152,8 +152,8 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
-    cloneCommunityWorkspace(folderId: number, user:string, parent:number): Observable<void> {
-        return this.http.post<void>(`${urlNotes}/community-workspaces`, { id: folderId, user, parent })
+    cloneCommunityWorkspace(folderId: number, user:string): Observable<void> {
+        return this.http.post<void>(`${urlNotes}/community-workspaces`, { id: folderId, user })
             .pipe(catchError(this.handleError));
     }
 }

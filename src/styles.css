@@ -17,6 +17,7 @@ body {
     --text-color: #000000;
 
     /* Header */
+    --header-bg: #ffffff;
 
     /* Sidebar */
     --sidebar-bg: #ffffff;
@@ -31,6 +32,11 @@ body {
     --sidebar-signout-dark-bg: #1a4b80;
     --transition-speed: 0.3s;
     --border-radius: 8px;
+
+    /* Workspace */
+    --workspace-button-bg: #b3b4b6;
+    --workspace-buttonhover-bg: #949494;
+    --workspace-separator-border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 :root.dark {
@@ -50,5 +56,7 @@ body {
     --sidebar-signout: #ffffff;
 
     /* Workspace */
-
+    --workspace-button-bg: #3181f9;
+    --workspace-buttonhover-bg: #1d74f5;
+    --workspace-separator-border: 1px solid rgba(255, 255, 255, 0.4);
 }

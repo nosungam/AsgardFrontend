@@ -1,6 +1,6 @@
 export interface CreateEventDTO {
     title: string;
-    strartDate: Date;
+    startDate: Date;
     endDate?: Date;
     color: string;
     startHour?: string;

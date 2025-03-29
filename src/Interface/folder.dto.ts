@@ -8,5 +8,7 @@ export interface FolderDTO {
     note?: string,
     children?: FolderDTO[],
     flashcard?: FlashcardDTO[],
-    username: string
+    username: string,
+    img?: string,
+    description?: string,
 }

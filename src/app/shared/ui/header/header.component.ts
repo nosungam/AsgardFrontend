@@ -59,6 +59,7 @@ export class HeaderComponent implements OnInit {
   onSearch(): void {
     if(this.searchTerm) {
       const body:PromptDTO = { prompt: this.searchTerm, username: this.username };
+      
       this.notesService.search(body).subscribe({
         next: (results: any) => {
           this.filteredResults = {
