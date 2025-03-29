@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NotesService } from '../../../core/notesConnection/notes.service';
 import { PromptDTO } from '../../../../Interface/prompt.dto';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { UpdateWorkspaceService } from '../../../core/util/updateWorkspace.service';
 
 
 
@@ -16,7 +17,7 @@ import { AuthService } from '../../../core/auth/auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  folders: any[] = []; 
+  folders: any[] = [];
   searchTerm: string = ''; 
   filteredResults: { flashcards: any[], folders: any[], notes: any[] } = { flashcards: [], folders: [], notes: [] };
   username: string = '';
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
     private notesService: NotesService, 
     private router:Router, 
     private authService: AuthService,
+    public updateWorkspaceService: UpdateWorkspaceService
   ) {}
 
   async ngOnInit() {

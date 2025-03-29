@@ -1,15 +1,15 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { NotesService } from '../../core/notesConnection/notes.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { FolderDTO } from '../../../Interface/folder.dto';
 import { Router } from '@angular/router';
+import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -18,13 +18,12 @@ export class HomeComponent implements OnInit {
   username = 'Username';
   name = 'Name';
 
-  @Output() workspceUpdate = new EventEmitter();
-
   constructor(
     private notesService: NotesService,
     private authService: AuthService,
     private router: Router,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private updateWorkspaceService: UpdateWorkspaceService
   ) { }
 
   async ngOnInit() {
@@ -59,12 +58,12 @@ export class HomeComponent implements OnInit {
         this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
           this.folders = currentFolder;
         });
+        this.updateWorkspaceService.updateFolders(this.username);
       },
       error: err => {
         console.error('Error creando workspace:', err);
       }
     });
-    this.workspceUpdate.emit(this.folders);
   }
 
   openWorkspace(folderId: string): void {

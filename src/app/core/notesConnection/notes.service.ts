@@ -72,6 +72,7 @@ export class NotesService {
     }
 
     answerFlashcard(body: AnswerDTO, sessionId:number): Observable<void> {
+        console.log(body)
         return this.http.post<void>(`${urlNotes}/study-session/${sessionId}`, body, )
             .pipe(catchError(this.handleError));
     }
