@@ -1,8 +1,12 @@
 <div class="header">
     <button (click)="home()" class="logo">
-        <img href="/home" src="logo.png" alt="Logo" />
-        <img href="/home" src="title.png" alt="Title" id="asgard">
+        <img *ngIf="!isDarkMode" src="logo.png" alt="Logo" />
+        <img *ngIf="!isDarkMode" src="title.png" alt="Title" id="asgard"/>
+    
+        <img *ngIf="isDarkMode" src="logo-dark.png" alt="Logo" />
+        <img *ngIf="isDarkMode" src="title-dark.png" alt="Title" id="asgard"/>
     </button>
+    
     <div class="buttons">
         <a class="workspace-button" (click)="openWorkspace(folder.id)"
             *ngFor="let folder of folders">{{folder.name}}</a>
@@ -55,7 +59,7 @@
             <ul *ngIf="filteredResults.notes.length > 0" class="suggestions-list">
                 <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.notes"
                     (click)="selectSuggestion(suggestion)">
-                    {{ suggestion.name }} <img class="search-icon" src="/avatar.png" alt="">
+                    {{ suggestion.name }} <img class="search-icon" src="/note.svg" alt="">
                 </li>
             </ul>
         </div>

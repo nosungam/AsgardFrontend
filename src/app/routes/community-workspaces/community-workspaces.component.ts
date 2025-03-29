@@ -13,7 +13,6 @@ import { NotesService } from '../../../../src/app/core/notesConnection/notes.ser
 export class CommunityWorkspacesComponent {
   folders: any[] = [];
   username: string = '';
-  parent: number = 0;
 
   constructor(private notesService: NotesService) {}
 
@@ -36,8 +35,7 @@ export class CommunityWorkspacesComponent {
   downloadFolder(folderId: number): void {
     this.notesService.getFolders(folderId).subscribe(currentFolder => {
       console.log('Folder:', currentFolder);
-      this.parent = currentFolder.id || 0;
-      this.notesService.cloneCommunityWorkspace(folderId, this.username, this.parent).subscribe({
+      this.notesService.cloneCommunityWorkspace(folderId, this.username).subscribe({
         next: () => {
           console.log('Folder downloaded successfully.');
         }

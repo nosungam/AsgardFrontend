@@ -20,12 +20,13 @@
     outline: none;
     resize: none;
     /* Opcional: desactiva el redimensionado */
-    background-color: #ffffff;
+    background-color: var(--background-color);
     /* Fondo blanco */
     border-radius: 8px;
     /* Bordes redondeados */
     text-align: center;
     width: 100%;
+    color: var(--text-color);
 }
 
 .cards-container {
@@ -65,7 +66,7 @@
 .card-note {
     margin-top: 5%;
     font-size: 0.9em;
-    color: #363636;
+    color: var(--text-color)
 }
 
 .download-button {

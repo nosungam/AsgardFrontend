@@ -9,6 +9,35 @@
             <a class="ml-1 delete" (click)="deleteFolder()"><img class="icon" src="delete.png" alt="Delete"></a>
         </div>
     </div>
+    <div *ngIf="uploading" class="upload-overlay">
+        <div class="upload-container">
+            <div class="upload-form">
+                <h3>Workspace Details</h3>
+                <div class="form-group">
+                    <label for="workspaceDescription">Description</label>
+                    <textarea 
+                        id="workspaceDescription" 
+                        class="description-editor" 
+                        [(ngModel)]="workspace.description" 
+                        placeholder="Enter workspace description">
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="workspaceImage">Image URL</label>
+                    <input 
+                        type="text" 
+                        id="workspaceImage" 
+                        class="image-editor" 
+                        [(ngModel)]="workspace.img" 
+                        placeholder="Enter image URL">
+                </div>
+                <div class="button-group">
+                    <button class="cancel-button" (click)="cancelUpload()">Cancel</button>
+                    <button class="save-button" (click)="saveWorkspaceDetails()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <textarea class="workspace-name" [(ngModel)]="workspace.name" (ngModelChange)="saveWorkspaceName()"></textarea>
     <div class="folders">
         <button *ngFor="let folder of folders; let i = index" class="button folder" (click)="openFolder(folder.id)">{{ folder.name }}</button>
@@ -20,17 +49,17 @@
             <h2 class="note-title">Notes</h2>
             <i class="bi bi-pencil pencil"></i>
         </div>
-        <st-editor [(ngModel)]="note" [config]="config" (ngModelChange)="saveNote()"></st-editor>
+        <st-editor [(ngModel)]="note" [config]="config" (ngModelChange)="saveNote()" class="editor"></st-editor>
         <h1 class="flashcardtitle">Flashcards</h1>
     </div>
     <div class="flashcards">
-        <button *ngFor="let flashcard of flashcards; let i = index" class="flashcard max-w-sm rounded overflow-hidden shadow-lg" (click)="openFlashcard(flashcard.id, workspaceId)">
+        <button *ngFor="let flashcard of flashcards; let i = index" class="flashcard max-w-sm rounded overflow-hidden shadow-lg button" (click)="openFlashcard(flashcard.id, workspaceId)">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2">{{flashcard.title}}</div>
-                <p class="text-gray-700 text-base">{{flashcard.question}}</p>
+                <p class="text-white-700 text-base">{{flashcard.question}}</p>
             </div>
         </button>
-        <button class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg" (click)="onCreateFlashcard($event)">
+        <button class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg button" (click)="onCreateFlashcard($event)">
             <p class="text-gray-700 text-base plus">+</p>
         </button>
     </div>

@@ -22,6 +22,8 @@ export class WorkspaceComponent implements OnInit {
   note: string = '';
   workspace = {
     name: 'Workspace',
+    img: '',
+    description: ''
   };
   workspaceId: number = -1;
   workspaceData: any;
@@ -30,6 +32,7 @@ export class WorkspaceComponent implements OnInit {
     buttons: ST_BUTTONS,
   };
   username: string = '';
+  uploading: boolean = false;
 
   constructor(
     private notesService: NotesService, 
@@ -212,7 +215,11 @@ export class WorkspaceComponent implements OnInit {
   }
 
   uploadFolder(): void {
-    this.notesService.suscribeToCommunityWorkspace(this.workspaceId).subscribe({
+    this.uploading=true;
+  }
+
+  saveWorkspaceDetails(): void {
+    this.notesService.suscribeToCommunityWorkspace(this.workspaceId, this.workspace.description, this.workspace.img).subscribe({
       next: () => {
         console.log('Folder uploaded.');
       },
@@ -220,7 +227,13 @@ export class WorkspaceComponent implements OnInit {
         console.error('Error uploading folder:', err);
       }
     });
+    this.uploading=false;
   }
+
+  cancelUpload() {
+    this.uploading = false;
+  }
+
   goToStats():void{
     this.router.navigate(['/stats', this.workspaceId]);
   }

@@ -1,4 +1,78 @@
 <div class="layout">
+    <div *ngIf="uploading" class="event-editor-overlay">
+        <div class="event-editor-container">
+            <div class="event-editor-form">
+                <h3>Add new event</h3>
+                
+                <div class="form-group">
+                    <label for="eventTitle">Title</label>
+                    <input 
+                        type="text" 
+                        id="eventTitle" 
+                        class="form-input" 
+                        [(ngModel)]="editingEvent.title" 
+                        placeholder="Enter event title">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input 
+                            type="date" 
+                            id="startDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input 
+                            type="date" 
+                            id="endDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endDate">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startHour">Start Time</label>
+                        <input 
+                            type="time" 
+                            id="startHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startHour">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endHour">End Time</label>
+                        <input 
+                            type="time" 
+                            id="endHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endHour">
+                    </div>
+                </div>
+                
+                <!-- <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-selector">
+                        <div class="color-option" 
+                            *ngFor="let color of ['red', 'green', 'blue', 'gray']"
+                            [ngClass]="{'selected': editingEvent.color === color, ['color-' + color]: true}"
+                            (click)="editingEvent.color = color">
+                        </div>
+                    </div>
+                </div> -->
+                
+                <div class="button-group">
+                    <button class="cancel-button" (click)="cancelEventEdit()">Cancel</button>
+                    <button class="save-button" (click)="saveEvent(editingEvent)">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="calendar-container">
         <div class="calendar">
             <div class="calendar-header">
@@ -32,7 +106,7 @@
                         </div>
                     </div>
 
-                    <button *ngIf="day.isCurrentMonth" class="add-event-button">
+                    <button *ngIf="day.isCurrentMonth" class="add-event-button" (click)="addEvent(day.date)">
                         <i class="plus-icon"></i>
                     </button>
                 </div>
@@ -45,13 +119,12 @@
                 <div *ngFor="let event of getEventsForMonth()" class="event-item">
                     <input type="checkbox" class="event-checkbox">
                     <div class="event-details">
-                        <div class="event-date">{{ formatDate(event.date) }}</div>
+                        <div class="event-date">{{ formatDate(event.startDate) }}</div>
                         <div class="event-title">{{ event.title }}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
+
