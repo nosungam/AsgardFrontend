@@ -41,6 +41,7 @@ export class WorkspaceComponent implements OnInit {
     answer: "",
     folderId: -1
   }
+  showDeleteConfirmation = false
 
   constructor(
     private notesService: NotesService, 
@@ -220,6 +221,14 @@ export class WorkspaceComponent implements OnInit {
     });
   }
 
+  deleteFolderConfirmation(): void {
+    this.showDeleteConfirmation = true;
+  }
+
+  cancelDeleteFolder(): void {
+    this.showDeleteConfirmation = false;
+  }
+
   deleteFolder(): void {
     this.updateWorkspace.deleteFolder(this.workspaceId) 
     this.notesService.moveToRecycleBin(this.workspaceId!).subscribe({
@@ -231,6 +240,7 @@ export class WorkspaceComponent implements OnInit {
         console.error('Error deleting folder:', err);
       }
     });
+    this.showDeleteConfirmation = false;
   }
 
   uploadFolder(): void {
