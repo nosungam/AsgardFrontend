@@ -59,8 +59,29 @@
                 <p class="text-white-700 text-base">{{flashcard.question}}</p>
             </div>
         </button>
-        <button class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg button" (click)="onCreateFlashcard($event)">
+        <button class="flashcard flashcard-more max-w-sm rounded overflow-hidden shadow-lg button" (click)="onCreateFlashcard()">
             <p class="text-gray-700 text-base plus">+</p>
         </button>
+    </div>
+
+    <div *ngIf="showFlashcardEditor" class="flashcard-editor-overlay">
+        <div class="flashcard-editor-container">
+            <div class="flashcard-editor-form">
+                <h3>Edit Flashcard</h3>
+                <div class="form-group">
+                    <label for="flashcardTitle">Title</label>
+                    <input 
+                        type="text" 
+                        id="flashcardTitle" 
+                        class="title-editor" 
+                        [(ngModel)]="editingFlashcard.title" 
+                        placeholder="Enter flashcard title">
+                </div>
+                <div class="button-group">
+                    <button class="cancel-button" (click)="cancelEditFlashcard()">Cancel</button>
+                    <button class="save-button" (click)="saveFlashcardTitle()">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

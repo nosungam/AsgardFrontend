@@ -59,7 +59,6 @@
     background-color: rgb(216, 231, 245);
     border-radius: 5px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-
 }
 
 .folder:hover {
@@ -96,7 +95,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
 }
 
 .flashcard {
@@ -248,14 +246,58 @@ hr {
     /* Ensures it's on top of everything */
 }
 
-.button{
+.button {
     background-color: var(--workspace-button-bg);
 }
 
-.button:hover{
+.button:hover {
     background-color: var(--workspace-buttonhover-bg);
 }
 
-.editor{
+.editor {
     color: black;
+}
+
+/* Add these styles to your CSS file */
+.flashcard-editor-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.flashcard-editor-container {
+    width: 500px;
+    max-width: 90%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    position: relative;
+}
+
+.flashcard-editor-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.flashcard-editor-form h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+}
+
+.title-editor {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
 }

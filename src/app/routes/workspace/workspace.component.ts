@@ -34,6 +34,13 @@ export class WorkspaceComponent implements OnInit {
   };
   username: string = '';
   uploading: boolean = false;
+  showFlashcardEditor = false
+  editingFlashcard: FlashcardDTO = {
+    title: "",
+    question: "",
+    answer: "",
+    folderId: -1
+  }
 
   constructor(
     private notesService: NotesService, 
@@ -116,22 +123,28 @@ export class WorkspaceComponent implements OnInit {
     });
   }
 
-  onCreateFlashcard(event: Event): void {
-    event.preventDefault();
+  onCreateFlashcard(): void {
+    this.showFlashcardEditor = true
+  }
 
+  cancelEditFlashcard(): void {
+    this.showFlashcardEditor = false
+  }
+
+  saveFlashcardTitle(): void {
     if (this.workspaceId === null) {
       console.error('Workspace ID is null. Cannot create flashcard.');
       return;
     }
 
-    const newFlashcard: FlashcardDTO = {
-      title: "New Flashcard",
+    const editingFlashcard: FlashcardDTO = {
+      title: this.editingFlashcard.title,
       question: "Question",
       answer: "Answer",
       folderId: this.workspaceId
     };
 
-    this.notesService.createFlashcard(newFlashcard).subscribe({
+    this.notesService.createFlashcard(editingFlashcard).subscribe({
       next: () => {
         console.log('Flashcard created.');
         if (this.workspaceId) {
@@ -142,6 +155,8 @@ export class WorkspaceComponent implements OnInit {
         console.error('Error creating flashcard:', err);
       }
     });
+
+    this.showFlashcardEditor = false
   }
 
   openFolder(folderId: string): void {
