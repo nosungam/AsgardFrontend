@@ -18,6 +18,7 @@ body {
 
     /* Header */
     --header-bg: #ffffff;
+    --header-text: #585858;
 
     /* Sidebar */
     --sidebar-bg: #ffffff;
@@ -37,6 +38,10 @@ body {
     --workspace-button-bg: #b3b4b6;
     --workspace-buttonhover-bg: #949494;
     --workspace-separator-border: 1px solid rgba(0, 0, 0, 0.4);
+
+    /* Calendar */
+    --other-month-bg: #f9fafb;
+    --other-month-color: #9ca3af;
 }
 
 :root.dark {
@@ -46,6 +51,7 @@ body {
 
     /* Header */
     --header-bg: #333;
+    --header-text: #000000;
 
     /* Sidebar */
     --sidebar-bg: #1e1e1e;
@@ -59,4 +65,8 @@ body {
     --workspace-button-bg: #3181f9;
     --workspace-buttonhover-bg: #1d74f5;
     --workspace-separator-border: 1px solid rgba(255, 255, 255, 0.4);
+
+    /* Calendar */
+    --other-month-bg: #313131;
+    --other-month-color: #9ca3af;
 }

@@ -66,4 +66,17 @@ export class AuthService {
       throw new HttpErrorResponse({ error });
     }
   }
+
+  async updateUser(username: string, userImg: string): Promise<any> {
+    try {
+      const email = JSON.parse(localStorage.getItem('email') || '""');
+      if (!email) {
+        throw new Error('No email found in localStorage');
+      }
+      const response = (await axios.put(`${this.urlLogin}users/${email}`, { username, userImg })).data;
+      return response;
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
+  }
 }

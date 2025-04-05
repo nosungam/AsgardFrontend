@@ -3,7 +3,7 @@
     <div class="layout-content">
       <!-- Perfil de usuario -->
       <div class="user-img-container">
-        <button class="user-img" aria-label="Perfil de usuario">
+        <button class="user-img" aria-label="Perfil de usuario" (click)="toggleProfileEditor()">
           <img [src]="image" alt="Foto de perfil">
         </button>
         <div class="user-info">
@@ -36,6 +36,55 @@
       <i class="fas fa-sign-out-alt signout-icon"></i>
       <span class="signout-text" [class.visible]="showLogoutText">Signout</span>
     </button>
+  </div>
+
+  <div *ngIf="showProfileEditor" class="profile-editor-overlay">
+    <div class="profile-editor-container">
+      <div class="profile-editor-header">
+        <h3>Edit Profile</h3>
+        <button class="close-button" (click)="toggleProfileEditor()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    
+      <div class="profile-editor-content">
+        <div class="profile-image-editor">
+          <div class="image-preview">
+            <img [src]="previewImage || image" alt="Profile preview">
+            <div class="image-overlay">
+              <i class="bi bi-camera"></i>
+            </div>
+          </div>
+          <input 
+            type="file" 
+            id="profile-image-input" 
+            accept="image/*" 
+            (change)="onImageSelected($event)"
+            #fileInput
+            hidden
+          >
+          <button class="upload-button" (click)="fileInput.click()">
+            Change Photo
+          </button>
+        </div>
+      
+        <div class="username-editor">
+          <label for="username-input">Username</label>
+          <input 
+            type="text" 
+            id="username-input" 
+            [(ngModel)]="editedUsername" 
+            placeholder="Enter your username"
+            class="username-input"
+          >
+        </div>
+      </div>
+    
+      <div class="profile-editor-footer">
+        <button class="cancel-button" (click)="toggleProfileEditor()">Cancel</button>
+        <button class="save-button" (click)="saveProfile()">Save Changes</button>
+      </div>
+    </div>
   </div>
 </div>
 

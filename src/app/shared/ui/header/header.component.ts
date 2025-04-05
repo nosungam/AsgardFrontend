@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NotesService } from '../../../core/notesConnection/notes.service';
 import { PromptDTO } from '../../../../Interface/prompt.dto';
@@ -25,12 +25,9 @@ export class HeaderComponent implements OnInit {
 
   isDarkMode = false
 
-  constructor(
-    private notesService: NotesService, 
-    private router:Router, 
-    private authService: AuthService,
-    public updateWorkspaceService: UpdateWorkspaceService
-  ) {}
+  @ViewChild("workspacesContainer") workspacesContainer!: ElementRef
+
+  constructor(private notesService: NotesService, private router:Router, private authService: AuthService, public updateWorkspaceService: UpdateWorkspaceService) {}
 
   async ngOnInit() {
     try {
@@ -51,6 +48,20 @@ export class HeaderComponent implements OnInit {
       // console.error('Error fetching folders:', error);
     }
   }
+
+  scrollWorkspaces(direction: "left" | "right"): void {
+    if (!this.workspacesContainer) return
+
+    const container = this.workspacesContainer.nativeElement
+    const scrollAmount = 200 // Adjust scroll amount as needed
+
+    if (direction === "left") {
+      container.scrollLeft -= scrollAmount
+    } else {
+      container.scrollLeft += scrollAmount
+    }
+  }
+
 
   openWorkspace(folderId: string): void {
     this.router.navigate(['/workspace', folderId]);
@@ -76,6 +87,14 @@ export class HeaderComponent implements OnInit {
     } else {
       this.filteredResults = { flashcards: [], folders: [], notes: [] };
     }
+  }
+
+  hasAnyResults(): boolean {
+    return (
+      this.filteredResults.flashcards.length > 0 ||
+      this.filteredResults.folders.length > 0 ||
+      this.filteredResults.notes.length > 0
+    );
   }
 
   selectSuggestion(suggestion: any): void {

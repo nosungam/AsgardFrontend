@@ -1,21 +1,27 @@
 <div class="header">
     <button (click)="home()" class="logo">
         <img *ngIf="!isDarkMode" src="logo.png" alt="Logo" />
-        <img *ngIf="!isDarkMode" src="title.png" alt="Title" id="asgard"/>
-    
+        <img *ngIf="!isDarkMode" src="title.png" alt="Title" id="asgard" />
+
         <img *ngIf="isDarkMode" src="logo-dark.png" alt="Logo" />
-        <img *ngIf="isDarkMode" src="title-dark.png" alt="Title" id="asgard"/>
+        <img *ngIf="isDarkMode" src="title-dark.png" alt="Title" id="asgard" />
     </button>
-    
+
     <div class="buttons">
-        <div *ngIf="updateWorkspaceService.folders.length===0">
-            <a class="workspace-button" (click)="openWorkspace(folder.id)"
-        *ngFor="let folder of folders;">{{folder.name}}</a>
+        <button class="scroll-indicator scroll-left" (click)="scrollWorkspaces('left')">
+            ←
+        </button>
+        <div class="workspaces-container" #workspacesContainer>
+            <button *ngFor="let folder of folders" class="workspace-button" (click)="openWorkspace(folder.id)">
+                {{ folder.name }}
+            </button>
         </div>
-        <a class="workspace-button" (click)="openWorkspace(folder.id)"
-        *ngFor="let folder of updateWorkspaceService.folders;">{{folder.name}}</a>
-        
-        <button (click)="changeTheme()" [ngClass]="{'dark-mode': isDarkMode, 'light-mode': !isDarkMode}" class="theme-toggle">
+        <button class="scroll-indicator scroll-right" (click)="scrollWorkspaces('right')">
+            →
+        </button>
+
+        <button (click)="changeTheme()" [ngClass]="{'dark-mode': isDarkMode, 'light-mode': !isDarkMode}"
+            class="theme-toggle">
             <div [ngClass]="{'reverse': isDarkMode}" class="toggle-content">
                 <span class="mode-text">{{ isDarkMode ? 'Night mode' : 'Day mode' }}</span>
                 <div [ngClass]="{'dark-icon': isDarkMode, 'light-icon': !isDarkMode}" class="icon-container">
@@ -44,29 +50,32 @@
                 </div>
             </div>
         </button>
+
         <div class="search-bar">
             <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearch()" />
-            <ul *ngIf="filteredResults.flashcards.length > 0" class="suggestions-list">
-                <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.flashcards"
-                    (click)="selectSuggestion(suggestion)">
-                    {{ suggestion.title }} <img class="search-icon" src="/flashcard.png" alt="">
-                </li>
+            <ul *ngIf="hasAnyResults()" class="suggestions-list">
+                <ng-container *ngFor="let suggestion of filteredResults.flashcards">
+                    <li class="d-flex search-list" (click)="selectSuggestion(suggestion)">
+                        {{ suggestion.title }}
+                        <img class="search-icon" src="/flashcard.png" alt="">
+                    </li>
+                </ng-container>
+
+                <ng-container *ngFor="let suggestion of filteredResults.folders">
+                    <li class="d-flex search-list" (click)="selectSuggestion(suggestion)">
+                        {{ suggestion.name }}
+                        <img class="search-icon" src="/folder.png" alt="">
+                    </li>
+                </ng-container>
+
+                <ng-container *ngFor="let suggestion of filteredResults.notes">
+                    <li class="d-flex search-list" (click)="selectSuggestion(suggestion)">
+                        {{ suggestion.name }}
+                        <img class="search-icon" src="/note.svg" alt="">
+                    </li>
+                </ng-container>
             </ul>
 
-            <!-- Mostrar resultados de Folders -->
-            <ul *ngIf="filteredResults.folders.length > 0" class="suggestions-list">
-                <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.folders"
-                    (click)="selectSuggestion(suggestion)">
-                    {{ suggestion.name }} <img class="search-icon" src="/folder.png" alt="">
-                </li>
-            </ul>
-            <!-- Mostrar resultados de Notas -->
-            <ul *ngIf="filteredResults.notes.length > 0" class="suggestions-list">
-                <li class="d-flex search-list" *ngFor="let suggestion of filteredResults.notes"
-                    (click)="selectSuggestion(suggestion)">
-                    {{ suggestion.name }} <img class="search-icon" src="/note.svg" alt="">
-                </li>
-            </ul>
         </div>
     </div>
 </div>

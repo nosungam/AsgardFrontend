@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NotesService } from '../../core/notesConnection/notes.service';
-import { AuthService } from '../../core/auth/auth.service';
-import { CreateEventDTO } from '../../../Interface/createEvent.dto';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common"
+import { Component, type OnInit } from "@angular/core"
+import { RouterModule } from "@angular/router"
+import { NotesService } from "../../core/notesConnection/notes.service"
+import { AuthService } from "../../core/auth/auth.service"
+import { CreateEventDTO } from "../../../Interface/createEvent.dto"
+import { FormsModule } from "@angular/forms"
 
 interface CalendarDay {
   date: Date
@@ -12,18 +12,19 @@ interface CalendarDay {
 }
 
 @Component({
-  selector: 'app-calendar',
+  selector: "app-calendar",
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.css'
+  templateUrl: "./calendar.component.html",
+  styleUrl: "./calendar.component.css",
 })
-export class CalendarComponent implements OnInit{
-  uploading: boolean = false;
-  currentMonth: Date = new Date(2025, 0, 1) // January 2025
-  selectedDate: Date = new Date(2025, 0, 22) // January 22, 2025
+export class CalendarComponent implements OnInit {
+  uploading = false
+  today: Date = new Date();
+  currentMonth: Date = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+  selectedDate: Date = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
   calendarDays: CalendarDay[] = []
-  username: string = ''
+  username = ""
   daysOfWeek: string[] = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
   monthNames: string[] = [
     "Enero",
@@ -42,28 +43,31 @@ export class CalendarComponent implements OnInit{
 
   events: CreateEventDTO[] = []
   editingEvent: CreateEventDTO = {
-    title: '',
+    title: "",
     startDate: new Date(),
     endDate: new Date(),
-    color: 'blue',
-    startHour: '',
-    endHour: ''
-  };
+    color: "blue",
+    startHour: "",
+    endHour: "",
+  }
 
-  constructor(private notesService: NotesService, private authService: AuthService) { }
+  constructor(
+    private notesService: NotesService,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
-    this.username = (localStorage.getItem('email') || '').replace(/^"(.*)"$/, '$1');
+    this.username = (localStorage.getItem("email") || "").replace(/^"(.*)"$/, "$1")
     this.generateCalendarDays()
     this.notesService.getEvents(this.username).subscribe({
       next: (events) => {
-        console.log('Events:', events);
-        this.events = events;
+        console.log("Events:", events)
+        this.events = events
       },
       error: (err) => {
-        console.error('Error fetching events:', err);
-      }
-    });
+        console.error("Error fetching events:", err)
+      },
+    })
   }
 
   generateCalendarDays(): void {
@@ -106,35 +110,53 @@ export class CalendarComponent implements OnInit{
   }
 
   getEventsForDay(date: Date): CreateEventDTO[] {
-    console.log('entre')
+    if (!this.events || this.events.length === 0) {
+      return []
+    }
+
     return this.events.filter((event) => {
-      const startDate = new Date(event.startDate);
-      if (!event.endDate) {
-        return (startDate.getDate() === date.getDate() &&
+      // Ensure we're working with Date objects
+      const startDate = event.startDate instanceof Date ? event.startDate : new Date(event.startDate)
+
+      // Check if the event is for this day
+      const sameDay =
+        startDate.getDate() === date.getDate() &&
         startDate.getMonth() === date.getMonth() &&
-        startDate.getFullYear() === date.getFullYear())
-      }
-      const endDate = new Date(event.endDate)
-      return (
-          (startDate.getDate() === date.getDate() &&
-          startDate.getMonth() === date.getMonth() &&
-          startDate.getFullYear() === date.getFullYear())||
-          (endDate.getDate() === date.getDate() &&
+        startDate.getFullYear() === date.getFullYear()
+
+      if (sameDay) return true
+
+      // If there's an end date, check if the day falls between start and end
+      if (event.endDate) {
+        const endDate = event.endDate instanceof Date ? event.endDate : new Date(event.endDate)
+
+        // Check if the date is the end date
+        const isEndDate =
+          endDate.getDate() === date.getDate() &&
           endDate.getMonth() === date.getMonth() &&
-          endDate.getFullYear() === date.getFullYear())
-      );
-    });
+          endDate.getFullYear() === date.getFullYear()
+
+        if (isEndDate) return true
+
+        // Check if the date is between start and end
+        const currentTime = date.getTime()
+        return currentTime >= startDate.getTime() && currentTime <= endDate.getTime()
+      }
+
+      return false
+    })
   }
 
   getEventsForMonth(): CreateEventDTO[] {
     return this.events.filter((event) => {
-      const startDate = new Date(event.startDate);
+      const startDate = new Date(event.startDate)
       return startDate.getMonth() === this.currentMonth.getMonth()
-  })
+    })
   }
 
-  formatDate(date: Date): string {
-    return `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}`
+  formatDate(date: Date | string): string {
+    const dateObj = date instanceof Date ? date : new Date(date)
+    return `${dateObj.getDate().toString().padStart(2, "0")}/${(dateObj.getMonth() + 1).toString().padStart(2, "0")}`
   }
 
   isToday(date: Date): boolean {
@@ -160,27 +182,80 @@ export class CalendarComponent implements OnInit{
   }
 
   addEvent(date: Date) {
-    this.uploading=true;
+    // Prevent event bubbling if this is triggered by a click event
+    event?.stopPropagation()
+
+    // Initialize a new event with the selected date
+    this.editingEvent = {
+      title: "",
+      startDate: date,
+      endDate: date,
+      color: "blue",
+      startHour: "",
+      endHour: "",
+    }
+
+    this.uploading = true
   }
 
   cancelEventEdit() {
-    this.uploading=false;
+    this.uploading = false
   }
 
-  saveEvent(event: CreateEventDTO): void {
-    this.events.push(event)
-    console.log(event);
-    console.log(this.username);
-    
+  saveEvent(eventData: CreateEventDTO): void {
+    // Validate form
+    if (!eventData.title || !eventData.startDate) {
+      alert("Please fill in the required fields")
+      return
+    }
+
+    // Make sure dates are properly formatted before sending to backend
+    const event = {
+      ...eventData,
+      // Ensure dates are Date objects
+      startDate: eventData.startDate instanceof Date ? eventData.startDate : new Date(eventData.startDate),
+      endDate: eventData.endDate ? (eventData.endDate instanceof Date ? eventData.endDate : new Date(eventData.endDate)) : new Date(),
+    }
+
     this.notesService.createEvent(event, this.username).subscribe({
       next: (createdEvent) => {
-        console.log('Event created:', createdEvent);
-        this.events.push(createdEvent);
+        console.log("Event created:", createdEvent)
+        // Add the created event to the events array
+        // Make sure not to add it twice since we're getting it from the response
+        const exists = this.events.some(
+          (e) =>
+            e.title === createdEvent.title &&
+            new Date(e.startDate).getTime() === new Date(createdEvent.startDate).getTime(),
+        )
+
+        if (!exists) {
+          this.events.push(createdEvent)
+        }
       },
-      error: err => {
-        console.error('Error creating event:', err);
-      }
+      error: (err) => {
+        console.error("Error creating event:", err)
+      },
+      complete: () => {
+        // Reset the form and close the editor
+        this.editingEvent = {
+          title: "",
+          startDate: new Date(),
+          endDate: new Date(),
+          color: "blue",
+          startHour: "",
+          endHour: "",
+        }
+        this.uploading = false
+        this.notesService.getEvents(this.username).subscribe({
+          next: (events) => {
+            console.log("Events:", events)
+            this.events = events
+          },
+          error: (err) => {
+            console.error("Error fetching events:", err)
+          },
+        })
+      },
     })
-    this.uploading=false;
   }
 }
