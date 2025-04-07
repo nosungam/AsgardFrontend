@@ -1,16 +1,18 @@
 <div class="layout flex">
     <div class="flex icons">
-        <button (click)="close()"><img class="icon" src="boton-cerrar.png" alt="Close"></button>
+        <button (click)="close()">
+            <i class="bi bi-x-lg icon" alt="Close"></i>
+        </button>
     </div>
     <div class="editor flex">
         <textarea 
             [(ngModel)]="flashcard.title" 
-            class="editor-title-area mb-2" 
+            class="editor-title-area mb-2 black-font" 
             placeholder="Enter Title" 
             rows="1">
         </textarea>
-        <st-editor class="mb-2 st" [(ngModel)]="flashcard.question" [config]="config1"></st-editor>
-        <st-editor class="mb-2 st" [(ngModel)]="flashcard.answer" [config]="config2"></st-editor>
+        <st-editor class="mb-2 st black-font" [(ngModel)]="flashcard.question" [config]="config1"></st-editor>
+        <st-editor class="mb-2 st black-font" [(ngModel)]="flashcard.answer" [config]="config2"></st-editor>
         <button (click)="saveFlashcard()" class="saveflashcard">Save</button>
     </div>
 </div>

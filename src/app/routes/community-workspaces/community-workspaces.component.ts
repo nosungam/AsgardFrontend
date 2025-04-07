@@ -28,9 +28,19 @@ export class CommunityWorkspacesComponent {
 
   private loadCommunityWorkspaces(): void {
     this.notesService.getCommunityWorkspaces().subscribe(currentFolder => {
-      
-      this.folders = currentFolder;
+      this.folders = currentFolder.map(folder => {
+        return {
+          ...folder,
+          note: this.stripHtmlTags(folder.note || '')
+        };
+      });
     });
+  }
+
+  private stripHtmlTags(html: string): string {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
   }
 
   downloadFolder(folderId: number): void {

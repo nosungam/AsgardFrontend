@@ -5,11 +5,12 @@ import { AuthService } from '../../core/auth/auth.service';
 import { FolderDTO } from '../../../Interface/folder.dto';
 import { Router } from '@angular/router';
 import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -17,6 +18,14 @@ export class HomeComponent implements OnInit {
   folders: any[] = [];
   username = 'Username';
   name = 'Name';
+  creatingWorkspace = false;
+
+  newWorkspace: FolderDTO = {
+    name: '',
+    isWorkspace: true,
+    parentId: null,
+    username: ''
+  };
 
   constructor(
     private notesService: NotesService,
@@ -40,18 +49,21 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onCreateWorkspace(event: Event): void {
-    event.preventDefault(); // Prevenir comportamiento predeterminado del enlace
+  onCreateWorkspace(): void {
+    this.creatingWorkspace=true;
+  }
 
-    const newFolder: FolderDTO = {
-      name: 'New Workspace',
-      isWorkspace: true,
-      parentId: null,
-      username: this.username
-    }; // Ajusta según los campos del DTO
-    console.log('Creating workspace:', newFolder);
+  cancelEditWorkspace(): void {
+    this.creatingWorkspace=false;
+  }
+
+  saveWorkspace(): void {
+    this.newWorkspace.username = this.username;
+    this.newWorkspace.isWorkspace = true;
+
+    console.log('Creating workspace:', this.newWorkspace);
     
-    this.notesService.createWorkspace(newFolder).subscribe({
+    this.notesService.createWorkspace(this.newWorkspace).subscribe({
       next: () => {
         console.log('Workspace creado exitosamente');
         // Opcionalmente, puedes volver a cargar las carpetas o añadir el nuevo folder a la lista local
@@ -59,10 +71,18 @@ export class HomeComponent implements OnInit {
           this.folders = currentFolder;
         });
         this.updateWorkspaceService.updateFolders(this.username);
+        this.newWorkspace = {
+          name: '',
+          isWorkspace: true,
+          parentId: null,
+          username: ''
+        };
+        this.creatingWorkspace=false;
       },
       error: err => {
         console.error('Error creando workspace:', err);
       }
+      
     });
   }
 

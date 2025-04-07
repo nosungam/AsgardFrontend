@@ -45,6 +45,7 @@ export class SidebarComponent implements OnInit{
   previewImage: string | null = null
   editedUsername = ""
   selectedFile: File | null = null
+  userId: number = 0
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -60,7 +61,7 @@ export class SidebarComponent implements OnInit{
   async loadUsername(): Promise<void> {
     try {
       this.username = await this.authService.getName();
-      
+      this.userId = Number(await this.authService.getId());
     } catch (error) {
       
       // console.error('Error fetching username:', error);
@@ -101,7 +102,7 @@ export class SidebarComponent implements OnInit{
     if (this.previewImage) {
       this.image = this.previewImage
     }
-    this.authService.updateUser(this.editedUsername, this.image)
+    this.authService.updateUser(this.userId, this.editedUsername, this.image)
     
     this.showProfileEditor = false;
   }

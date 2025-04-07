@@ -15,6 +15,7 @@
 .icon{
     width: 2rem;
     cursor: pointer;
+    font-size: 2rem;
 }
 
 .editor{
@@ -66,4 +67,8 @@
 
 .st{
     z-index: 0;
+}
+
+.black-font {
+    color: black;
 }

@@ -117,7 +117,6 @@
             <h3>Lista de Eventos</h3>
             <div class="event-list">
                 <div *ngFor="let event of getEventsForMonth()" class="event-item">
-                    <input type="checkbox" class="event-checkbox">
                     <div class="event-details">
                         <div class="event-date">{{ formatDate(event.startDate) }}</div>
                         <div class="event-title">{{ event.title }}</div>
