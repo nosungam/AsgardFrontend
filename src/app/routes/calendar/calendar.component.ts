@@ -40,6 +40,7 @@ export class CalendarComponent implements OnInit {
     "Noviembre",
     "Diciembre",
   ]
+  counter: number = 0
 
   events: CreateEventDTO[] = []
   editingEvent: CreateEventDTO = {
@@ -113,7 +114,6 @@ export class CalendarComponent implements OnInit {
     if (!this.events || this.events.length === 0) {
       return []
     }
-
     return this.events.filter((event) => {
       // Ensure we're working with Date objects
       const startDate = event.startDate instanceof Date ? event.startDate : new Date(event.startDate)
