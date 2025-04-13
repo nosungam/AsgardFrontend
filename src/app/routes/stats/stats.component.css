@@ -72,16 +72,16 @@
 
 .container3 {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    text-align: center;
+    justify-content: center; /* centra horizontalmente */
+    align-items: center;      /* centra verticalmente (si tiene altura) */
     background-color: #F2F2F2;
     width: 100%;
+    height: 20rem;
     margin: 0.5rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 0.5rem;
 }
+
 .container4 {
     flex-direction: row;
     flex-wrap: wrap;

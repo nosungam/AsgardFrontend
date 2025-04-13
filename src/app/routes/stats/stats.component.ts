@@ -33,7 +33,7 @@ export class StatsComponent implements OnInit {
       title: 'Daily score',
       backgroundColor: '#F2F2F2',
       calendar: {
-        cellSize: 20,
+        cellSize: 17,
         yearLabel: { fontSize: 1 },
       },
       colorAxis: {
