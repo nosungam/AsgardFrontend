@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../core/notesConnection/notes.service';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GoogleChartsModule, ChartType } from 'angular-google-charts';
 import { FormsModule } from '@angular/forms';
 import { DayDataDTO } from '../../../Interface/dayData.dto';
+import { title } from 'process';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgxChartsModule, FormsModule],
+  imports: [CommonModule, RouterModule, GoogleChartsModule, FormsModule],
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.css']
 })
@@ -20,56 +21,106 @@ export class StatsComponent implements OnInit {
   };
   folders: any[] = [];
   workspaceId: number | null = null;
-  bestStrike: number = 0;
-  totalStudySessions: number = 0;
 
   
-  //chart
+  //heatmap
 
-  totalFlashcardsData: any[] = [
-    {
-      name: 'Loading...',
-      value: 100,
+  totalFlashcardsData = {
+    type: 'Calendar' as ChartType,
+    data: [] as [Date, number][], // [['2023-01-01', 1], ['2023-01-02', 2]]
+    columns: ['Date', 'Score'],
+    options: {
+      title: 'Daily score',
+      backgroundColor: '#F2F2F2',
+      calendar: {
+        cellSize: 20,
+        yearLabel: { fontSize: 1 },
+      },
+      colorAxis: {
+        minValue: 0,
+        colors: ['#e0f2f1', '#00796b'] // desde verde claro a verde oscuro
+      },
     },
-    {
-      name: 'Loading...',
-      value: 100,
-    }
-  ];
-  view: [number, number] = [700, 400];
-    // options
-  showXAxis: boolean = true;
-  showYAxis: boolean = true;
-  gradient: boolean = false;
-  showLegend: boolean = false;
-  showXAxisLabel: boolean = true;
-  showYAxisLabel: boolean = true;
-  xAxisLabel: string = 'Total flashcards';
-  yAxisLabel: string = 'Total folders';
+    width: 1000,
+    height: 300
+  };
+  
 
-  //chart 2
+  //bar chart
+  amountOfFlashcards: Array<{ folderName: string; amount: number }> = []
+  barChart = {
+    type: 'ColumnChart' as ChartType, 
+    data: [] as [string, number][], // this.amountOfFlashcards.map((folder) => [folder.folderName, folder.amount])
+    columns: ["Folder's name", 'Amount of flashcards'],
+    options: {
+      title: 'Amount of flashcards',
+      backgroundColor: '#F2F2F2', 
+      colors: ['#3366cc'], // Color de las barras
+      legend: { position: 'none' }, 
+      hAxis: { title: "Folder's name" },
+      vAxis: { title: "flashcards" },
+    },
+    width: 1000,
+    height: 400
+  };
+  // Line chart
+  lineChart = {
+    type: 'LineChart' as ChartType,
+    data: [] as [string, number][], // this.lineChart.data = stats.timePerDay.map((date: string, timeStudied: number) => [date, timeStudied]);
+    columns: ['Date', 'Time studied'],
+    options: {
+      title: 'Time studied daily',
+      backgroundColor: '#F2F2F2', 
+      colors: ['#3366cc'], // Color de la línea
+      legend: { position: 'none' }, 
+      hAxis: { title: 'Date' },
+      vAxis: { title: 'Time studied (minutes)' },
+    },
+    width: 1000,
+    height: 400
+  };
 
-  totalDaysStudiedInLastMonth:number=0
-  avaregeDailyScore:number=0;
-  avaregeTimePerSession:number=0;
-  daysStudied: any[] = [
-    {
-      name: 'Loading...',
-      value: 100,
-    }
-  ];
+  // pie 1
+  daysStudied = {  
+    type: 'PieChart' as ChartType,
+    data: [] as [string, number][], // [['Studied', 10], ['Not studied', 20]]
+    columns: ['Studied', 'Days'],
+    options: {
+      title: 'Days studied in the last 30 days',
+      backgroundColor: '#F2F2F2',
+      lengend:{ position: 'none' },
 
-  //chart 3
+    },
+    width: 400,
+    height: 400
+  };
+
+  // pie 2
+  totalFlashcards = 0;
+  idealScore = {  
+    type: 'PieChart' as ChartType,
+    data: [] as [string, number][], // [['Studied', 10], ['Not studied', 20]]
+    columns: ['Tarea', 'Horas por día'],
+    options: {
+      title: 'Days studied in the last 30 days',
+      backgroundColor: '#F2F2F2',
+      lengend:{ position: 'none' },
+
+    },
+    width: 400,
+    height: 400
+  };
+
+  //simple stats 1
+  bestStrike:number=0;
+  //simple stats 2
+  totalStudySessions: number = 0;
+  //simple stats 3
+  avarageScore:number=0;
+
 
   year: number = new Date().getFullYear();
   data: DayDataDTO[] = [];
-
-  selectedDay: any = null;
-  selectedI: number | null = null;
-  printedDay: boolean = false;
-
-  cursorX: number = 0;
-  cursorY: number = 0;
 
   constructor(private notesService: NotesService, private router: Router, private route: ActivatedRoute) {
     for (let month = 1; month <= 12; month++) {
@@ -91,25 +142,32 @@ export class StatsComponent implements OnInit {
             this.folders = currentFolder.children || [];
           });
           this.notesService.getStats(this.workspaceId).subscribe(stats => {
-            console.log('Stats:', stats);
-            this.updateScore(stats.scorePerDay, this.data);
-            console.log(this.data);
+            //heatmap
+            this.totalFlashcardsData.data = stats.scorePerDay.map((stat:{date:string; score:number}) => [new Date(stat.date), stat.score]);
             
-            this.totalFlashcardsData = stats.amountsOfFlashcards.map((stat: { folderName: string; amount: number }) => ({
-              name: stat.folderName,
-              value: stat.amount,
-            }));
+            //bar chart
+            this.barChart.data = stats.amountsOfFlashcards.map((stat:{folderName: string; amount: number} ) => [stat.folderName, stat.amount]);
+
+            //line chart
+            this.lineChart.data = stats.timePerDay.map((stat:{date: string; time: number}) => [stat.date, stat.time/60]);
+            // simple stats
             this.bestStrike = stats.bestStrike;
             this.totalStudySessions = stats.totalStudySessions;
-            this.totalDaysStudiedInLastMonth = stats.daysStudiedInLast30Days;
-            this.avaregeDailyScore = stats.avarageScore;
-            this.avaregeTimePerSession = stats.avarageTimePerSession;
-            
-            this.daysStudied = [
-              { name: 'Days Studied', value: this.totalDaysStudiedInLastMonth },
-              { name: 'Avarege Score Per day', value: this.avaregeDailyScore },
-              { name: 'Avarege Time Per Session', value:this.avaregeTimePerSession}
-            ];
+            this.avarageScore = stats.avarageScore;
+
+            //pie chart 1
+            this.daysStudied.data= [['Studied',stats.daysStudiedInLast30Days],['Not Studied',30-stats.daysStudiedInLast30Days]];
+
+            // pie chart 2
+            const currentScore = stats.scorePerDay.filter((stat:{date:string; score:number})=>{
+              const date = new Date(stat.date);
+              date.setDate(date.getDate() + 1);
+              const currentDate = new Date();
+              return date.toString().substring(0,15)===currentDate.toString().substring(0,15);
+            })[0]?.score;
+        
+            stats.amountsOfFlashcards.map((stat:{folderName: string; amount: number})=>this.totalFlashcards+=stat.amount)
+            this.idealScore.data = [['Ideal Score',this.totalFlashcards],['Real Score', !currentScore ? 0 : currentScore]];
           });
         }
       });
@@ -122,29 +180,6 @@ export class StatsComponent implements OnInit {
     console.log(data);
   }
 
-  updateScore(scorePerDay: any[], data: DayDataDTO[]) {
-    for (const score of scorePerDay) {
-      const dayData = data.find(day => day.date === score.date);
-      if (dayData) {
-        dayData.score = score.score;
-        if (score.score > 0) {
-          dayData.printed = true;
-        }
-      }
-    }
-  }
-
-  selectDay(day: any, index: number, event: MouseEvent) {
-    this.selectedDay = day;
-    this.selectedI = index;
-    this.cursorX = event.clientX;
-    this.cursorY = event.clientY;
-  }
-
-  closeOverlay() {
-    this.selectedDay = null;
-    this.selectedI = null;
-  }
 
   goToWorkspace():void{
     this.router.navigate(['/workspace', this.workspaceId]);
