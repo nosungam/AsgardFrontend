@@ -65,4 +65,7 @@ export class LoginComponent {
     moveToSignUp(){
       this.router.navigate(['/sign-up']);
     }
+
+    moveToRecoverPassword(){
+      this.router.navigate(['/recover-password']);}
 }

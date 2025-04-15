@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Token } from '../../../Interface/token.dto';
 import { LogIn } from '../../../Interface/logIn.dto';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -89,5 +90,28 @@ export class AuthService {
     } catch (error) {
       throw new HttpErrorResponse({ error });
     }
+  }
+
+  async resetPassword(token: string, body: any): Promise<any> {
+  //todo work in progress
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1000); // Simulate a 1 second delay
+  });
+  }
+
+  async forgotPassword(email: string): Promise<string> { //todo llamada al back para enviar el corre
+    return new Promise((resolve, reject) => {
+      // Simulación de envío de correo
+      setTimeout(() => {
+        const success = true; // Cambia esto según el resultado del envío
+        if (success) {
+          resolve('Correo enviado con éxito');
+        } else {
+          reject('Error al enviar el correo');
+        }
+      }, 10000); // Simula un retraso de 1 segundo
+    });
   }
 }
