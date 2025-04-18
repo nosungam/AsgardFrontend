@@ -20,7 +20,7 @@ export class SignUpComponent {
   form = this.formBuilder.group({
     firstName: ["", [Validators.required]],
     lastName: ["", [Validators.required]],
-    password: ["", [Validators.required, Validators.minLength(6)]], //para validar determinadas entradas se utiliza valitadors.pattern
+    password: ["", [Validators.required, Validators.minLength(6), Validators.maxLength(16)]], //para validar determinadas entradas se utiliza valitadors.pattern
     confirmPassword: ["", [Validators.required]],
     email: ["", [Validators.required, Validators.email]]
   },{

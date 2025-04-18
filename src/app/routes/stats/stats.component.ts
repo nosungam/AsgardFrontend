@@ -102,7 +102,7 @@ export class StatsComponent implements OnInit {
     data: [] as [string, number][], // [['Studied', 10], ['Not studied', 20]]
     columns: ['Tarea', 'Horas por día'],
     options: {
-      title: 'Days studied in the last 30 days',
+      title: 'Succesful ratio',
       backgroundColor: '#F2F2F2',
       lengend:{ position: 'none' },
 

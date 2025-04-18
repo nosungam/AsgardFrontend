@@ -448,13 +448,32 @@
   color: white;
 }
 
+.save-button:disabled {
+  background-color: #8db9ec;
+  cursor: default;
+}
+
 .save-button:hover {
   background-color: #3a80d2;
+}
+
+.save-button:hover:disabled {
+  background-color: #8db9ec;
 }
 
 .username-editor{
   color: black;
 }
+
+.error-message {
+  color: red;
+  font-size: 0.85em;
+}
+
+.username-input.invalid {
+  border-color: red;
+}
+
 
 @keyframes slideIn {
   from {

@@ -41,6 +41,7 @@ export class SidebarComponent implements OnInit{
       label: 'Recycle Bin',
     }
   ];
+  
 
   previewImage: string | null = null
   editedUsername = ""
@@ -105,5 +106,10 @@ export class SidebarComponent implements OnInit{
     this.authService.updateUser(this.userId, this.editedUsername, this.image)
     
     this.showProfileEditor = false;
+  }
+
+  isUsernameValid(): boolean {
+    const trimmed = this.editedUsername.trim();
+    return trimmed.length > 3 && trimmed.length < 16;
   }
 }
