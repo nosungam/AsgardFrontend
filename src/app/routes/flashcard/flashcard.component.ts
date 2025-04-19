@@ -26,6 +26,7 @@ export class FlashcardComponent {
       placeholder: 'Enter Answer',
       buttons: ST_BUTTONS,
   };
+  showDeleteConfirmation = false;
 
   constructor(private notesService: NotesService, private route:ActivatedRoute, private router:Router) {}
 
@@ -67,5 +68,25 @@ export class FlashcardComponent {
   }
   close(): void {
     this.router.navigate(['/workspace', this.workspaceId]);
+  }
+
+  deleteFlashcardConfirmation(): void {
+    this.showDeleteConfirmation = true;
+  }    
+
+  cancelDeleteFlashcard(): void {
+    this.showDeleteConfirmation = false;
+  }
+
+  deleteFlashcard(): void {
+    this.notesService.deleteFlashcard(this.flashcardId!).subscribe({
+      next: () => {
+        console.log('Flashcard deleted successfully.');
+        this.router.navigate(['/workspace', this.workspaceId]);
+      },
+      error: err => {
+        console.error('Error deleting flashcard:', err);
+      }
+    });
   }
 }

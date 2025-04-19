@@ -102,6 +102,11 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
+    deleteFlashcard(flashcardId: number): Observable<void> {
+        return this.http.delete<void>(`${urlNotes}/flashcard/${flashcardId}`)
+            .pipe(catchError(this.handleError));
+    }
+
     moveToRecycleBin(folderId: number): Observable<void> {
         return this.http.put<void>(`${urlNotes}/recycle-bin/${folderId}`, {})
             .pipe(catchError(this.handleError));

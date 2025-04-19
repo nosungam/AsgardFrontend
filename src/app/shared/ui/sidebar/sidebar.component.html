@@ -1,7 +1,6 @@
 <div class="sidenav shadow">
   <div class="layout-content-container">
     <div class="layout-content">
-      <!-- Perfil de usuario -->
       <div class="user-img-container">
         <button class="user-img" aria-label="Perfil de usuario" (click)="toggleProfileEditor()">
           <img [src]="image" alt="Foto de perfil">
@@ -11,7 +10,6 @@
         </div>
       </div>
 
-      <!-- Navegación -->
       <ul class="sidenav-nav">
         @for (item of items; track $index) {
         <li class="sidenav-nav-item">
@@ -27,15 +25,24 @@
       </ul>
     </div>
     
-    <!-- Botón de cierre de sesión -->
     <button class="signout-btn" 
-            (click)="logout()" 
-            (mouseenter)="toggleLogoutText()" 
-            (mouseleave)="toggleLogoutText()" 
+            (click)="toggleLogoutText()" 
             aria-label="Cerrar sesión">
       <i class="fas fa-sign-out-alt signout-icon"></i>
-      <span class="signout-text" [class.visible]="showLogoutText">Signout</span>
+      <span class="signout-text" [class.visible]="showLogoutText">Log out</span>
     </button>
+  </div>
+
+  <div *ngIf="showLogoutText" class="logout-confirmation-overlay">
+    <div class="logout-confirmation-container">
+        <div class="logout-confirmation-form">
+            <h3>Are you sure you want to log out?</h3>
+            <div class="logout-button-group">
+                <button class="cancel-button" (click)="toggleLogoutText()">Cancel</button>
+                <button class="logout-button" (click)="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
   </div>
 
   <div *ngIf="showProfileEditor" class="profile-editor-overlay">

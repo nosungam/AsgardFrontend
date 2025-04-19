@@ -45,17 +45,23 @@
         </div>
     </div>
     <textarea class="workspace-name" [(ngModel)]="workspace.name" (ngModelChange)="saveWorkspaceName()"></textarea>
-    <div class="folders">
+    <div class="toggle-container">
+        <button class="toggle-button" (click)="toggleFoldersVisibility()">
+            <i class="bi" [ngClass]="visibleFolders ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+            {{ visibleFolders ? 'Hide Folders' : 'Show Folders' }}
+        </button>
+    </div>
+    <div class="folders" *ngIf="visibleFolders">
         <button *ngFor="let folder of folders; let i = index" class="button folder" (click)="openFolder(folder.id)">{{ folder.name }}</button>
         <button class="button folder" (click)="onCreateFolder($event)">+</button>
     </div>
-    <hr class="separator">
+    <hr class="separator" *ngIf="visibleFolders">
     <div class="notes flex">
         <div class="flex">
             <h2 class="note-title">Notes</h2>
             <i class="bi bi-pencil pencil"></i>
         </div>
-        <st-editor [(ngModel)]="note" [config]="config" (ngModelChange)="saveNote()" class="editor"></st-editor>
+        <st-editor [(ngModel)]="note" [config]="config" (ngModelChange)="onNoteChange()" class="editor"></st-editor>
         <h1 class="flashcardtitle">Flashcards</h1>
     </div>
     <div class="flashcards">

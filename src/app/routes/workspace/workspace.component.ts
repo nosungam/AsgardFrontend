@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotesService } from '../../../../src/app/core/notesConnection/notes.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EditorConfig, NgxSimpleTextEditorModule, ST_BUTTONS } from 'ngx-simple-text-editor';
 import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service';
+import { Subject } from "rxjs"
+import { debounceTime } from "rxjs/operators"
 
 @Component({
   selector: 'app-workspace',
@@ -17,7 +19,9 @@ import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service'
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-export class WorkspaceComponent implements OnInit {
+export class WorkspaceComponent implements OnInit, OnDestroy {
+  private noteSubject = new Subject<string>()
+  private subscription: any
   folders: any[] = [];
   flashcards: any[] = [];
   note: string = '';
@@ -42,6 +46,7 @@ export class WorkspaceComponent implements OnInit {
     folderId: -1
   }
   showDeleteConfirmation = false
+  visibleFolders=true
 
   constructor(
     private notesService: NotesService, 
@@ -61,6 +66,14 @@ export class WorkspaceComponent implements OnInit {
           this.loadWorkspaceData(this.workspaceId);
         }
         this.changeDetector.markForCheck();
+
+        this.subscription = this.noteSubject
+        .pipe(
+          debounceTime(500), // Espera 500ms después de la última actualización
+        )
+        .subscribe((note) => {
+          this.saveNote()
+        })
       });
     } catch (error) {
       console.error('Error fetching folders:', error);
@@ -84,6 +97,16 @@ export class WorkspaceComponent implements OnInit {
         console.error('Error updating note:', err);
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+  }
+
+  onNoteChange() {
+    this.noteSubject.next(this.note)
   }
 
   private loadWorkspaceData(workspaceId: number): void {
@@ -265,5 +288,9 @@ export class WorkspaceComponent implements OnInit {
 
   goToStats():void{
     this.router.navigate(['/stats', this.workspaceId]);
+  }
+
+  toggleFoldersVisibility(): void {
+    this.visibleFolders = !this.visibleFolders;
   }
 }

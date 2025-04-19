@@ -251,8 +251,6 @@ hr {
     background-color: #d90000;
 }
 
-
-/* Overlay styles for the upload container */
 .upload-overlay {
     position: fixed;
     top: 0;
@@ -264,7 +262,6 @@ hr {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    /* Ensures it's on top of everything */
 }
 
 .button {
@@ -279,7 +276,6 @@ hr {
     color: black;
 }
 
-/* Add these styles to your CSS file */
 .flashcard-editor-overlay {
     position: fixed;
     top: 0;
@@ -364,4 +360,32 @@ hr {
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 100%;
+}
+
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.toggle-button {
+    padding: 5px 10px;
+    background-color: var(--workspace-button-bg, #f0f0f0);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.toggle-button:hover {
+    background-color: var(--workspace-buttonhover-bg, #e0e0e0);
+}
+
+.toggle-button i {
+    font-size: 0.8rem;
 }

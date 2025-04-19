@@ -112,6 +112,13 @@
     word-break: break-word;
 }
 
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* opcional: espacio entre botones */
+    margin-top: auto; /* opcional: empuja hacia abajo si querés */
+}
+
 .download-button {
     border: none;
     padding: 4px 0px;
@@ -132,7 +139,6 @@
     border-radius: 5px;
     font-size: 15px;
     width: 10%;
-    margin-left: 0.5rem;
 }
 
 .delete-button:hover {
