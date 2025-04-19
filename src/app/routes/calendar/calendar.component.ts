@@ -20,6 +20,7 @@ interface CalendarDay {
 })
 export class CalendarComponent implements OnInit {
   uploading = false
+  editing = false
   today: Date = new Date();
   currentMonth: Date = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
   selectedDate: Date = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
@@ -198,10 +199,6 @@ export class CalendarComponent implements OnInit {
     this.uploading = true
   }
 
-  cancelEventEdit() {
-    this.uploading = false
-  }
-
   saveEvent(eventData: CreateEventDTO): void {
     // Validate form
     if (!eventData.title || !eventData.startDate) {
@@ -257,5 +254,97 @@ export class CalendarComponent implements OnInit {
         })
       },
     })
+  }
+
+  eventEditor(event: CreateEventDTO): void {
+    // Detener la propagación del evento para evitar que se active selectDate
+    window.event?.stopPropagation();
+    
+    // Crear una copia del evento para evitar modificar el original directamente
+    this.editingEvent = {
+        ...event,
+        // Asegurarse de que las fechas sean objetos Date
+        startDate: event.startDate instanceof Date ? event.startDate : new Date(event.startDate),
+        endDate: event.endDate ? (event.endDate instanceof Date ? event.endDate : new Date(event.endDate)) : undefined
+    };
+    
+    // Mostrar el formulario de edición
+    this.editing = true;
+  }
+
+  cancelEventEdit(): void {
+    this.uploading = false;
+    this.editing = false;
+  }
+
+  updateEvent(eventData: CreateEventDTO): void {
+    // Validar formulario
+    if (!eventData.title || !eventData.startDate) {
+        alert("Por favor complete los campos requeridos");
+        return;
+    }
+
+    // Asegurarse de que las fechas estén correctamente formateadas
+    const event = {
+        ...eventData,
+        startDate: eventData.startDate instanceof Date ? eventData.startDate : new Date(eventData.startDate),
+        endDate: eventData.endDate ? (eventData.endDate instanceof Date ? eventData.endDate : new Date(eventData.endDate)) : new Date(),
+    };
+
+    // Llamar al servicio para actualizar el evento
+    if (event.id !== undefined) {
+      this.notesService.updateEvent(event.id, event).subscribe({
+        next: (updatedEvent) => {
+            console.log("Evento actualizado:", updatedEvent);
+        },
+        error: (err) => {
+            console.error("Error al actualizar el evento:", err);
+        },
+        complete: () => {
+            // Cerrar el editor y actualizar la lista de eventos
+            this.editing = false;
+            this.refreshEvents();
+        }
+      });
+    }
+  }
+
+  // Método para eliminar un evento
+  deleteEvent(event: CreateEventDTO): void {
+      if (confirm("¿Está seguro que desea eliminar este evento?")) {
+          if (event.id !== undefined) {
+              this.notesService.deleteEvent(event.id).subscribe({
+                  next: () => {
+                      console.log("Evento eliminado");
+                      
+                      // Eliminar el evento del array local
+                      this.events = this.events.filter(e => e.id !== event.id);
+                  },
+                  error: (err) => {
+                      console.error("Error al eliminar el evento:", err);
+                  },
+                  complete: () => {
+                      // Cerrar el editor y actualizar la lista de eventos
+                      this.editing = false;
+                      this.refreshEvents();
+                  }
+              });
+          } else {
+              console.error("Event ID is undefined, cannot delete event.");
+          }
+      }
+  }
+
+  // Método auxiliar para actualizar la lista de eventos
+  refreshEvents(): void {
+      this.notesService.getEvents(this.username).subscribe({
+          next: (events) => {
+              console.log("Eventos actualizados:", events);
+              this.events = events;
+          },
+          error: (err) => {
+              console.error("Error al obtener eventos:", err);
+          }
+      });
   }
 }

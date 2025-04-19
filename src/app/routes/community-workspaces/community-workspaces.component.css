@@ -29,6 +29,47 @@
     color: var(--text-color);
 }
 
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-right: 40px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.search-input:focus {
+    border-color: #3eb9f1;
+    box-shadow: 0 2px 8px rgba(209, 121, 6, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1rem;
+}
+
+.icon {
+    width: 1.5rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
 .cards-container {
     display: flex;
     flex-wrap: wrap;
@@ -66,23 +107,43 @@
 .card-note {
     margin-top: 5%;
     font-size: 0.9em;
-    color: var(--text-color)
+    color: var(--text-color);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .download-button {
-    color: white;
     border: none;
     padding: 4px 0px;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 20px;
-    text-align: right;
+    font-size: 15px;
     width: 10%;
-    position: relative;
-    left: 90%;
-    color: black;
 }
 
 .download-button:hover {
     transform: scale(1.2);
+}
+
+.delete-button {
+    border: none;
+    padding: 4px 0px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 10%;
+    margin-left: 0.5rem;
+}
+
+.delete-button:hover {
+    transform: scale(1.2);
+}
+
+
+.no-results {
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-color);
+    font-size: 1.1rem;
 }

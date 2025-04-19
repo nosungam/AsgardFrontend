@@ -1,12 +1,28 @@
 <div class="layout">
     <h1 class="title">Community workspaces</h1>
+    <div class="search-container">
+        <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search workspaces..." 
+            [(ngModel)]="searchTerm"
+            (input)="onSearch()"
+        >
+        <i class="bi bi-search search-icon"></i>
+    </div>
     <div class="cards-container">
-        <div *ngFor="let folder of folders" class="card">
-            <img [src]="folder.img" alt="Folder Image" class="card-image">
+        <div *ngFor="let folder of displayedFolders" class="card">
+            <img *ngIf="folder.img" [src]="folder.img" alt="Folder Image" class="card-image">
             <h2 class="card-title">{{ folder.name }}</h2>
             <p class="card-description">{{ folder.description }}</p>
             <p class="card-note">{{ folder.note.length > 100 ? folder.note.slice(0, 100) + '...' : folder.note }}</p>
-            <button class="download-button" (click)="downloadFolder(folder.id)"><img src="download.png" alt="Download"></button>
+            <div>
+                <button class="download-button" (click)="downloadFolder(folder.id)"><i class="bi bi-download icon" alt="Download"></i></button>
+                <button *ngIf="folder.username===username" class="delete-button" (click)="deleteFolder(folder.id)"><i class="bi bi-trash3 icon" alt="Delete"></i></button>
+            </div>
+        </div>
+        <div *ngIf="displayedFolders.length === 0" class="no-results">
+            No workspaces found matching your search.
         </div>
     </div>
 </div>

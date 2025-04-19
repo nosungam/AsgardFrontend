@@ -73,6 +73,72 @@
         </div>
     </div>
 
+    <div *ngIf="editing" class="event-editor-overlay">
+        <div class="event-editor-container">
+            <div class="event-editor-form">
+                <h3>Editar Evento</h3>
+                
+                <div class="form-group">
+                    <label for="editEventTitle">Título</label>
+                    <input 
+                        type="text" 
+                        id="editEventTitle" 
+                        class="form-input" 
+                        [(ngModel)]="editingEvent.title" 
+                        placeholder="Título del evento">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editStartDate">Fecha de inicio</label>
+                        <input 
+                            type="date" 
+                            id="editStartDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEndDate">Fecha de fin</label>
+                        <input 
+                            type="date" 
+                            id="editEndDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endDate">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editStartHour">Hora de inicio</label>
+                        <input 
+                            type="time" 
+                            id="editStartHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startHour">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEndHour">Hora de fin</label>
+                        <input 
+                            type="time" 
+                            id="editEndHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endHour">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="delete-button" (click)="deleteEvent(editingEvent)">Eliminar</button>
+                    <div class="right-buttons">
+                        <button class="cancel-button" (click)="cancelEventEdit()">Cancelar</button>
+                        <button class="save-button" (click)="updateEvent(editingEvent)">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="calendar-container">
         <div class="calendar">
             <div class="calendar-header">
@@ -101,7 +167,7 @@
 
                     <div class="day-events">
                         <div *ngFor="let event of getEventsForDay(day.date)" class="event"
-                            [ngClass]="'event-' + event.color">
+                            [ngClass]="'event-' + event.color" (click)="eventEditor(event)">
                             {{ event.title }}
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 <div class="layout flex">
     <div class="flex icons">
-        <img class="icon" src="boton-cerrar.png" alt="Close" (click)="stopSession()">
-        <img class="icon" src="next.png" alt="Next" (click)="skipQuestion()">
+        <button (click)="stopSession()"><i class="bi bi-x-lg icon" alt="Close"></i></button>
+        <button (click)="skipQuestion()"><i class="bi bi-arrow-right-circle icon" alt="Next"></i></button>
     </div>
     @if (flashcard) {
         @if (!answered) {

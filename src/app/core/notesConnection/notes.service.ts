@@ -4,7 +4,7 @@ import { FlashcardDTO } from "../../../Interface/flashcard.dto";
 import { FolderDTO } from "../../../Interface/folder.dto";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { PromptDTO } from "../../../Interface/prompt.dto";
+import { CommunityPromptDTO, PromptDTO } from "../../../Interface/prompt.dto";
 import { AnswerDTO } from "../../../Interface/answer.dto";
 import { StatsDTO } from "../../../Interface/stats.dto";
 import { SkipedDTO } from "../../../Interface/skiped.dto";
@@ -71,6 +71,11 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
+    searchCommunityWorkspace(body: CommunityPromptDTO): Observable<any[]> {
+        return this.http.put<any[]>(`${urlNotes}/search-engine/community`, { ...body })
+            .pipe(catchError(this.handleError));
+    }
+
     answerFlashcard(body: AnswerDTO, sessionId:number): Observable<void> {
         console.log(body)
         return this.http.post<void>(`${urlNotes}/study-session/${sessionId}`, body, )
@@ -132,6 +137,11 @@ export class NotesService {
             .pipe(catchError(this.handleError));
     }
 
+    unsuscribeToCommunityWorkspace(folderId: number): Observable<void> {
+        return this.http.delete<void>(`${urlNotes}/community-workspaces/${folderId}`)
+            .pipe(catchError(this.handleError));
+    }
+
     createEvent(body: CreateEventDTO, user: string): Observable<CreateEventDTO> {
         return this.http.post<CreateEventDTO>(`${urlNotes}/calendar/event/${user}`, body)
             .pipe(catchError(this.handleError));
@@ -156,4 +166,6 @@ export class NotesService {
         return this.http.post<void>(`${urlNotes}/community-workspaces`, { id: folderId, user })
             .pipe(catchError(this.handleError));
     }
+
+    
 }
