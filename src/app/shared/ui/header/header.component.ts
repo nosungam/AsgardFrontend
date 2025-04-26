@@ -41,9 +41,7 @@ export class HeaderComponent implements OnInit {
       }
 
       this.username = await this.authService.getUsername();
-      this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
-        this.folders = currentFolder;
-      });
+      this.folders=this.updateWorkspaceService.folders
     } catch (error) {
       // console.error('Error fetching folders:', error);
     }

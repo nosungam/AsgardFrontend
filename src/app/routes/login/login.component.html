@@ -32,7 +32,7 @@
             
             <div
             *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
-            <label *ngIf="form.get('password')?.errors?.['minlength']" class="text-red-500 text-xs">Invalid password</label>
+            <label *ngIf="form.get('password')?.errors?.['minlength'] || form.get('password')?.errors?.['maxlength']" class="text-red-500 text-xs">Invalid password</label>
             <label *ngIf="form.get('password')?.errors?.['required']" class="text-red-500 text-xs">Password is required</label>
           </div>
           <label *ngIf="invalidLogin" class="invalid-credentials">Invalid username or password. Please try again.</label>
@@ -41,7 +41,7 @@
         <!--forget password-->
         <button (click)="moveToRecoverPassword()" class="text-sm text-blue-500 hover:underline">Forgot password?</button>
         <!--continue button-->
-        <button type="submit" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+        <button type="submit" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 btn-primary"
           [disabled]="!form.valid">Continue
         </button>
 

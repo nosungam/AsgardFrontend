@@ -8,17 +8,11 @@
     </button>
 
     <div class="buttons">
-        <button class="scroll-indicator scroll-left" (click)="scrollWorkspaces('left')">
-            ←
-        </button>
         <div class="workspaces-container" #workspacesContainer>
             <button *ngFor="let folder of folders" class="workspace-button" (click)="openWorkspace(folder.id)">
                 {{ folder.name }}
             </button>
         </div>
-        <button class="scroll-indicator scroll-right" (click)="scrollWorkspaces('right')">
-            →
-        </button>
 
         <button (click)="changeTheme()" [ngClass]="{'dark-mode': isDarkMode, 'light-mode': !isDarkMode}"
             class="theme-toggle">
