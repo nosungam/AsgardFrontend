@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NotesService } from '../../../core/notesConnection/notes.service';
 import { PromptDTO } from '../../../../Interface/prompt.dto';
@@ -25,8 +25,6 @@ export class HeaderComponent implements OnInit {
 
   isDarkMode = false
 
-  @ViewChild("workspacesContainer") workspacesContainer!: ElementRef
-
   constructor(private notesService: NotesService, private router:Router, private authService: AuthService, public updateWorkspaceService: UpdateWorkspaceService) {}
 
   async ngOnInit() {
@@ -39,24 +37,12 @@ export class HeaderComponent implements OnInit {
         // Check if dark mode is already enabled in the DOM
         this.isDarkMode = document.documentElement.classList.contains("dark")
       }
+      console.log(this.updateWorkspaceService.folders)
 
       this.username = await this.authService.getUsername();
-      this.folders=this.updateWorkspaceService.folders
+      this.folders = this.updateWorkspaceService.folders;
     } catch (error) {
       // console.error('Error fetching folders:', error);
-    }
-  }
-
-  scrollWorkspaces(direction: "left" | "right"): void {
-    if (!this.workspacesContainer) return
-
-    const container = this.workspacesContainer.nativeElement
-    const scrollAmount = 200 // Adjust scroll amount as needed
-
-    if (direction === "left") {
-      container.scrollLeft -= scrollAmount
-    } else {
-      container.scrollLeft += scrollAmount
     }
   }
 

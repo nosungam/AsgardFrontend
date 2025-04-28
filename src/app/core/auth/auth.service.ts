@@ -32,7 +32,7 @@ export class AuthService {
       localStorage.setItem('email', JSON.stringify(body.email));
       return response;
     } catch (error) {
-      throw new HttpErrorResponse({ error });
+      return Promise.reject(new HttpErrorResponse({ error }));
     }
   }
 
@@ -92,26 +92,27 @@ export class AuthService {
     }
   }
 
-  async resetPassword(token: string, body: any): Promise<any> {
-  //todo work in progress
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(true);
-    }, 1000); // Simulate a 1 second delay
+  async resetPassword(token: string, body: {password:string}): Promise<any> {
+  return new Promise((resolve,reject) => {
+    axios.post(`${this.urlLogin}recover-password/reset/${token}`, body)
+      .then(response => {
+        resolve(response.data); 
+      })
+      .catch(error => {
+        reject(new HttpErrorResponse({ error }));
+      });
   });
   }
 
-  async forgotPassword(email: string): Promise<string> { //todo llamada al back para enviar el corre
+  async forgotPassword(email: string): Promise<string> { 
     return new Promise((resolve, reject) => {
-      // Simulación de envío de correo
-      setTimeout(() => {
-        const success = true; // Cambia esto según el resultado del envío
-        if (success) {
-          resolve('Correo enviado con éxito');
-        } else {
-          reject('Error al enviar el correo');
-        }
-      }, 10000); // Simula un retraso de 1 segundo
+      axios.post(`${this.urlLogin}recover-password`, { email })
+        .then(response => {
+          resolve(response.data.message); 
+        })
+        .catch(error => {
+          reject(new HttpErrorResponse({ error }));
+        });
     });
   }
 }

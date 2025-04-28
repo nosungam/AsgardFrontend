@@ -37,13 +37,13 @@ export class ResetPasswordComponent implements OnInit {
     }
 
   onSubmit() {
-    this.authService.resetPassword(this.token, this.resetForm.value) //todo cambiar funcion
-    .then((response) => {
-      console.log(response);
-      this.router.navigate(['/login']);
-    }).catch((error) => {
-      console.error(error);
-    });
+    this.authService.resetPassword(this.token, {password:this.resetForm.value.password ? this.resetForm.value.password :''})
+      .then((response) => {
+        console.log(response);
+        this.router.navigate(['/login']);
+      }).catch((error) => {
+        console.error(error);
+      });
   }
 
   passwordMatchValidator(password: string, confirmPassword: string): ValidatorFn {

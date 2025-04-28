@@ -34,7 +34,7 @@ export class RecoverPasswordComponent {
 
     this.isSubmitted = true;
     
-    // Aquí iría la lógica para enviar el correo de recuperación
+    
     console.log('Enviando correo a:', this.recoveryForm.value.email);
     
     this.authService.forgotPassword(this.recoveryForm.value.email).then((response) => {

@@ -145,6 +145,7 @@ export class StatsComponent implements OnInit {
             //heatmap
             this.totalFlashcardsData.data = stats.scorePerDay.map((stat:{date:string; score:number}) => [new Date(stat.date), stat.score]);
             
+    
             //bar chart
             this.barChart.data = stats.amountsOfFlashcards.map((stat:{folderName: string; amount: number} ) => [stat.folderName, stat.amount]);
 
@@ -153,7 +154,11 @@ export class StatsComponent implements OnInit {
             // simple stats
             this.bestStrike = stats.bestStrike;
             this.totalStudySessions = stats.totalStudySessions;
-            this.avarageScore = stats.avarageScore;
+
+            if (this.totalStudySessions === 0) {
+              this.avarageScore = 0;
+            }else{
+            this.avarageScore = stats.avarageScore;}
 
             //pie chart 1
             this.daysStudied.data= [['Studied',stats.daysStudiedInLast30Days],['Not Studied',30-stats.daysStudiedInLast30Days]];
@@ -167,7 +172,8 @@ export class StatsComponent implements OnInit {
             })[0]?.score;
         
             stats.amountsOfFlashcards.map((stat:{folderName: string; amount: number})=>this.totalFlashcards+=stat.amount)
-            this.idealScore.data = [['Ideal Score',this.totalFlashcards],['Real Score', !currentScore ? 0 : currentScore]];
+          
+            this.idealScore.data = [['Incorrect answer',this.totalFlashcards-currentScore],['Correct answer', currentScore===undefined ? 0 : currentScore]];
           });
         }
       });

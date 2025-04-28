@@ -8,10 +8,13 @@
     </button>
 
     <div class="buttons">
-        <div class="workspaces-container" #workspacesContainer>
-            <button *ngFor="let folder of folders" class="workspace-button" (click)="openWorkspace(folder.id)">
-                {{ folder.name }}
-            </button>
+        <div class="workspaces-container">
+            <div *ngIf="updateWorkspaceService.folders.length===0">
+                <a class="workspace-button" (click)="openWorkspace(folder.id)"
+            *ngFor="let folder of folders;">{{folder.name}}</a>
+            </div>
+            <a class="workspace-button" (click)="openWorkspace(folder.id)"
+            *ngFor="let folder of updateWorkspaceService.folders;">{{folder.name}}</a>
         </div>
 
         <button (click)="changeTheme()" [ngClass]="{'dark-mode': isDarkMode, 'light-mode': !isDarkMode}"

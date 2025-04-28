@@ -16,10 +16,10 @@ export class SignUpComponent {
   showHide= 'show';
   typeShowHide = 'password';
   checkbox:boolean = false;
+  userExists: boolean = false;
 
   form = this.formBuilder.group({
-    firstName: ["", [Validators.required]],
-    lastName: ["", [Validators.required]],
+    username: ["", [Validators.required]],
     password: ["", [Validators.required, Validators.minLength(6), Validators.maxLength(16)]], //para validar determinadas entradas se utiliza valitadors.pattern
     confirmPassword: ["", [Validators.required]],
     email: ["", [Validators.required, Validators.email]]
@@ -49,17 +49,19 @@ export class SignUpComponent {
     async signUp(){
       return new Promise((resolve, reject) => {
         const signUpData = {
-          name: this.form.value.firstName!,
-          surname: this.form.value.lastName!,
+          username: this.form.value.username!,
           password: this.form.value.password!,
           email: this.form.value.email!
         };
         
         this.authService.signUp(signUpData).then(() => {
         this.router.navigate(['/home']);
+        this.userExists = false;
         resolve(true);
       }).catch((error)=>{
-        console.log(error);
+        console.log('Error en el registro:', error);  
+        this.userExists = true;
+        console.log('El usuario ya existe', this.userExists);
         reject(error);
       })
     })}

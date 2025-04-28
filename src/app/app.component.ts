@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Escucha los cambios de la ruta para mostrar u ocultar el sidebar y header
     this.router.events.subscribe(() => {
-      const noSidebarOrHeaderRoutes = ['/login', '/sign-up','/recover-password','/reset-password']; // Rutas sin sidebar ni header
+      const noSidebarOrHeaderRoutes = ['/login', '/sign-up','/recover-password','/reset-password/:token']; // Rutas sin sidebar ni header
 
       // Verifica si la ruta actual es una de las que no debe mostrar sidebar o header
       this.showSidebar = !noSidebarOrHeaderRoutes.includes(this.router.url);

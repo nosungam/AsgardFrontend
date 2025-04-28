@@ -39,9 +39,9 @@ export class HomeComponent implements OnInit {
     try {
       this.username = await this.authService.getUsername();
       this.name = await this.authService.getName();
+      this.updateWorkspaceService.updateFolders(this.username);
       this.notesService.getWorkspaces(this.username).subscribe(currentFolder => {
-        this.folders = currentFolder;
-      });
+        this.folders = currentFolder;});
       this.changeDetector.markForCheck();
 
     } catch (error) {

@@ -32,6 +32,8 @@
     align-items: center;
     gap: 12px;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .logo {
@@ -130,22 +132,43 @@
 }
 
 .workspaces-container {
-    display: flex;
+    overflow: hidden;
+    flex-wrap: nowrap;
     max-width: 500px;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    padding: 4px 0;
-    position: relative;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    width: fit-content;
+
+    padding: 8px 0;
+    
+    overflow-x: scroll;
+
 }
 
-.workspaces-container::-webkit-scrollbar {
+.workspaces-container::-webkit-scrollbar-track {
     display: none;
 }
-
-.workspaces-container:hover::-webkit-scrollbar {
+.workspaces-container::-webkit-scrollbar{
     display: block;
+    width: 0px;
+    height: 3px;
+}
+
+.workspaces-container:hover::-webkit-scrollbar{
+    display: block;
+    height: 3px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.workspaces-container::-webkit-scrollbar-thumb {
+    display: none;
+}
+.workspaces-container:hover::-webkit-scrollbar-thumb {
+    display: block;
+    border-radius: 10px;
+    height: 3px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #737272;
+    border: none;
 }
 
 .scroll-indicator {
@@ -178,7 +201,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     min-width: 100px;
-    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     background-color: #7caffa;
@@ -186,7 +208,6 @@
     text-align: center;
     transition: all 0.2s ease;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
 }
 

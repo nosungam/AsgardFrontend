@@ -16,6 +16,7 @@
     background-color: #2563eb;
 }
 
-.continue:hover:disabled{
-    background-color: #3b82f6;
+.continue:disabled {
+    background-color: #80a9eb; /* Gray-300 */
+    cursor: default;
 }
