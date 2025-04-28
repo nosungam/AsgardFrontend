@@ -1,3 +1,22 @@
 #logo{
     width: 4rem;
 }
+
+.continue {
+    margin-top: 1rem;  
+    width: 100%;            
+    background-color: #3b82f6;
+    color: white;         
+    padding: 0.5rem;         
+    border-radius: 0.5rem;    
+    transition: background-color 0.2s ease-in-out;
+}
+
+.continue:hover {
+    background-color: #2563eb;
+}
+
+.continue:disabled {
+    background-color: #80a9eb; /* Gray-300 */
+    cursor: default;
+}

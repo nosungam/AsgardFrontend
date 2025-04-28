@@ -14,9 +14,10 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   showHide= 'show';
   typeShowHide = 'password';
+  invalidLogin = false;
 
   form = this.formBuilder.group({
-    password: ["", [Validators.required, Validators.minLength(6)]],
+    password: ["", [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
     email: ["", [Validators.required, Validators.email]]
   });
 
@@ -31,13 +32,16 @@ export class LoginComponent {
       const loginData: LogIn = {
         password: this.form.value.password!,
         email: this.form.value.email!,
+        name: ''
       };
+      
       this.authService.login(loginData)
       .then(() => {
         this.router.navigate(['/home']);
         resolve(true);
       })
       .catch((error)=>{ 
+        this.invalidLogin = true;
         console.log(error);
         reject(error);
       })})
@@ -61,4 +65,7 @@ export class LoginComponent {
     moveToSignUp(){
       this.router.navigate(['/sign-up']);
     }
+
+    moveToRecoverPassword(){
+      this.router.navigate(['/recover-password']);}
 }

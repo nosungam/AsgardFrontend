@@ -1,0 +1,32 @@
+<div class="layout flex">
+    <div class="flex icons">
+        <button (click)="close()">
+            <i class="bi bi-x-lg icon" alt="Close"></i>
+        </button>
+        <a class="ml-3 delete" (click)="deleteFlashcardConfirmation()">
+            <i class="bi bi-trash3 icon"></i>
+        </a>
+    </div>
+    <div class="editor flex">
+        <textarea 
+            [(ngModel)]="flashcard.title" 
+            class="editor-title-area mb-2 black-font" 
+            placeholder="Enter Title" 
+            rows="1">
+        </textarea>
+        <st-editor class="mb-2 st black-font" [(ngModel)]="flashcard.question" [config]="config1"></st-editor>
+        <st-editor class="mb-2 st black-font" [(ngModel)]="flashcard.answer" [config]="config2"></st-editor>
+        <button (click)="saveFlashcard()" class="saveflashcard">Save</button>
+    </div>
+    <div *ngIf="showDeleteConfirmation" class="delete-flashcard-confirmation-overlay">
+        <div class="delete-flashcard-confirmation-container">
+            <div class="delete-flashcard-confirmation-form">
+                <h3>Are you sure you want to delete this flashcard?</h3>
+                <div class="delete-button-group">
+                    <button class="cancel-button" (click)="cancelDeleteFlashcard()">Cancel</button>
+                    <button class="delete-button" (click)="deleteFlashcard()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

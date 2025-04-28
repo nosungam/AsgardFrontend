@@ -1,0 +1,195 @@
+<div class="layout">
+    <div *ngIf="uploading" class="event-editor-overlay">
+        <div class="event-editor-container">
+            <div class="event-editor-form">
+                <h3>Add New Event</h3>
+                
+                <div class="form-group">
+                    <label for="eventTitle">Title</label>
+                    <input 
+                        type="text" 
+                        id="eventTitle" 
+                        class="form-input" 
+                        [(ngModel)]="editingEvent.title" 
+                        placeholder="Enter event title">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input 
+                            type="date" 
+                            id="startDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input 
+                            type="date" 
+                            id="endDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endDate">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startHour">Start Time</label>
+                        <input 
+                            type="time" 
+                            id="startHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startHour">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endHour">End Time</label>
+                        <input 
+                            type="time" 
+                            id="endHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endHour">
+                    </div>
+                </div>
+                
+                <!-- <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-selector">
+                        <div class="color-option" 
+                            *ngFor="let color of ['red', 'green', 'blue', 'gray']"
+                            [ngClass]="{'selected': editingEvent.color === color, ['color-' + color]: true}"
+                            (click)="editingEvent.color = color">
+                        </div>
+                    </div>
+                </div> -->
+                
+                <div class="button-group">
+                    <button class="cancel-button" (click)="cancelEventEdit()">Cancel</button>
+                    <button class="save-button" (click)="saveEvent(editingEvent)">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="editing" class="event-editor-overlay">
+        <div class="event-editor-container">
+            <div class="event-editor-form">
+                <h3>Editar Evento</h3>
+                
+                <div class="form-group">
+                    <label for="editEventTitle">Título</label>
+                    <input 
+                        type="text" 
+                        id="editEventTitle" 
+                        class="form-input" 
+                        [(ngModel)]="editingEvent.title" 
+                        placeholder="Título del evento">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editStartDate">Fecha de inicio</label>
+                        <input 
+                            type="date" 
+                            id="editStartDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEndDate">Fecha de fin</label>
+                        <input 
+                            type="date" 
+                            id="editEndDate" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endDate">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editStartHour">Hora de inicio</label>
+                        <input 
+                            type="time" 
+                            id="editStartHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.startHour">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEndHour">Hora de fin</label>
+                        <input 
+                            type="time" 
+                            id="editEndHour" 
+                            class="form-input" 
+                            [(ngModel)]="editingEvent.endHour">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="delete-button" (click)="deleteEvent(editingEvent)">Eliminar</button>
+                    <div class="right-buttons">
+                        <button class="cancel-button" (click)="cancelEventEdit()">Cancelar</button>
+                        <button class="save-button" (click)="updateEvent(editingEvent)">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendar-container">
+        <div class="calendar">
+            <div class="calendar-header">
+                <h2>{{ monthNames[currentMonth.getMonth()] }} {{ currentMonth.getFullYear() }}</h2>
+                <div class="calendar-nav">
+                    <button class="nav-button" (click)="previousMonth()">
+                        <i class="chevron-up"></i>
+                    </button>
+                    <button class="nav-button" (click)="nextMonth()">
+                        <i class="chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="calendar-days-header">
+                <div class="day-name" *ngFor="let day of daysOfWeek">{{ day }}</div>
+            </div>
+
+            <div class="calendar-grid">
+                <div *ngFor="let day of calendarDays" class="calendar-day" [ngClass]="{
+                'other-month': !day.isCurrentMonth,
+                'today': isToday(day.date)}" (click)="selectDate(day.date)">
+                    <div class="day-number" [ngClass]="{'today-number': isToday(day.date)}">
+                        {{ day.date.getDate() }}
+                    </div>
+
+                    <div class="day-events">
+                        <div *ngFor="let event of getEventsForDay(day.date)" class="event"
+                            [ngClass]="'event-' + event.color" (click)="eventEditor(event)">
+                            {{ event.title }}
+                        </div>
+                    </div>
+
+                    <button *ngIf="day.isCurrentMonth" class="add-event-button" (click)="$event.stopPropagation(); addEvent(day.date)">
+                        <i class="plus-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-sidebar">
+            <h3>Lista de Eventos</h3>
+            <div class="event-list">
+                <div *ngFor="let event of getEventsForMonth()" class="event-item">
+                    <div class="event-details">
+                        <div class="event-date">{{ formatDate(event.startDate) }}</div>
+                        <div class="event-title">{{ event.title }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

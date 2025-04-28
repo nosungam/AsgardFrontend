@@ -6,11 +6,7 @@
 <div class="flex">
   <app-sidebar 
     *ngIf="showSidebar"
-    [isSidebarCollapsed]="isSidebarCollapsed()"
-    
   />
-<!-- (changeIsSidebarCollapsed)="changeIsSidebarCollapsed($event)" -->
-  <app-home
-    [isSidebarCollapsed]="isSidebarCollapsed()"
+  <app-home (updateName)="getWorkspaces($event)"
   />
 </div>

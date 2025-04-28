@@ -1,60 +1,61 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>Login</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-		<script src="https://unpkg.com/unlazy@0.11.3/dist/unlazy.with-hashing.iife.js" defer init></script>
-		<script type="text/javascript">
-			window.tailwind.config = {
-				darkMode: ['class'],
-				theme: {
-					extend: {
-						colors: {
-							border: 'hsl(var(--border))',
-							input: 'hsl(var(--input))',
-							ring: 'hsl(var(--ring))',
-							background: 'hsl(var(--background))',
-							foreground: 'hsl(var(--foreground))',
-							primary: {
-								DEFAULT: 'hsl(var(--primary))',
-								foreground: 'hsl(var(--primary-foreground))'
-							},
-							secondary: {
-								DEFAULT: 'hsl(var(--secondary))',
-								foreground: 'hsl(var(--secondary-foreground))'
-							},
-							destructive: {
-								DEFAULT: 'hsl(var(--destructive))',
-								foreground: 'hsl(var(--destructive-foreground))'
-							},
-							muted: {
-								DEFAULT: 'hsl(var(--muted))',
-								foreground: 'hsl(var(--muted-foreground))'
-							},
-							accent: {
-								DEFAULT: 'hsl(var(--accent))',
-								foreground: 'hsl(var(--accent-foreground))'
-							},
-							popover: {
-								DEFAULT: 'hsl(var(--popover))',
-								foreground: 'hsl(var(--popover-foreground))'
-							},
-							card: {
-								DEFAULT: 'hsl(var(--card))',
-								foreground: 'hsl(var(--card-foreground))'
-							},
+	<meta charset="utf-8">
+	<title>Asgard</title>
+	<base href="/">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="logo-dark.png">
+	<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+	<script src="https://unpkg.com/unlazy@0.11.3/dist/unlazy.with-hashing.iife.js" defer init></script>
+	<script type="text/javascript">
+		window.tailwind.config = {
+			darkMode: ['class'],
+			theme: {
+				extend: {
+					colors: {
+						border: 'hsl(var(--border))',
+						input: 'hsl(var(--input))',
+						ring: 'hsl(var(--ring))',
+						background: 'hsl(var(--background))',
+						foreground: 'hsl(var(--foreground))',
+						primary: {
+							DEFAULT: 'hsl(var(--primary))',
+							foreground: 'hsl(var(--primary-foreground))'
 						},
-					}
+						secondary: {
+							DEFAULT: 'hsl(var(--secondary))',
+							foreground: 'hsl(var(--secondary-foreground))'
+						},
+						destructive: {
+							DEFAULT: 'hsl(var(--destructive))',
+							foreground: 'hsl(var(--destructive-foreground))'
+						},
+						muted: {
+							DEFAULT: 'hsl(var(--muted))',
+							foreground: 'hsl(var(--muted-foreground))'
+						},
+						accent: {
+							DEFAULT: 'hsl(var(--accent))',
+							foreground: 'hsl(var(--accent-foreground))'
+						},
+						popover: {
+							DEFAULT: 'hsl(var(--popover))',
+							foreground: 'hsl(var(--popover-foreground))'
+						},
+						card: {
+							DEFAULT: 'hsl(var(--card))',
+							foreground: 'hsl(var(--card-foreground))'
+						},
+					},
 				}
 			}
-		</script>
-    <link rel="stylesheet" href="./output.css">
-		<style type="text/tailwindcss">
-			@layer base {
+		}
+	</script>
+	<link rel="stylesheet" href="./output.css">
+	<style type="text/tailwindcss">
+		@layer base {
 				:root {
 					--background: 0 0% 100%;
 --foreground: 240 10% 3.9%;
@@ -100,10 +101,12 @@
 				}
 			}
 		</style>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+
 <body>
-  <app-root></app-root>
+	<app-root></app-root>
 </body>
+
 </html>

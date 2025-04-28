@@ -1,0 +1,45 @@
+<div class="layout flex">
+    <div class="flex icons">
+        <button (click)="stopSession()"><i class="bi bi-x-lg icon" alt="Close"></i></button>
+        <button (click)="skipQuestion()"><i class="bi bi-arrow-right-circle icon" alt="Next"></i></button>
+    </div>
+    @if (flashcard) {
+        @if (!answered) {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <div class="question-section">
+                <p class="label">Question</p>
+                <hr>
+                <div *ngFor="let item of questionArray">
+                    <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
+                    <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                    <br><br>
+                </div>
+            </div>
+            <button class="show-answer-button" (click)="showAnswer()">Show Answer</button>
+        </div>
+        }
+
+        @if (answered) {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <div class="question-section">
+                <p class="label">Answer</p>
+                <hr>
+                <div *ngFor="let item of answerArray">
+                    <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
+                    <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                    <br><br>
+                </div>
+            </div>
+            <button class="good-button" (click)="answerFlashcard(true)">Good</button>
+            <button class="bad-button" (click)="answerFlashcard(false)">Bad</button>
+        </div>
+        }
+    }@else {
+        <div class="flashcard-container">
+            <h2>{{folderName}}'s flashcards</h2>
+            <p class="no-flashcards">No flashcards available.</p>
+        </div>
+    }
+</div>

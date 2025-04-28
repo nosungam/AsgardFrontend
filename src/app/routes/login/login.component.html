@@ -4,7 +4,7 @@
   <div class="flex flex-col items-center justify-center min-h-screen bg-background">
     <div class="bg-blue-100 p-8 rounded-lg shadow-md w-96">
       <img class="text-center mx-auto mb-2" src="logo.png" alt="Logo" id="logo" />
-      <h2 class="text-2xl font-bold text-center mb-6">Sign in</h2>
+      <h1 class="text-2xl text-center mb-6">Log in</h1>
       <form [formGroup]="form" (ngSubmit)="login()">
         <!--form-username-->
         <div class="mb-4">
@@ -16,44 +16,39 @@
           <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
             class="text-red-500 text-xs">
             <label *ngIf="form.get('email')?.errors?.['email']" class="text-red-500 text-xs">Invalid Email</label>
-            <label *ngIf="form.get('email')?.errors?.['required']" class="text-red-500 text-xs">Email is
-              Required</label>
+            <label *ngIf="form.get('email')?.errors?.['required']" class="text-red-500 text-xs">Email is Required</label>
           </div>
         </div>
         <!--form-password-->
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-zinc-700">Password</label>
           <div class="relative">
-
+            
             <input type={{typeShowHide}} id="password"
-              class="mt-1 block w-full p-2 border border-zinc-300 rounded-md focus:ring focus:ring-primary"
-              placeholder="********" formControlName="password" />
+            class="mt-1 block w-full p-2 border border-zinc-300 rounded-md focus:ring focus:ring-primary"
+            placeholder="********" formControlName="password" />
             <button type="button" class="absolute right-3 top-3 text-blue-500 text-sm"
-              (click)="showHidePassword()">{{showHide}}</button>
-
+            (click)="showHidePassword()">{{showHide}}</button>
+            
             <div
-              *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
-              <label *ngIf="form.get('password')?.errors?.['minlength']" class="text-red-500 text-xs">Invalid
-                password</label>
-              <label *ngIf="form.get('password')?.errors?.['required']" class="text-red-500 text-xs">Password is
-                required</label>
-            </div>
-
+            *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
+            <label *ngIf="form.get('password')?.errors?.['minlength'] || form.get('password')?.errors?.['maxlength']" class="text-red-500 text-xs">Invalid password</label>
+            <label *ngIf="form.get('password')?.errors?.['required']" class="text-red-500 text-xs">Password is required</label>
+          </div>
+          <label *ngIf="invalidLogin" class="invalid-credentials">Invalid username or password. Please try again.</label>
           </div>
         </div>
         <!--forget password-->
-        <a href="#" class="text-sm text-blue-500 hover:underline">Forgot password?</a>
+        <button (click)="moveToRecoverPassword()" class="text-sm text-blue-500 hover:underline">Forgot password?</button>
         <!--continue button-->
-        <button type="submit" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+        <button type="submit" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 btn-primary"
           [disabled]="!form.valid">Continue
         </button>
 
       </form>
       <!--redirect to sign up-->
     </div>
-    <p class="mt-4 text-center text-sm text-zinc-500">New to "Application"? <button (click)="moveToSignUp()"
+    <p class="mt-4 text-center text-sm text-zinc-500">New to "Asgard"? <button (click)="moveToSignUp()"
         class="text-blue-500 hover:underline text-sm">Join now</button></p>
   </div>
-
-
 </div>

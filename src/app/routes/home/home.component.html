@@ -1,12 +1,32 @@
 <div class="layout flex">
-    <h1 class="welcome">Welcome {{username}}!</h1>
+    <h1 class="welcome">Welcome {{name}}!</h1>
     <p>Please select a workspace or create a new one.</p>
     <div class="flex workspaces"> 
         <a (click)="openWorkspace(folder.id)" *ngFor="let folder of folders" class="folder flex">
             <h2 >{{ folder.name }}</h2>
         </a>
-        <a href="#" class="createfolder flex" (click)="onCreateWorkspace($event)">
+        <a class="createfolder flex" (click)="onCreateWorkspace()">
             <h2>+</h2>
         </a>
+    </div>
+    <div *ngIf="creatingWorkspace" class="workspace-editor-overlay">
+        <div class="workspace-editor-container">
+            <div class="workspace-editor-form">
+                <h3>Create workspace</h3>
+                <div class="form-group">
+                    <label for="workspaceTitle" class="label-title">Title</label>
+                    <input 
+                        type="text" 
+                        id="workspaceTitle" 
+                        class="title-editor" 
+                        [(ngModel)]="newWorkspace.name" 
+                        placeholder="Enter workspace title">
+                </div>
+                <div class="button-group">
+                    <button class="cancel-button" (click)="cancelEditWorkspace()">Cancel</button>
+                    <button class="save-button" (click)="saveWorkspace()">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

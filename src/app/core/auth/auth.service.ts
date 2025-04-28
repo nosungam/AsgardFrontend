@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Token } from '../../../Interface/token.dto';
 import { LogIn } from '../../../Interface/logIn.dto';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +32,7 @@ export class AuthService {
       localStorage.setItem('email', JSON.stringify(body.email));
       return response;
     } catch (error) {
-      throw new HttpErrorResponse({ error });
+      return Promise.reject(new HttpErrorResponse({ error }));
     }
   }
 
@@ -46,11 +47,72 @@ export class AuthService {
       if (!email) {
         throw new Error('No email found in localStorage');
       }
+      return email;
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
+  }
+
+  async getName(): Promise<string> {
+    try {
+      const email = JSON.parse(localStorage.getItem('email') || '""');
+      if (!email) {
+        throw new Error('No name found in localStorage');
+      }
+
       const response = (await axios.get(`${this.urlLogin}users/${email}`)).data;
-      
+
       return response.name;
     } catch (error) {
       throw new HttpErrorResponse({ error });
     }
+  }
+
+  async getId(): Promise<string> {
+    try {
+      const email = JSON.parse(localStorage.getItem('email') || '""');
+      if (!email) {
+        throw new Error('No name found in localStorage');
+      }
+
+      const response = (await axios.get(`${this.urlLogin}users/${email}`)).data;
+
+      return response.id;
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
+  }
+
+  async updateUser(userId: number, name: string, userImg: string): Promise<any> {
+    try {
+      const response = (await axios.put(`${this.urlLogin}users/${userId}`, { name})).data; // falta agregar userImg al body para cambiar la imagen
+      return response;
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
+  }
+
+  async resetPassword(token: string, body: {password:string}): Promise<any> {
+  return new Promise((resolve,reject) => {
+    axios.post(`${this.urlLogin}recover-password/reset/${token}`, body)
+      .then(response => {
+        resolve(response.data); 
+      })
+      .catch(error => {
+        reject(new HttpErrorResponse({ error }));
+      });
+  });
+  }
+
+  async forgotPassword(email: string): Promise<string> { 
+    return new Promise((resolve, reject) => {
+      axios.post(`${this.urlLogin}recover-password`, { email })
+        .then(response => {
+          resolve(response.data.message); 
+        })
+        .catch(error => {
+          reject(new HttpErrorResponse({ error }));
+        });
+    });
   }
 }

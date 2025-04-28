@@ -3,23 +3,28 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
 
 export class SidebarComponent implements OnInit{
-  isSidebarCollapsed = input.required<boolean>();
-  changeIsSidebarCollapsed = output<boolean>();
   showLogoutText = false;
+  showProfileEditor = false;
   currentWorkspace = 'Workspace 1';
   username= 'Username';
-  image = "https://avatar.iran.liara.run/public/44";
+  image = "./avatar.png";
   items = [
+    {
+      routeLink: 'home',
+      icon: 'bi bi-house',
+      label: 'Home',
+    },
     {
       routeLink: 'calendar',
       icon: 'bi bi-calendar-event',
@@ -34,13 +39,14 @@ export class SidebarComponent implements OnInit{
       routeLink: 'recycle-bin',
       icon: 'bi bi-trash',
       label: 'Recycle Bin',
-    },
-    {
-      routeLink: 'settings',
-      icon: 'bi bi-gear',
-      label: 'Settings',
     }
   ];
+  
+
+  previewImage: string | null = null
+  editedUsername = ""
+  selectedFile: File | null = null
+  userId: number = 0
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -49,23 +55,14 @@ export class SidebarComponent implements OnInit{
     this.router.navigate(['/login']);
   }
 
-  toggleCollapse(): void {
-    this.changeIsSidebarCollapsed.emit(!this.isSidebarCollapsed());
-  }
-
-  closeSidenav(): void {
-    this.changeIsSidebarCollapsed.emit(true);
-  }
-
   ngOnInit(): void {
     this.loadUsername();
   }
 
   async loadUsername(): Promise<void> {
     try {
-      this.username = await this.authService.getUsername();
-      
-      
+      this.username = await this.authService.getName();
+      this.userId = Number(await this.authService.getId());
     } catch (error) {
       
       // console.error('Error fetching username:', error);
@@ -75,5 +72,44 @@ export class SidebarComponent implements OnInit{
 
   toggleLogoutText(): void {
     this.showLogoutText = !this.showLogoutText;
+  }
+
+  toggleProfileEditor(): void {
+    this.showProfileEditor = !this.showProfileEditor
+    if (this.showProfileEditor) {
+      this.editedUsername = this.username
+      this.previewImage = null
+    }
+  }
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0]
+
+      // Create a preview of the selected image
+      const reader = new FileReader()
+      reader.onload = () => {
+        this.previewImage = reader.result as string
+      }
+      reader.readAsDataURL(this.selectedFile)
+    }
+  }
+
+  saveProfile(): void {
+    if (this.editedUsername.trim() !== "") {
+      this.username = this.editedUsername
+    }
+    if (this.previewImage) {
+      this.image = this.previewImage
+    }
+    this.authService.updateUser(this.userId, this.editedUsername, this.image)
+    
+    this.showProfileEditor = false;
+  }
+
+  isUsernameValid(): boolean {
+    const trimmed = this.editedUsername.trim();
+    return trimmed.length > 3 && trimmed.length < 16;
   }
 }

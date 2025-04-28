@@ -1,39 +1,100 @@
-<div class="sidenav shadow" [ngClass]="isSidebarCollapsed() ? 'sidenav-collapsed' : ''">
+<div class="sidenav shadow">
   <div class="layout-content-container">
-    <div>
+    <div class="layout-content">
       <div class="user-img-container">
-        <button class="user-img">
-          <img src={{image}} alt="">
+        <button class="user-img" aria-label="Perfil de usuario" (click)="toggleProfileEditor()">
+          <img [src]="image" alt="Foto de perfil">
         </button>
-        @if (!isSidebarCollapsed()) {
-        <div class="flex flex-col user-img-text">
-          <h3 class="username">{{username}}</h3>
-          <p class="user-img-subtittle text-sm">{{currentWorkspace}}</p>
+        <div class="user-info">
+          <h3 class="username truncate">{{username}}</h3>
         </div>
-        <button class="btn-close" (click)="closeSidenav()">
-          <i class="bi bi-chevron-double-left"></i>
-        </button>
-
-        }
       </div>
 
       <ul class="sidenav-nav">
         @for (item of items; track $index) {
         <li class="sidenav-nav-item">
-          <a class="sidenav-nav-link" [routerLink]="item.routeLink" routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-            @if (!isSidebarCollapsed()) {
-              <i class="sidenav-link-icon" [class]="item.icon"></i>
-              <span class="sidenav-link-text">{{ item.label }}</span>
-            }
-            @if (isSidebarCollapsed()) {
-              <i class="sidenav-collapsed-link-icon" [class]="item.icon"></i>
-            }
+          <a class="sidenav-nav-link" 
+             [routerLink]="item.routeLink" 
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }">
+            <i class="sidenav-link-icon" [class]="item.icon"></i>
+            <span class="sidenav-link-text truncate">{{ item.label }}</span>
           </a>
         </li>
         }
       </ul>
     </div>
-    <button class="add-workspace-btn" (click)="logout()">Signout</button>
+    
+    <button class="signout-btn" 
+            (click)="toggleLogoutText()" 
+            aria-label="Cerrar sesión">
+      <i class="fas fa-sign-out-alt signout-icon"></i>
+      <span class="signout-text" [class.visible]="showLogoutText">Log out</span>
+    </button>
+  </div>
+
+  <div *ngIf="showLogoutText" class="logout-confirmation-overlay">
+    <div class="logout-confirmation-container">
+        <div class="logout-confirmation-form">
+            <h3>Are you sure you want to log out?</h3>
+            <div class="logout-button-group">
+                <button class="cancel-button" (click)="toggleLogoutText()">Cancel</button>
+                <button class="logout-button" (click)="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div *ngIf="showProfileEditor" class="profile-editor-overlay">
+    <div class="profile-editor-container">
+      <div class="profile-editor-header">
+        <h3>Edit Profile</h3>
+        <button class="close-button" (click)="toggleProfileEditor()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    
+      <div class="profile-editor-content">
+        <div class="profile-image-editor">
+          <div class="image-preview">
+            <img [src]="previewImage || image" alt="Profile preview">
+            <div class="image-overlay">
+              <i class="bi bi-camera"></i>
+            </div>
+          </div>
+          <input 
+            type="file" 
+            id="profile-image-input" 
+            accept="image/*" 
+            (change)="onImageSelected($event)"
+            #fileInput
+            hidden
+          >
+          <button class="upload-button" (click)="fileInput.click()">
+            Change Photo
+          </button>
+        </div>
+      
+        <div class="username-editor">
+          <label for="username-input">Username</label>
+          <input 
+            type="text" 
+            id="username-input" 
+            [(ngModel)]="editedUsername" 
+            placeholder="Enter your username"
+            class="username-input"
+          >
+        </div>
+        <div *ngIf="!isUsernameValid() && editedUsername" class="error-message">
+          El nombre de usuario debe tener entre 3 y 16 caracteres.
+        </div>
+      </div>
+    
+      <div class="profile-editor-footer">
+        <button class="cancel-button" (click)="toggleProfileEditor()">Cancel</button>
+        <button class="save-button" [disabled]="!isUsernameValid()" (click)="saveProfile()">Save Changes</button>
+      </div>
+    </div>
   </div>
 </div>
+

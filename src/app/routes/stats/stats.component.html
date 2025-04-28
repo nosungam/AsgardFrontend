@@ -1,0 +1,76 @@
+<div class="layout flex">
+    <div class="flex icons">
+        <button (click)="goToWorkspace()"><i class="bi bi-x-lg icon" alt="Close"></i></button>
+    </div>
+    <h1 class="workspace">{{workspace.name}}'s stats</h1>
+    <div class="flex charts">
+        <div class="container3">
+            <google-chart *ngIf="totalFlashcardsData.data.length" 
+                [type]="totalFlashcardsData.type"
+                [data]="totalFlashcardsData.data"
+                [columns]="totalFlashcardsData.columns"
+                [options]="totalFlashcardsData.options"
+                [width]=950
+                [height]=200>
+            </google-chart>
+        </div>
+        <div class="d-flex">
+            <div class="container">
+                <google-chart *ngIf="barChart.data.length"
+                    [type]="barChart.type"
+                    [data]="barChart.data"
+                    [columns]="barChart.columns"
+                    [options]="barChart.options"
+                    [width]="barChart.width"
+                    [height]="barChart.height">
+                </google-chart>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="container">
+                <google-chart *ngIf="lineChart.data.length"
+                    [type]="lineChart.type"
+                    [data]="lineChart.data"
+                    [columns]="lineChart.columns"
+                    [options]="lineChart.options"
+                    [width]="lineChart.width"
+                    [height]="lineChart.height">
+                </google-chart>
+            </div>
+        </div>
+        <div class="flex flex-row">
+            <div class="container" style="width: 80%;">
+                <google-chart
+                    [type]="daysStudied.type"
+                    [data]="daysStudied.data"
+                    [columns]="daysStudied.columns"
+                    [options]="daysStudied.options"
+                    [width]="daysStudied.width"
+                    [height]="daysStudied.height">
+                </google-chart>
+                <google-chart 
+                    [type]="idealScore.type"
+                    [data]="idealScore.data"
+                    [columns]="idealScore.columns"
+                    [options]="idealScore.options"
+                    [width]="idealScore.width"
+                    [height]="idealScore.height">
+                </google-chart>
+            </div>
+            <div class="flex-column" style="width: 246px;">
+                <div class="flex container2">
+                    <p>Best strike</p>
+                    <p>{{bestStrike}}</p>
+                </div>           
+                <div class="flex container2">
+                    <p>Total study session</p>
+                    <p>{{totalStudySessions}}</p>
+                </div>
+                <div class="flex container2">
+                    <p>Avarage score</p>
+                    <p>{{avarageScore}}</p>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
