@@ -70,4 +70,8 @@ body {
     /* Calendar */
     --other-month-bg: #313131;
     --other-month-color: #9ca3af;
+
+    /* Login */
+    --login-color: #000000;
+    --login-bg: #212121;
 }
