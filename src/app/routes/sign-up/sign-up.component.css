@@ -20,3 +20,11 @@
     background-color: #80a9eb; /* Gray-300 */
     cursor: default;
 }
+
+.text-color{
+    color: var(--login-color);
+}
+
+.background-color{
+    background-color: var(--login-bg);
+}
