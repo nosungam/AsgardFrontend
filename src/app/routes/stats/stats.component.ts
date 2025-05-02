@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { GoogleChartsModule, ChartType } from 'angular-google-charts';
 import { FormsModule } from '@angular/forms';
 import { DayDataDTO } from '../../../Interface/dayData.dto';
-import { title } from 'process';
 
 @Component({
   selector: 'app-stats',
@@ -143,7 +142,7 @@ export class StatsComponent implements OnInit {
           });
           this.notesService.getStats(this.workspaceId).subscribe(stats => {
             //heatmap
-            this.totalFlashcardsData.data = stats.scorePerDay.map((stat:{date:string; score:number}) => [new Date(stat.date), stat.score]);
+            this.totalFlashcardsData.data = stats.scorePerDay.map((stat:{date:string; score:number}) => [this.datePlusOne(stat.date), stat.score]);
             
     
             //bar chart
@@ -189,5 +188,11 @@ export class StatsComponent implements OnInit {
 
   goToWorkspace():void{
     this.router.navigate(['/workspace', this.workspaceId]);
+  }
+
+  datePlusOne(date:string):Date{
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    return newDate
   }
 }
