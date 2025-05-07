@@ -1,9 +1,9 @@
 export interface UpdateEventDTO {
     id?: number;
     title?: string;
-    strartDate?: Date;
-    endDate?: Date;
+    startDate?: Date;
+    endDate?: Date | null;
     color?: string;
-    startHour?: string;
-    endHour?: string;
+    startHour?: string | null;
+    endHour?: string | null;
 }

@@ -1,16 +1,15 @@
 <div class="layout">
     <div *ngIf="uploading" class="event-editor-overlay">
         <div class="event-editor-container">
-            <div class="event-editor-form">
+            <form class="event-editor-form" [formGroup]="editingEventForm" (ngSubmit)="saveEvent()">
                 <h3>Add New Event</h3>
-                
                 <div class="form-group">
                     <label for="eventTitle">Title</label>
                     <input 
                         type="text" 
                         id="eventTitle" 
                         class="form-input" 
-                        [(ngModel)]="editingEvent.title" 
+                        formControlName="title"
                         placeholder="Enter event title">
                 </div>
                 
@@ -21,7 +20,7 @@
                             type="date" 
                             id="startDate" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.startDate">
+                            formControlName="startDate">
                     </div>
                     
                     <div class="form-group">
@@ -30,7 +29,7 @@
                             type="date" 
                             id="endDate" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.endDate">
+                            formControlName="endDate">
                     </div>
                 </div>
                 
@@ -41,7 +40,7 @@
                             type="time" 
                             id="startHour" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.startHour">
+                            formControlName="startHour">
                     </div>
                     
                     <div class="form-group">
@@ -50,92 +49,107 @@
                             type="time" 
                             id="endHour" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.endHour">
+                            formControlName="endHour">
                     </div>
                 </div>
+            
                 
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <label>Color</label>
                     <div class="color-selector">
-                        <div class="color-option" 
-                            *ngFor="let color of ['red', 'green', 'blue', 'gray']"
-                            [ngClass]="{'selected': editingEvent.color === color, ['color-' + color]: true}"
-                            (click)="editingEvent.color = color">
-                        </div>
+                        <button type="button" class="color-option" 
+                            *ngFor="let color of ['blue', 'green', 'red', 'gray']"
+                            class="{{'color-' + color}}"
+                            [ngClass]="{'selected': editingEventForm.value.color === color}"
+                            (click)="editingEventForm.patchValue({ color: color })">
+                        </button>
                     </div>
-                </div> -->
+                </div>
                 
                 <div class="button-group">
                     <button class="cancel-button" (click)="cancelEventEdit()">Cancel</button>
-                    <button class="save-button" (click)="saveEvent(editingEvent)">Save</button>
+                    <button class="save-button" type="submit">Save</button>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 
     <div *ngIf="editing" class="event-editor-overlay">
         <div class="event-editor-container">
-            <div class="event-editor-form">
+            <form class="event-editor-form" [formGroup]="editingEventForm">
                 <h3>Editar Evento</h3>
                 
                 <div class="form-group">
-                    <label for="editEventTitle">Título</label>
+                    <label for="editEventTitle">Title</label>
                     <input 
                         type="text" 
                         id="editEventTitle" 
                         class="form-input" 
-                        [(ngModel)]="editingEvent.title" 
+                        formControlName="title" 
                         placeholder="Título del evento">
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="editStartDate">Fecha de inicio</label>
+                        <label for="editStartDate">Start date</label>
                         <input 
                             type="date" 
                             id="editStartDate" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.startDate">
+                            formControlName="startDate">
                     </div>
                     
                     <div class="form-group">
-                        <label for="editEndDate">Fecha de fin</label>
+                        <label for="editEndDate">End date</label>
                         <input 
                             type="date" 
                             id="editEndDate" 
-                            class="form-input" 
-                            [(ngModel)]="editingEvent.endDate">
+                            class="form-input"
+                            formControlName="endDate">
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="editStartHour">Hora de inicio</label>
+                        <label for="editStartHour">Start Hour</label>
                         <input 
                             type="time" 
                             id="editStartHour" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.startHour">
+                            formControlName="startHour">
                     </div>
                     
                     <div class="form-group">
-                        <label for="editEndHour">Hora de fin</label>
+                        <label for="editEndHour">End hour</label>
                         <input 
                             type="time" 
                             id="editEndHour" 
                             class="form-input" 
-                            [(ngModel)]="editingEvent.endHour">
+                            formControlName="endHour">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-selector">
+                        <button type="button" class="color-option" 
+                            *ngFor="let color of ['blue', 'green', 'red', 'gray']"
+                            class="{{'color-' + color}}"
+                            [ngClass]="{'selected': editingEventForm.value.color === color}"
+                            (click)="editingEventForm.patchValue({ color: color })">
+                        </button>
                     </div>
                 </div>
                 
                 <div class="button-group">
-                    <button class="delete-button" (click)="deleteEvent(editingEvent)">Eliminar</button>
+                    <button class="delete-button" (click)="deleteEvent()">Eliminate</button>
                     <div class="right-buttons">
-                        <button class="cancel-button" (click)="cancelEventEdit()">Cancelar</button>
-                        <button class="save-button" (click)="updateEvent(editingEvent)">Guardar</button>
+                        <button class="cancel-button" (click)="cancelEventEdit()">Cancel</button>
+                        <button class="save-button" (click)="updateEvent()">Save</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -172,7 +186,7 @@
                         </div>
                     </div>
 
-                    <button *ngIf="day.isCurrentMonth" class="add-event-button" (click)="$event.stopPropagation(); addEvent(day.date)">
+                    <button *ngIf="day.isCurrentMonth" class="add-event-button" (click)="addEvent(day.date)">
                         <i class="plus-icon"></i>
                     </button>
                 </div>
@@ -180,11 +194,11 @@
         </div>
 
         <div class="event-sidebar">
-            <h3>Lista de Eventos</h3>
+            <h3>Events list</h3>
             <div class="event-list">
                 <div *ngFor="let event of getEventsForMonth()" class="event-item">
                     <div class="event-details">
-                        <div class="event-date">{{ formatDate(event.startDate) }}</div>
+                        <div class="event-date">{{ formatDate(event.startDate) }} <p *ngIf="event.endDate && event.endDate!==event.startDate"> - {{formatDate(event.endDate)}}</p></div>
                         <div class="event-title">{{ event.title }}</div>
                     </div>
                 </div>
