@@ -10,11 +10,13 @@ import { EditorConfig, NgxSimpleTextEditorModule, ST_BUTTONS } from 'ngx-simple-
 import { UpdateWorkspaceService } from '../../core/util/updateWorkspace.service';
 import { Subject } from "rxjs"
 import { debounceTime } from "rxjs/operators"
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CreateEventDTO } from '../../../Interface/createEvent.dto';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, NgxSimpleTextEditorModule],
+  imports: [CommonModule, RouterModule, FormsModule, NgxSimpleTextEditorModule, ReactiveFormsModule],
   templateUrl: './workspace.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -37,6 +39,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     buttons: ST_BUTTONS,
   };
   username: string = '';
+  realUsername: string = '';
   uploading: boolean = false;
   showFlashcardEditor = false
   editingFlashcard: FlashcardDTO = {
@@ -47,19 +50,31 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
   showDeleteConfirmation = false
   visibleFolders=true
+  uploadingEvent = false
+  editingEventForm = this.formBuilder.group({
+      title: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      endDate: [''],
+      startHour: [''],
+      endHour: [''],
+      color: ['blue']
+  });;
+  today: Date = new Date()
 
   constructor(
     private notesService: NotesService, 
     private route:ActivatedRoute, 
     private router:Router,
     private changeDetector: ChangeDetectorRef,
-    private updateWorkspace: UpdateWorkspaceService
+    private updateWorkspace: UpdateWorkspaceService,
+    private formBuilder: FormBuilder,
   ) {}
 
   async ngOnInit() {
     try {
       this.route.paramMap.subscribe(paramMap => {
         this.username = localStorage.getItem('email') || '';
+        this.realUsername = (localStorage.getItem("email") || "").replace(/^"(.*)"$/, "$1")
         localStorage.removeItem('workspaceId');
         this.workspaceId = paramMap.get("id") ? parseInt(paramMap.get("id")!, 10) : -1;
         if (this.workspaceId) {
@@ -292,5 +307,77 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   toggleFoldersVisibility(): void {
     this.visibleFolders = !this.visibleFolders;
+  }
+
+  addEvent(date: Date): void {
+    // Initialize a new event with the selected date
+    this.editingEventForm.reset()
+
+    this.editingEventForm.setValue({
+      startDate: date.toISOString().substring(0, 10),
+      endDate: null,
+      title: null,
+      startHour: null,
+      endHour: null,
+      color: null
+    })
+
+    this.uploadingEvent = true
+  }
+  
+  saveEvent(): void {
+    // Validate form
+    if (this.editingEventForm.invalid) {
+      alert("Please fill in the required fields")
+      return
+    }
+    // Validate dates
+    if (!this.datesValidation(this.editingEventForm.value.startDate, this.editingEventForm.value.endDate)) {
+      alert("La fecha de inicio no puede ser mayor que la fecha de fin");
+      return;
+    }
+    // Make sure dates are properly formatted before sending to backend
+    this.editingEventForm.value.startDate = this.addOneDay(this.editingEventForm.value.startDate).toISOString().substring(0, 10)
+    this.editingEventForm.value.endDate = this.editingEventForm.value.endDate ? this.addOneDay(this.editingEventForm.value.endDate).toISOString().substring(0, 10) : null
+
+    const formatedEvent: CreateEventDTO = {
+      title: this.editingEventForm.value.title || '', // Ensure title is always a string
+      startDate: this.editingEventForm.value.startDate ? new Date(this.editingEventForm.value.startDate) : new Date(),
+      endDate: this.editingEventForm.value.endDate ? new Date(this.editingEventForm.value.endDate) : null,
+      color: this.editingEventForm.value.color || 'blue', // Default color if not provided
+      startHour: this.editingEventForm.value.startHour || null,
+      endHour: this.editingEventForm.value.endHour || null,
+    }
+    
+    this.notesService.createEvent(formatedEvent, this.realUsername).subscribe({
+      next: (createdEvent) => {
+        this.uploadingEvent = false
+      },
+      error: (err) => {
+        console.error("Error creating event:", err)
+      },
+    })
+  }
+
+  addOneDay(date: any): Date {
+    const newDate = new Date(date)
+    newDate.setDate(newDate.getDate() + 1)
+    return newDate
+  }
+  subOneDay(date: any): Date {
+    const newDate = new Date(date)
+    newDate.setDate(newDate.getDate() - 1)
+    return newDate
+  }
+
+  datesValidation(startDate: any, endDate: any): boolean {  
+    if (startDate && endDate){const start = new Date(startDate)
+    const end = new Date(endDate)
+    return start.getTime() <= end.getTime()}
+    return true
+  } 
+
+  cancelEventEdit(): void {
+    this.uploadingEvent = false;
   }
 }

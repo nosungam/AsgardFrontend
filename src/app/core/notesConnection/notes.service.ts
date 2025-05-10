@@ -113,7 +113,7 @@ export class NotesService {
     }
 
     updateFolder(folderId: number,name:string): Observable<void> {
-        return this.http.put<void>(`${urlNotes}/${name}/${folderId}`, {})
+        return this.http.put<void>(`${urlNotes}/foldername/${name}/${folderId}`, {})
             .pipe(catchError(this.handleError));
     }
 

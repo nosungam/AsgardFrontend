@@ -64,6 +64,7 @@ export class SidebarComponent implements OnInit{
     try {
       this.username = await this.authService.getName();
       this.userId = Number(await this.authService.getId());
+      this.image = await this.authService.getImage();
     } catch (error) {
       
       // console.error('Error fetching username:', error);
