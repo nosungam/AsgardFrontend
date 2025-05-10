@@ -6,18 +6,18 @@
     padding: 1rem;
     margin-left: 16.5625rem;
     right: 16.5625rem;
-}
-
-.icons {
+  }
+  
+  .icons {
     justify-content: space-between;
-}
-
-.icon {
+  }
+  
+  .icon {
     font-size: 2rem;
     cursor: pointer;
-}
-
-.workspace-name {
+  }
+  
+  .workspace-name {
     padding-top: 2%;
     align-self: center;
     font-weight: bold;
@@ -31,27 +31,27 @@
     width: 80%;
     background-color: transparent;
     color: var(--text-color);
-}
-
-.delete {
+  }
+  
+  .delete {
     width: 1.83rem;
-}
-
-.upload {
+  }
+  
+  .upload {
     width: 1.9rem;
     margin-top: 1px;
     margin-right: .3rem;
-}
-
-.folders {
+  }
+  
+  .folders {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     padding-top: 2%;
     padding: 0 5%;
-}
-
-.folder {
+  }
+  
+  .folder {
     width: 7rem;
     height: 6rem;
     padding: 1rem;
@@ -59,69 +59,70 @@
     background-color: rgb(216, 231, 245);
     border-radius: 5px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-.folder:hover {
+  }
+  
+  .folder:hover {
     background-color: rgb(191, 217, 242);
-}
-
-.separator {
+  }
+  
+  .separator {
     width: 80%;
     align-self: center;
     margin: 5% 0%;
     border: var(--workspace-separator-border);
-}
-
-.notes {
+  }
+  
+  .notes {
     flex-direction: column;
     flex-wrap: wrap;
     padding-top: 2%;
     padding-left: 5%;
     padding-right: 5%;
     margin: 0% 10%;
-}
-
-.note-title {
+    width: 80%;
+  }
+  
+  .note-title {
     font-weight: bold;
     font-size: larger;
-}
-
-.pencil {
+  }
+  
+  .pencil {
     padding-left: 0.4rem;
     margin-top: 0.2rem;
-}
-
-.flashcards {
+  }
+  
+  .flashcards {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-.flashcard {
+  }
+  
+  .flashcard {
     margin: 1rem;
     width: 12rem;
     min-height: 5rem;
     border: 1px solid rgba(0, 0, 0, 0.2);
     cursor: pointer;
-}
-
-.flashcard:hover {
+  }
+  
+  .flashcard:hover {
     background-color: rgb(236, 236, 236);
-}
-
-.flashcard-more {
+  }
+  
+  .flashcard-more {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
-
-.plus {
+  }
+  
+  .plus {
     font-size: 2rem;
     font-weight: bold;
-}
-
-.savenote {
+  }
+  
+  .savenote {
     margin-top: 10px;
     padding: 10px 20px;
     font-size: 16px;
@@ -133,21 +134,21 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
     align-self: last baseline;
     width: 5rem;
-}
-
-hr {
+  }
+  
+  hr {
     margin: 3% !important;
-}
-
-.flashcardtitle {
+  }
+  
+  .flashcardtitle {
     margin-top: 2%;
     padding-top: 2%;
     padding-bottom: 1%;
     font-weight: bold;
     font-size: larger;
-}
-
-.upload-container {
+  }
+  
+  .upload-container {
     width: 500px;
     max-width: 90%;
     background-color: white;
@@ -155,61 +156,61 @@ hr {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 25px;
     position: relative;
-}
-
-.upload-form {
+  }
+  
+  .upload-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.upload-form h3 {
+  }
+  
+  .upload-form h3 {
     margin-bottom: 15px;
     font-size: 1.2rem;
     color: #333;
     text-align: center;
-}
-
-.form-group {
+  }
+  
+  .form-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
-
-.form-group label {
+  }
+  
+  .form-group label {
     font-weight: 500;
     color: #555;
-}
-
-.description-editor {
+  }
+  
+  .description-editor {
     min-height: 100px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     resize: vertical;
     color: var(--workspace-description-editor-bg);
-}
-
-.image-editor {
+  }
+  
+  .image-editor {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-.button-group {
+  }
+  
+  .button-group {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     margin-top: 10px;
-}
-
-.delete-button-group {
+  }
+  
+  .delete-button-group {
     display: flex;
     justify-content: center;
     gap: 10px;
-}
-
-.save-button {
+  }
+  
+  .save-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -217,13 +218,13 @@ hr {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
-}
-
-.save-button:hover {
+  }
+  
+  .save-button:hover {
     background-color: #0069d9;
-}
-
-.cancel-button {
+  }
+  
+  .cancel-button {
     padding: 10px 20px;
     background-color: #6c757d;
     color: white;
@@ -231,13 +232,13 @@ hr {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
-}
-
-.cancel-button:hover {
+  }
+  
+  .cancel-button:hover {
     background-color: #5a6268;
-}
-
-.delete-button {
+  }
+  
+  .delete-button {
     padding: 10px 20px;
     background-color: #ff0000;
     color: white;
@@ -245,13 +246,13 @@ hr {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
-}
-
-.delete-button:hover {
+  }
+  
+  .delete-button:hover {
     background-color: #d90000;
-}
-
-.upload-overlay {
+  }
+  
+  .upload-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -262,21 +263,25 @@ hr {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.button {
+  }
+  
+  .button {
     background-color: var(--workspace-button-bg);
-}
-
-.button:hover {
+  }
+  
+  .button:hover {
     background-color: var(--workspace-buttonhover-bg);
-}
-
-.editor {
+  }
+  
+  .editor {
     color: black;
-}
-
-.flashcard-editor-overlay {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+  
+  .flashcard-editor-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -287,9 +292,9 @@ hr {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.flashcard-editor-container {
+  }
+  
+  .flashcard-editor-container {
     width: 500px;
     max-width: 90%;
     background-color: white;
@@ -297,29 +302,29 @@ hr {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 25px;
     position: relative;
-}
-
-.flashcard-editor-form {
+  }
+  
+  .flashcard-editor-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.flashcard-editor-form h3 {
+  }
+  
+  .flashcard-editor-form h3 {
     margin-bottom: 15px;
     font-size: 1.2rem;
     color: #333;
     text-align: center;
-}
-
-.title-editor {
+  }
+  
+  .title-editor {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 100%;
-}
-
-.delete-folder-confirmation-overlay {
+  }
+  
+  .delete-folder-confirmation-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -330,9 +335,9 @@ hr {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.delete-folder-confirmation-container {
+  }
+  
+  .delete-folder-confirmation-container {
     width: 500px;
     max-width: 90%;
     background-color: white;
@@ -340,36 +345,36 @@ hr {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 25px;
     position: relative;
-}
-
-.delete-folder-confirmation-form {
+  }
+  
+  .delete-folder-confirmation-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.delete-folder-confirmation-form h3 {
+  }
+  
+  .delete-folder-confirmation-form h3 {
     margin-bottom: 15px;
     font-size: 1.2rem;
     color: #333;
     text-align: center;
-}
-
-.title-confirmation-editor {
+  }
+  
+  .title-confirmation-editor {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 100%;
-}
-
-.toggle-container {
+  }
+  
+  .toggle-container {
     display: flex;
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.toggle-button {
+  }
+  
+  .toggle-button {
     padding: 5px 10px;
     background-color: var(--workspace-button-bg, #f0f0f0);
     border: 1px solid #ddd;
@@ -380,12 +385,13 @@ hr {
     gap: 5px;
     font-size: 0.9rem;
     transition: background-color 0.2s;
-}
-
-.toggle-button:hover {
+  }
+  
+  .toggle-button:hover {
     background-color: var(--workspace-buttonhover-bg, #e0e0e0);
-}
-
-.toggle-button i {
+  }
+  
+  .toggle-button i {
     font-size: 0.8rem;
-}
+  }
+  

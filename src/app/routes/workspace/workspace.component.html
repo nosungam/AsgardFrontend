@@ -2,16 +2,16 @@
 
 <div class="layout flex">
     <div class="flex icons">
-        <i class="bi bi-book icon" alt="Flashcard" (click)="startSession()"></i>
+        <i class="bi bi-book icon" alt="Flashcard" title="Start study session" (click)="startSession()"></i>
         <div class="flex">
             <a class="upload" (click)="uploadFolder()">
-                <i class="bi bi-file-arrow-up icon"></i>
+                <i class="bi bi-file-arrow-up icon" title="Upload folder"></i>
             </a>
             <button (click)="goToStats()">
-                <i class="bi bi-info-circle icon ml-2"></i>
+                <i class="bi bi-info-circle icon ml-2" title="Stats"></i>
             </button>
             <a class="ml-3 delete" (click)="deleteFolderConfirmation()">
-                <i class="bi bi-trash3 icon"></i>
+                <i class="bi bi-trash3 icon" title="Delete folder"></i>
             </a>
         </div>
     </div>

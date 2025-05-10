@@ -461,7 +461,7 @@
   background-color: #8db9ec;
 }
 
-.username-editor{
+.username-editor {
   color: black;
 }
 
@@ -472,6 +472,35 @@
 
 .username-input.invalid {
   border-color: red;
+}
+
+.url-input-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.image-url-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.apply-url-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.apply-url-button:hover {
+  background-color: #3a80d2;
 }
 
 .logout-confirmation-overlay {
@@ -563,4 +592,3 @@
     opacity: 1;
   }
 }
-

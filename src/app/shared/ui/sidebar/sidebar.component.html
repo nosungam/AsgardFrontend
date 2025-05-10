@@ -62,15 +62,17 @@
               <i class="bi bi-camera"></i>
             </div>
           </div>
-          <input 
-            type="file" 
-            id="profile-image-input" 
-            accept="image/*" 
-            (change)="onImageSelected($event)"
-            #fileInput
-            hidden
-          >
-          <button class="upload-button" (click)="fileInput.click()">
+          <div *ngIf="showUrlInput" class="url-input-container">
+            <input 
+              type="text" 
+              id="image-url-input" 
+              [(ngModel)]="imageUrl" 
+              placeholder="Paste image URL here"
+              class="image-url-input"
+            >
+            <button class="apply-url-button" (click)="applyImageUrl()">Apply</button>
+          </div>
+          <button *ngIf="!showUrlInput" class="upload-button" (click)="toggleUrlInput()">
             Change Photo
           </button>
         </div>

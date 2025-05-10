@@ -33,7 +33,6 @@
     gap: 12px;
     justify-content: center;
     position: relative;
-    overflow: hidden;
 }
 
 .logo {
@@ -83,6 +82,29 @@
     color: white;
 }
 
+/* Estilos para el indicador de carga */
+.search-loading {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #7caffa;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .suggestions-list {
     background-color: white;
     position: absolute;
@@ -121,6 +143,30 @@
     background-color: #3a3a3a;
 }
 
+/* Categorías en la lista de resultados */
+.result-category {
+    font-weight: bold !important;
+    padding: 6px 12px !important;
+    background-color: #f5f5f7 !important;
+    cursor: default !important;
+    font-size: 0.8em !important;
+    color: #555 !important;
+    z-index: 1001000 !important;
+}
+
+.dark .result-category {
+    background-color: #333 !important;
+    color: #ccc !important;
+}
+
+.no-results {
+    text-align: center;
+    padding: 15px;
+    color: #666;
+    font-style: italic;
+    cursor: default;
+}
+
 .search-icon {
     width: 1.2rem;
     height: 1.2rem;
@@ -131,6 +177,14 @@
     flex-direction: column;
 }
 
+.search-list:hover {
+    background-color: #f0f5ff !important;
+}
+
+.dark .search-list:hover {
+    background-color: #3a3a3a !important;
+}
+
 .workspaces-container {
     overflow: hidden;
     flex-wrap: nowrap;
@@ -138,21 +192,21 @@
     width: fit-content;
 
     padding: 8px 0;
-    
-    overflow-x: scroll;
 
+    overflow-x: scroll;
 }
 
 .workspaces-container::-webkit-scrollbar-track {
     display: none;
 }
-.workspaces-container::-webkit-scrollbar{
+
+.workspaces-container::-webkit-scrollbar {
     display: block;
     width: 0px;
     height: 3px;
 }
 
-.workspaces-container:hover::-webkit-scrollbar{
+.workspaces-container:hover::-webkit-scrollbar {
     display: block;
     height: 3px;
     background-color: #f0f0f0;
@@ -162,11 +216,12 @@
 .workspaces-container::-webkit-scrollbar-thumb {
     display: none;
 }
+
 .workspaces-container:hover::-webkit-scrollbar-thumb {
     display: block;
     border-radius: 10px;
     height: 3px;
-    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #737272;
     border: none;
 }

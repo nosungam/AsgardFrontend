@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   filteredResults: { flashcards: any[], folders: any[], notes: any[] } = { flashcards: [], folders: [], notes: [] };
   username: string = '';
   name: string = '';
+  isSearching = false
 
   isDarkMode = false
 
@@ -37,7 +38,6 @@ export class HeaderComponent implements OnInit {
         // Check if dark mode is already enabled in the DOM
         this.isDarkMode = document.documentElement.classList.contains("dark")
       }
-      console.log(this.updateWorkspaceService.folders)
 
       this.username = await this.authService.getUsername();
       this.folders = this.updateWorkspaceService.folders;
@@ -52,25 +52,38 @@ export class HeaderComponent implements OnInit {
   }
 
   onSearch(): void {
-    if(this.searchTerm) {
-      const body:PromptDTO = { prompt: this.searchTerm, username: this.username };
-      
-      this.notesService.search(body).subscribe({
-        next: (results: any) => {
-          this.filteredResults = {
-            flashcards: results.flashcards,
-            folders: results.folders,
-            notes: results.notes
-          };
-        },
-        error: err => {
-          console.error('Error al buscar:', err);
-          this.filteredResults = { flashcards: [], folders: [], notes: [] };
-        }
-      });
-    } else {
-      this.filteredResults = { flashcards: [], folders: [], notes: [] };
+    // Limpiar resultados si la búsqueda está vacía
+    if (!this.searchTerm || this.searchTerm.trim() === "") {
+      this.filteredResults = { flashcards: [], folders: [], notes: [] }
+      return
     }
+
+    this.isSearching = true
+
+    const body: PromptDTO = {
+      prompt: this.searchTerm,
+      username: this.username,
+    }
+
+    console.log("Realizando búsqueda con:", body)
+
+    this.notesService.search(body).subscribe({
+      next: (results: any) => {
+        this.filteredResults = {
+          flashcards: results.flashcards || [],
+          folders: results.folders || [],
+          notes: results.notes || [],
+        }
+        console.log("Resultados recibidos:", this.filteredResults)
+        this.isSearching = false
+      },
+      error: (err) => {
+        console.error("Error al buscar:", err)
+        this.filteredResults = { flashcards: [], folders: [], notes: [] }
+        this.isSearching = false
+        // Opcional: mostrar un mensaje al usuario sobre el error
+      },
+    })
   }
 
   hasAnyResults(): boolean {
@@ -82,15 +95,29 @@ export class HeaderComponent implements OnInit {
   }
 
   selectSuggestion(suggestion: any): void {
-    this.filteredResults = { flashcards: [], folders: [], notes: [] };
-    if (suggestion.id) {
-      if (suggestion.hasOwnProperty('name')) {
-        this.router.navigate([`/workspace/${suggestion.id}`]);
-      } else if (suggestion.hasOwnProperty('question')) {
-        this.router.navigate([`/flashcard/${suggestion.id}`]);
-      }
+    console.log("Sugerencia seleccionada:", suggestion)
+
+    // Limpiar los resultados inmediatamente para mejorar UX
+    this.filteredResults = { flashcards: [], folders: [], notes: [] }
+    this.searchTerm = ""
+
+    if (!suggestion || !suggestion.id) {
+      console.error("Sugerencia inválida")
+      return
     }
-    this.searchTerm = '';
+
+    // Determinar tipo de sugerencia y navegar adecuadamente
+    if ("name" in suggestion) {
+      // Es una carpeta o nota
+      console.log("Navegando a workspace:", suggestion.id)
+      this.router.navigate([`/workspace/${suggestion.id}`])
+    } else if ("title" in suggestion || "question" in suggestion) {
+      // Es una flashcard
+      console.log("Navegando a flashcard:", suggestion.id)
+      this.router.navigate([`/flashcard/${suggestion.id}`])
+    } else {
+      console.error("Tipo de sugerencia desconocido:", suggestion)
+    }
   }
 
   private setDarkMode(isDark: boolean): void {
