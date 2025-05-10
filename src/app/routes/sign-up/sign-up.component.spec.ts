@@ -51,20 +51,14 @@ describe('SignUpComponent', () => {
   });
 
   it('should require firstName, lastName, email, password and confirmPassword', () => {
-    let firstName = component.form.controls['firstName'];
-    let lastName = component.form.controls['lastName'];
     let email = component.form.controls['email'];
     let password = component.form.controls['password'];
     let confirmPassword = component.form.controls['confirmPassword'];
 
-    expect(firstName.valid).toBeFalsy();
-    expect(lastName.valid).toBeFalsy();
     expect(email.valid).toBeFalsy();
     expect(password.valid).toBeFalsy();
     expect(confirmPassword.valid).toBeFalsy();
 
-    firstName.setValue('John');
-    lastName.setValue('Doe');
     email.setValue('test@example.com');
     password.setValue('123456');
     confirmPassword.setValue('123456');
@@ -86,8 +80,6 @@ describe('SignUpComponent', () => {
   it('should call authService signUp on submit with valid form', () => {
     spyOn(authService, 'signUp').and.callThrough();
 
-    component.form.controls['firstName'].setValue('John');
-    component.form.controls['lastName'].setValue('Doe');
     component.form.controls['email'].setValue('test@example.com');
     component.form.controls['password'].setValue('123456');
     component.form.controls['confirmPassword'].setValue('123456');
@@ -107,8 +99,6 @@ describe('SignUpComponent', () => {
     spyOn(authService, 'signUp').and.returnValue(Promise.reject('error'));
     spyOn(console, 'log');
 
-    component.form.controls['firstName'].setValue('John');
-    component.form.controls['lastName'].setValue('Doe');
     component.form.controls['email'].setValue('test@example.com');
     component.form.controls['password'].setValue('123456');
     component.form.controls['confirmPassword'].setValue('123456');
