@@ -210,7 +210,7 @@ export class CalendarComponent implements OnInit {
     }
     // Validate dates
     if (!this.datesValidation(this.editingEventForm.value.startDate, this.editingEventForm.value.endDate)) {
-      alert("La fecha de inicio no puede ser mayor que la fecha de fin");
+      alert("The start date cannot be greater than the end date.");
       return;
     }
     // Make sure dates are properly formatted before sending to backend
