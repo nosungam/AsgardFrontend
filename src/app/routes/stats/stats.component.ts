@@ -157,7 +157,7 @@ export class StatsComponent implements OnInit {
             if (this.totalStudySessions === 0) {
               this.avarageScore = 0;
             }else{
-            this.avarageScore = stats.avarageScore;}
+            this.avarageScore = stats.avarageScore.toFixed(2);}
 
             //pie chart 1
             this.daysStudied.data= [['Studied',stats.daysStudiedInLast30Days],['Not Studied',30-stats.daysStudiedInLast30Days]];
