@@ -58,7 +58,7 @@ export class FlashcardComponent {
         if (this.flashcardId) {
           this.loadFlashcardData(this.flashcardId);
           console.log(this.flashcard);
-          
+          this.router.navigate(['/workspace', this.workspaceId]);
         }
       },
       error: err => {
