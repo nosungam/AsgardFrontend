@@ -50,6 +50,13 @@
 
         <div class="search-bar">
             <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearch()" />
+            
+            <!-- Indicador de carga -->
+            <div *ngIf="isSearching" class="search-loading">
+                <div class="search-spinner"></div>
+            </div>
+            
+            <!-- Reemplaza el bloque de la lista de sugerencias con esto -->
             <ul *ngIf="hasAnyResults()" class="suggestions-list">
                 <ng-container *ngFor="let suggestion of filteredResults.flashcards">
                     <li class="d-flex search-list" (click)="selectSuggestion(suggestion)">
@@ -72,7 +79,6 @@
                     </li>
                 </ng-container>
             </ul>
-
         </div>
     </div>
 </div>

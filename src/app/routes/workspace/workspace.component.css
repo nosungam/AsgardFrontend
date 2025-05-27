@@ -43,6 +43,10 @@
     margin-right: .3rem;
 }
 
+.remember-icon{
+    margin-left: 1rem;
+}
+
 .folders {
     display: flex;
     flex-wrap: wrap;
@@ -79,6 +83,7 @@
     padding-left: 5%;
     padding-right: 5%;
     margin: 0% 10%;
+    width: 80%;
 }
 
 .note-title {
@@ -274,6 +279,10 @@ hr {
 
 .editor {
     color: black;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
 }
 
 .flashcard-editor-overlay {
@@ -388,4 +397,132 @@ hr {
 
 .toggle-button i {
     font-size: 0.8rem;
+}
+
+.event-editor-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ensures it's on top of everything */
+}
+
+.event-editor-container {
+    width: 500px;
+    max-width: 90%;
+    max-height: 90vh;
+    /* Limit height */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    position: relative;
+    overflow-y: auto;
+}
+
+.event-editor-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-editor-form h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+@media (max-width: 480px) {
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #555;
+}
+
+.form-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.color-selector {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.color-option.selected {
+    border-color: #333;
+}
+
+.color-red {
+    background-color: #fee2e2;
+}
+
+.color-green {
+    background-color: #dcfce7;
+}
+
+.color-blue {
+    background-color: #dbeafe;
+}
+
+.color-gray {
+    background-color: #f3f4f6;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.save-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-button:hover {
+    background-color: #0069d9;
 }

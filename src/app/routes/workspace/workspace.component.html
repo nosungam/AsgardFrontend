@@ -1,17 +1,95 @@
 <link rel="stylesheet" href="workspace.component.css">
 
 <div class="layout flex">
+    <div *ngIf="uploadingEvent" class="event-editor-overlay">
+        <div class="event-editor-container">
+            <form class="event-editor-form" [formGroup]="editingEventForm" (ngSubmit)="saveEvent()">
+                <h3>Add New Event</h3>
+                <div class="form-group">
+                    <label for="eventTitle">Title</label>
+                    <input 
+                        type="text" 
+                        id="eventTitle" 
+                        class="form-input" 
+                        formControlName="title"
+                        placeholder="Enter event title">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input 
+                            type="date" 
+                            id="startDate" 
+                            class="form-input" 
+                            formControlName="startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input 
+                            type="date" 
+                            id="endDate"
+                            class="form-input" 
+                            formControlName="endDate">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startHour">Start Time</label>
+                        <input 
+                            type="time" 
+                            id="startHour" 
+                            class="form-input" 
+                            formControlName="startHour">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endHour">End Time</label>
+                        <input 
+                            type="time" 
+                            id="endHour" 
+                            class="form-input" 
+                            formControlName="endHour">
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-selector">
+                        <button type="button" class="color-option" 
+                            *ngFor="let color of ['blue', 'green', 'red', 'gray']"
+                            class="{{'color-' + color}}"
+                            [ngClass]="{'selected': editingEventForm.value.color === color}"
+                            (click)="editingEventForm.patchValue({ color: color })">
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="cancel-button" (click)="cancelEventEdit()">Cancel</button>
+                    <button class="save-button" type="submit">Save</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
     <div class="flex icons">
-        <i class="bi bi-book icon" alt="Flashcard" (click)="startSession()"></i>
+        <div class="flex">
+            <i class="bi bi-book icon" alt="Flashcard" title="Start study session" (click)="startSession()"></i>
+            <i class="bi bi-alarm icon remember-icon" alt="Event" title="Add event" (click)="addEvent(today)"></i>
+        </div>
         <div class="flex">
             <a class="upload" (click)="uploadFolder()">
-                <i class="bi bi-file-arrow-up icon"></i>
+                <i class="bi bi-file-arrow-up icon" title="Upload folder"></i>
             </a>
             <button (click)="goToStats()">
-                <i class="bi bi-info-circle icon ml-2"></i>
+                <i class="bi bi-info-circle icon ml-2" title="Stats"></i>
             </button>
             <a class="ml-3 delete" (click)="deleteFolderConfirmation()">
-                <i class="bi bi-trash3 icon"></i>
+                <i class="bi bi-trash3 icon" title="Delete folder"></i>
             </a>
         </div>
     </div>

@@ -12,7 +12,7 @@
                 <hr>
                 <div *ngFor="let item of questionArray">
                     <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
-                    <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
+                    <img *ngIf="isImage(item)" [src]="item" alt="Question image" class="flashcard-image" />
                     <br><br>
                 </div>
             </div>
@@ -28,8 +28,8 @@
                 <hr>
                 <div *ngFor="let item of answerArray">
                     <p class="question-text" *ngIf="!isImage(item)">{{ item }}</p>
-                    <img *ngIf="isImage(item)" [src]="item" alt="Imagen" />
-                    <br><br>
+                    <img *ngIf="isImage(item)" [src]="item" alt="Answer image" class="flashcard-image" />
+                    <br>
                 </div>
             </div>
             <button class="good-button" (click)="answerFlashcard(true)">Good</button>

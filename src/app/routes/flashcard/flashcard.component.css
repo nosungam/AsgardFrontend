@@ -1,4 +1,4 @@
-.layout{
+.layout {
     flex-direction: column;
     height: 100%;
     margin-top: 3rem;
@@ -8,30 +8,31 @@
     right: 16.5625rem;
 }
 
-.icons{
+.icons {
     justify-content: space-between;
 }
 
-.icon{
+.icon {
     width: 2rem;
     cursor: pointer;
     font-size: 2rem;
 }
 
-.editor{
+.editor {
     flex-direction: column;
     flex-wrap: wrap;
     padding-left: 5%;
     padding-right: 5%;
     margin: 0% 10%;
+    width: 80%;
 }
 
-.editor-title{
+.editor-title {
     font-weight: bold;
     font-size: 2rem;
 }
 
-.editor-title-container{
+.editor-title-container {
     justify-content: center;
 }
 
@@ -46,7 +47,19 @@
     resize: vertical;
 }
 
-.pencil{
+.editor-title-area {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.pencil {
     padding-left: 0.4rem;
     margin-top: 0.8rem;
 }
@@ -61,12 +74,16 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    align-self:last baseline;
+    align-self: last baseline;
     width: 5rem;
 }
 
-.st{
+.st {
     z-index: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
 }
 
 .black-font {

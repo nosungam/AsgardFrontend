@@ -68,6 +68,22 @@ export class AuthService {
     }
   }
 
+  async getImage(): Promise<string> {
+    try {
+      const email = JSON.parse(localStorage.getItem('email') || '""');
+      if (!email) {
+        throw new Error('No name found in localStorage');
+      }
+
+      const response = (await axios.get(`${this.urlLogin}users/${email}`)).data;
+      
+      return response.img;
+
+    } catch (error) {
+      throw new HttpErrorResponse({ error });
+    }
+  }
+
   async getId(): Promise<string> {
     try {
       const email = JSON.parse(localStorage.getItem('email') || '""');
@@ -83,9 +99,9 @@ export class AuthService {
     }
   }
 
-  async updateUser(userId: number, name: string, userImg: string): Promise<any> {
+  async updateUser(userId: number, username: string, img: string): Promise<any> {
     try {
-      const response = (await axios.put(`${this.urlLogin}users/${userId}`, { name})).data; // falta agregar userImg al body para cambiar la imagen
+      const response = (await axios.put(`${this.urlLogin}users/${userId}`, { username, img})).data; // falta agregar userImg al body para cambiar la imagen
       return response;
     } catch (error) {
       throw new HttpErrorResponse({ error });

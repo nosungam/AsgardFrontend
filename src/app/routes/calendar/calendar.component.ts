@@ -4,7 +4,8 @@ import { RouterModule } from "@angular/router"
 import { NotesService } from "../../core/notesConnection/notes.service"
 import { AuthService } from "../../core/auth/auth.service"
 import { CreateEventDTO } from "../../../Interface/createEvent.dto"
-import { FormsModule } from "@angular/forms"
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UpdateEventDTO } from "../../../Interface/updateEvent.dto"
 
 interface CalendarDay {
   date: Date
@@ -14,7 +15,7 @@ interface CalendarDay {
 @Component({
   selector: "app-calendar",
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: "./calendar.component.html",
   styleUrl: "./calendar.component.css",
 })
@@ -26,36 +27,38 @@ export class CalendarComponent implements OnInit {
   selectedDate: Date = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
   calendarDays: CalendarDay[] = []
   username = ""
-  daysOfWeek: string[] = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+  daysOfWeek: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   monthNames: string[] = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ]
   counter: number = 0
+  selectedEventId: number = -1
 
   events: CreateEventDTO[] = []
-  editingEvent: CreateEventDTO = {
-    title: "",
-    startDate: new Date(),
-    endDate: new Date(),
-    color: "blue",
-    startHour: "",
-    endHour: "",
-  }
+  editingEventForm = this.formBuilder.group({
+    title: ['', [Validators.required]],
+    startDate: ['', [Validators.required]],
+    endDate: [''],
+    startHour: [''],
+    endHour: [''],
+    color: ['blue']
+});;
 
   constructor(
     private notesService: NotesService,
     private authService: AuthService,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -182,39 +185,48 @@ export class CalendarComponent implements OnInit {
     this.generateCalendarDays()
   }
 
-  addEvent(date: Date) {
-    // Prevent event bubbling if this is triggered by a click event
-    event?.stopPropagation()
-
+  addEvent(date: Date): void {
     // Initialize a new event with the selected date
-    this.editingEvent = {
-      title: "",
-      startDate: date,
-      endDate: date,
-      color: "blue",
-      startHour: "",
-      endHour: "",
-    }
+    this.editingEventForm.reset()
+
+    this.editingEventForm.setValue({
+      startDate: date.toISOString().substring(0, 10),
+      endDate: null,
+      title: null,
+      startHour: null,
+      endHour: null,
+      color: null
+    })
 
     this.uploading = true
   }
 
-  saveEvent(eventData: CreateEventDTO): void {
+  saveEvent(): void {
+    console.log("Event data:", this.editingEventForm.value)
     // Validate form
-    if (!eventData.title || !eventData.startDate) {
+    if (this.editingEventForm.invalid) {
       alert("Please fill in the required fields")
       return
     }
-
+    // Validate dates
+    if (!this.datesValidation(this.editingEventForm.value.startDate, this.editingEventForm.value.endDate)) {
+      alert("The start date cannot be greater than the end date.");
+      return;
+    }
     // Make sure dates are properly formatted before sending to backend
-    const event = {
-      ...eventData,
-      // Ensure dates are Date objects
-      startDate: eventData.startDate instanceof Date ? eventData.startDate : new Date(eventData.startDate),
-      endDate: eventData.endDate ? (eventData.endDate instanceof Date ? eventData.endDate : new Date(eventData.endDate)) : new Date(),
+    this.editingEventForm.value.startDate = this.addOneDay(this.editingEventForm.value.startDate).toISOString().substring(0, 10)
+    this.editingEventForm.value.endDate = this.editingEventForm.value.endDate ? this.addOneDay(this.editingEventForm.value.endDate).toISOString().substring(0, 10) : null
+
+    const formatedEvent: CreateEventDTO = {
+      title: this.editingEventForm.value.title || '', // Ensure title is always a string
+      startDate: this.editingEventForm.value.startDate ? new Date(this.editingEventForm.value.startDate) : new Date(),
+      endDate: this.editingEventForm.value.endDate ? new Date(this.editingEventForm.value.endDate) : null,
+      color: this.editingEventForm.value.color || 'blue', // Default color if not provided
+      startHour: this.editingEventForm.value.startHour || null,
+      endHour: this.editingEventForm.value.endHour || null,
     }
 
-    this.notesService.createEvent(event, this.username).subscribe({
+    this.notesService.createEvent(formatedEvent, this.username).subscribe({
       next: (createdEvent) => {
         console.log("Event created:", createdEvent)
         // Add the created event to the events array
@@ -234,14 +246,7 @@ export class CalendarComponent implements OnInit {
       },
       complete: () => {
         // Reset the form and close the editor
-        this.editingEvent = {
-          title: "",
-          startDate: new Date(),
-          endDate: new Date(),
-          color: "blue",
-          startHour: "",
-          endHour: "",
-        }
+        this.editingEventForm.reset()
         this.uploading = false
         this.notesService.getEvents(this.username).subscribe({
           next: (events) => {
@@ -256,17 +261,22 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-  eventEditor(event: CreateEventDTO): void {
+  eventEditor(event: any): void {
+    console.log(event.startDate, typeof event.startDate)
     // Detener la propagación del evento para evitar que se active selectDate
     window.event?.stopPropagation();
+
+    this.selectedEventId = event.id || -1
     
     // Crear una copia del evento para evitar modificar el original directamente
-    this.editingEvent = {
-        ...event,
-        // Asegurarse de que las fechas sean objetos Date
-        startDate: event.startDate instanceof Date ? event.startDate : new Date(event.startDate),
-        endDate: event.endDate ? (event.endDate instanceof Date ? event.endDate : new Date(event.endDate)) : undefined
-    };
+    this.editingEventForm.setValue({
+      title: event.title,
+      startDate: this.subOneDay(event.startDate).toISOString().substring(0, 10),
+      endDate: event.endDate ? this.subOneDay(event.endDate).toISOString().substring(0, 10) : null,
+      startHour: event.startHour ? event.startHour : null,
+      endHour: event.endHour ? event.endHour : null,
+      color: event.color || 'blue'
+    });
     
     // Mostrar el formulario de edición
     this.editing = true;
@@ -277,48 +287,58 @@ export class CalendarComponent implements OnInit {
     this.editing = false;
   }
 
-  updateEvent(eventData: CreateEventDTO): void {
+  updateEvent(): void {
     // Validar formulario
-    if (!eventData.title || !eventData.startDate) {
+    if (this.editingEventForm.invalid) {
         alert("Por favor complete los campos requeridos");
+        return;
+    }
+    // Validar fechas
+    if (!this.datesValidation(this.editingEventForm.value.startDate, this.editingEventForm.value.endDate)) {
+        alert("La fecha de inicio no puede ser mayor que la fecha de fin");
         return;
     }
 
     // Asegurarse de que las fechas estén correctamente formateadas
-    const event = {
-        ...eventData,
-        startDate: eventData.startDate instanceof Date ? eventData.startDate : new Date(eventData.startDate),
-        endDate: eventData.endDate ? (eventData.endDate instanceof Date ? eventData.endDate : new Date(eventData.endDate)) : new Date(),
-    };
+    this.editingEventForm.value.startDate = this.addOneDay(this.editingEventForm.value.startDate).toISOString().substring(0, 10)
+    this.editingEventForm.value.endDate = this.editingEventForm.value.endDate ? this.addOneDay(this.editingEventForm.value.endDate).toISOString().substring(0, 10) : null
+
+    const upadatedEvent:UpdateEventDTO = {
+      title: this.editingEventForm.value.title || '', // Asegurarse de que el título sea siempre una cadena
+      startDate: this.editingEventForm.value.startDate ? new Date(this.editingEventForm.value.startDate) : new Date(),
+      endDate: this.editingEventForm.value.endDate ? new Date(this.editingEventForm.value.endDate) : null,
+      color: this.editingEventForm.value.color || 'blue', // Color predeterminado si no se proporciona
+      startHour: this.editingEventForm.value.startHour || null,
+      endHour: this.editingEventForm.value.endHour || null,
+    }
 
     // Llamar al servicio para actualizar el evento
-    if (event.id !== undefined) {
-      this.notesService.updateEvent(event.id, event).subscribe({
-        next: (updatedEvent) => {
-            console.log("Evento actualizado:", updatedEvent);
-        },
-        error: (err) => {
-            console.error("Error al actualizar el evento:", err);
-        },
-        complete: () => {
-            // Cerrar el editor y actualizar la lista de eventos
-            this.editing = false;
-            this.refreshEvents();
-        }
-      });
-    }
+    this.notesService.updateEvent(this.selectedEventId, upadatedEvent).subscribe({
+      next: (updatedEvent) => {
+          console.log("Evento actualizado:", updatedEvent);
+      },
+      error: (err) => {
+          console.error("Error al actualizar el evento:", err);
+      },
+      complete: () => {
+          // Cerrar el editor y actualizar la lista de eventos
+          this.editing = false;
+          this.refreshEvents();
+      }
+    });
+    
   }
 
   // Método para eliminar un evento
-  deleteEvent(event: CreateEventDTO): void {
+  deleteEvent(): void {
       if (confirm("¿Está seguro que desea eliminar este evento?")) {
-          if (event.id !== undefined) {
-              this.notesService.deleteEvent(event.id).subscribe({
+          if (this.selectedEventId !== -1) {
+              this.notesService.deleteEvent(this.selectedEventId).subscribe({
                   next: () => {
                       console.log("Evento eliminado");
                       
                       // Eliminar el evento del array local
-                      this.events = this.events.filter(e => e.id !== event.id);
+                      this.events = this.events.filter(e => e.id !== this.selectedEventId);
                   },
                   error: (err) => {
                       console.error("Error al eliminar el evento:", err);
@@ -347,4 +367,22 @@ export class CalendarComponent implements OnInit {
           }
       });
   }
+
+  addOneDay(date: any): Date {
+    const newDate = new Date(date)
+    newDate.setDate(newDate.getDate() + 1)
+    return newDate
+  }
+  subOneDay(date: any): Date {
+    const newDate = new Date(date)
+    newDate.setDate(newDate.getDate() - 1)
+    return newDate
+  }
+
+  datesValidation(startDate: any, endDate: any): boolean {  
+    if (startDate && endDate){const start = new Date(startDate)
+    const end = new Date(endDate)
+    return start.getTime() <= end.getTime()}
+    return true
+  } 
 }

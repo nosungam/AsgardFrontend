@@ -14,4 +14,13 @@
 .btn-primary:disabled {
     background-color: #93c5fd;
     cursor:default;
-  }
+}
+
+.text-color{
+    color: var(--login-color);
+    background-color: var(--login-bg);
+}
+
+.background-color{
+    background-color: var(--login-bg);
+}

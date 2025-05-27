@@ -13,6 +13,8 @@ import { NotesService } from '../../core/notesConnection/notes.service';
 export class RecycleBinComponent {
   folders: any[] = [];
   username: string = '';
+  showDeleteConfirmation: boolean = false;
+  folderIdToDelete: number=-1;
 
   constructor(private notesService: NotesService) {}
 
@@ -44,16 +46,25 @@ export class RecycleBinComponent {
     });
   }
 
-  deleteFolder(id: number): void {
-    console.log(`Deleting folder permanently with ID: ${id}`);
-    this.notesService.deleteFolder(id).subscribe({
+  deleteFolder(): void {
+    console.log(`Deleting folder permanently with ID: ${this.folderIdToDelete}`);
+    this.notesService.deleteFolder(this.folderIdToDelete).subscribe({
       next: () => {
         this.loadFolders();
         console.log('Folder permanently deleted.');
+        this.showDeleteConfirmation = false; // Hide the confirmation dialog after deletion
       },
       error: err => {
         console.error('Error deleting folder:', err);
       }
     });
+  }
+  deleteFolderConfirmation(folderId:number): void {
+    this.showDeleteConfirmation = true;
+    this.folderIdToDelete = folderId;
+  }
+
+  cancelDeleteFolder(): void {
+    this.showDeleteConfirmation = false;
   }
 }

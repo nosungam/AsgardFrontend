@@ -126,7 +126,13 @@ export class StudySessionComponent implements OnInit {
   }
 
   isImage(item: string): boolean {
-    return item.startsWith('/') && (item.endsWith('.png') || item.endsWith('.jpg'));
+    // Check if it's a traditional image path
+    const isTraditionalImage = item.startsWith("/") && (item.endsWith(".png") || item.endsWith(".jpg"))
+
+    // Check if it's a URL that ends with an image extension
+    const isImageUrl = /^(https?:\/\/.*)\.(png|jpg|jpeg|gif|webp)$/i.test(item)
+
+    return isTraditionalImage || isImageUrl
   }
 
   showAnswer(){

@@ -12,7 +12,7 @@
     justify-content: space-between;
 }
 
-.icon{
+.icon {
     width: 2rem;
     cursor: pointer;
     font-size: 2rem;
@@ -21,6 +21,7 @@
 .flashcard-container {
     background-color: var(--background-color);
     padding: 20px;
+    padding-top: 10px;
     border-radius: 8px;
     text-align: center;
 }
@@ -36,6 +37,14 @@
     border: none;
     border-top: 1px solid #ddd;
     margin: 10px 0;
+}
+
+.flashcard-image {
+    max-width: 60vw;
+    max-height: 40vh;
+    border-radius: 4px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .question-section .label {
@@ -72,7 +81,7 @@
 }
 
 .good-button {
-    background-color: #84EDA2;
+    background-color: #84eda2;
     color: black;
     border: none;
     border-radius: 4px;
@@ -84,7 +93,7 @@
 }
 
 .bad-button {
-    background-color: #F38484;
+    background-color: #f38484;
     color: black;
     border: none;
     border-radius: 4px;

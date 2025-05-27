@@ -42,7 +42,8 @@ export class SidebarComponent implements OnInit{
     }
   ];
   
-
+  showUrlInput = false
+  imageUrl = ""
   previewImage: string | null = null
   editedUsername = ""
   selectedFile: File | null = null
@@ -63,6 +64,7 @@ export class SidebarComponent implements OnInit{
     try {
       this.username = await this.authService.getName();
       this.userId = Number(await this.authService.getId());
+      this.image = await this.authService.getImage();
     } catch (error) {
       
       // console.error('Error fetching username:', error);
@@ -80,20 +82,22 @@ export class SidebarComponent implements OnInit{
       this.editedUsername = this.username
       this.previewImage = null
     }
+    this.showUrlInput = false
   }
 
-  onImageSelected(event: Event): void {
-    const input = event.target as HTMLInputElement
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0]
-
-      // Create a preview of the selected image
-      const reader = new FileReader()
-      reader.onload = () => {
-        this.previewImage = reader.result as string
-      }
-      reader.readAsDataURL(this.selectedFile)
+  toggleUrlInput(): void {
+    this.showUrlInput = !this.showUrlInput
+    if (!this.showUrlInput) {
+      this.imageUrl = ""
     }
+  }
+
+  applyImageUrl(): void {
+    if (this.imageUrl && this.imageUrl.trim() !== "") {
+      this.previewImage = this.imageUrl
+      this.showUrlInput = false
+    }
+    this.showUrlInput = false
   }
 
   saveProfile(): void {
